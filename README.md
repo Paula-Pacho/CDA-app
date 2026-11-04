@@ -53,7 +53,7 @@ Els continguts s'organitzen per sabers vinculats als criteris d'avaluació 1.1 a
 És un únic fitxer, `index.html`, sense dependències ni instal·lació.
 
 - **En local:** descarrega'l i obre'l amb qualsevol navegador.
-- **Amb GitHub Pages:** a *Settings → Pages*, tria la branca `main` i la carpeta `/ (root)`. L'adreça serà `https://paula-pacho.github.io/CDA/`.
+- **Amb GitHub Pages:** a *Settings → Pages*, tria la branca `main` i la carpeta `/ (root)`. L'adreça serà `https://paula-pacho.github.io/CDA-app/`.
 
 Està pensat per a ordinadors d'aula (sobretaula o portàtil) i es recomana un navegador actual. La lectura en veu alta fa servir la veu del sistema.
 
