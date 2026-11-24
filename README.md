@@ -18,7 +18,7 @@ L'alumnat treballa a l'aula amb un ordinador i, mentre fa una cerca real sobre u
 |---|---|---|---|---|
 | Cicle inicial | 1r i 2n | Sessió guiada pel professorat (a la pissarra digital) | 4 | 3-5 min |
 | Cicle mitjà | 3r i 4t | En parella | 5 | 6-8 min |
-| Cicle superior | 5è i 6è | Individual | 6 | 10-12 min |
+| Cicle superior | 5è i 6è | Individual | 7 | 10-12 min |
 
 Els dos cursos de cada cicle fan exactament el mateix contingut. A mesura que puja el cicle hi ha més contingut, més temps i més dificultat de comprensió lectora.
 
@@ -65,7 +65,11 @@ Està pensat per a ordinadors d'aula (sobretaula o portàtil) i es recomana un n
 
 **Mentories 4.0** · Paula Pacho · [GitHub: Paula-Pacho](https://github.com/Paula-Pacho)
 
-Basat en l'*Eina de seqüenciació CDA 2026*, sota llicència [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca). Es pot compartir i adaptar citant l'autoria, sense ús comercial i amb la mateixa llicència.
+Aquest aplicatiu web (el fitxer `index.html`, els textos i les activitats) està sota llicència [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca) (Reconeixement – No comercial – Compartir igual). Es pot compartir i adaptar citant l'autoria (Paula Pacho, Mentories 4.0), sense ús comercial i distribuint les obres derivades amb la mateixa llicència.
+
+[![CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca)
+
+És una obra derivada de l'*Eina de seqüenciació CDA 2026*, que també està sota llicència CC BY-NC-SA 4.0.
 
 Els logos dels navegadors i cercadors pertanyen a les seves respectives marques i només s'hi mostren amb finalitat educativa.
 
