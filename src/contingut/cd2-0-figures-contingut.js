@@ -140,21 +140,27 @@ function figTipusLletra(){
 
 /* CM3 · taula amb files i columnes */
 function figTaula(){
-  const c=(x,y,t,h)=>`${FR(x,y,150,44,h?'#e7f1fb':'#fff','#8a96a6',2,2)}${FT(x+75,y+29,t,17,h?700:400)}`;
-  return FS(250,'Una taula amb tres files i dues columnes',
-   c(180,30,'Animal',true)+c(330,30,'Pes (kg)',true)+c(180,74,'Llop')+c(330,74,'40')+c(180,118,'Guineu')+c(330,118,'6')+c(180,162,'Linx')+c(330,162,'18')+
-   FT(100,60,'Columna ↓',16,700,'#e8830c')+`<path d="M168 150h-48" stroke="#e8830c" stroke-width="3"/>`+FT(88,148,'Fila →',16,700,'#e8830c')+
-   FT(480,214,'Una taula serveix per comparar dades.',16,600,'#5b6776','start'));
+  const c=(x,y,t,h,col)=>`${FR(x,y,150,44,col||(h?'#e7f1fb':'#fff'),'#8a96a6',2,2)}${FT(x+75,y+29,t,17,h?700:400)}`;
+  return FS(290,'Una taula amb dues columnes i tres files; una columna i una fila ressaltades',
+   c(190,40,'Animal',true)+c(340,40,'Pes (kg)',true,'#fff4e5')+
+   c(190,84,'Llop',false,'#e5f4e4')+c(340,84,'40',false,'#e5f4e4')+
+   c(190,128,'Guineu')+c(340,128,'6',false,'#fff4e5')+
+   c(190,172,'Linx')+c(340,172,'18',false,'#fff4e5')+
+   `<path d="M414 40 V30" stroke="#e8830c" stroke-width="3"/>`+FT(414,24,'Columna ↓',16,700,'#e8830c')+
+   `<path d="M184 106 H 120" stroke="#2e9e5b" stroke-width="3"/><polygon points="184,98 198,106 184,114" fill="#2e9e5b" transform="translate(-14 0)"/>`+FT(86,112,'Fila',16,700,'#2e9e5b')+
+   FT(320,248,'Una taula serveix per <tspan font-weight="800">comparar dades</tspan> d’un cop d’ull:',17)+FT(320,272,'amb les files i les columnes veus quin animal pesa més.',17));
 }
 
 /* CM3 · imatge bé i imatge deformada */
 function figDeformar(){
-  const h=(x,y)=>`<rect x="${x-5}" y="${y-5}" width="10" height="10" fill="#e8830c"/>`;
-  return FS(260,'Imatge original, imatge ampliada des d’una cantonada i imatge deformada',
-   FPAIS(30,50,140,100)+FT(100,36,'Original',17,700)+
-   FPAIS(235,50,180,128)+h(415,178)+FT(325,36,'Cantonada: es manté bé',17,700,'#2e9e5b')+FOK(425,36)+
-   FPAIS(470,50,120,128)+FT(530,36,'Costat: es deforma',17,700,'#d33')+FKO(600,32)+
-   FT(320,224,'Arrossega sempre una <tspan font-weight="800" fill="#e8830c">cantonada</tspan>, no un costat.',17));
+  /* dibuix base de 100x72 amb sol, muntanya i casa: es pot escalar per ampliar-lo o deformar-lo */
+  const img=(x,y,sx,sy)=>`<g transform="translate(${x} ${y}) scale(${sx} ${sy})"><rect width="100" height="72" fill="#cfe8f7"/><circle cx="82" cy="16" r="9" fill="#f6c343"/><polygon points="0,72 36,22 72,72" fill="#5b8c5a"/><rect x="62" y="44" width="26" height="28" fill="#c0723b"/><polygon points="58,44 75,28 92,44" fill="#a54b2a"/><rect x="71" y="56" width="8" height="16" fill="#fff"/></g><rect x="${x}" y="${y}" width="${100*sx}" height="${72*sy}" fill="none" stroke="#8a96a6" stroke-width="2"/>`;
+  const h=(x,y)=>`<rect x="${x-6}" y="${y-6}" width="12" height="12" fill="#e8830c" stroke="#fff" stroke-width="2"/>`;
+  return FS(300,'Imatge original, ampliada des d’una cantonada sense deformar i estirada des d’un costat deformada',
+   FT(74,34,'Original',17,700)+img(24,48,1,1)+
+   FT(230,34,'Des d’una cantonada',17,700,'#2e9e5b')+img(150,48,1.6,1.6)+h(310,163)+`<path d="M318 171 l14 12" stroke="#e8830c" stroke-width="4"/>`+FOK(340,26)+FT(230,224,'Es fa més gran i es veu igual',15,600,'#2e9e5b')+
+   FT(445,34,'Des d’un costat',17,700,'#d33')+img(350,48,1.9,0.5)+h(540,66)+`<path d="M548 66 h26" stroke="#e8830c" stroke-width="4"/>`+FKO(562,26)+FT(445,224,'Es deforma:',15,600,'#d33')+FT(445,244,'la casa queda aplanada!',15,600,'#d33')+
+   FT(320,284,'Arrossega sempre una <tspan font-weight="800" fill="#e8830c">cantonada</tspan>, mai un costat.',18));
 }
 
 /* CM4 · noms de fitxer bons i dolents */
@@ -254,15 +260,18 @@ function figOrientacio(){
 
 /* CS2 · estructura d’un treball */
 function figEstructuraDoc(){
-  return FS(270,'Pàgina amb títol, apartats, llista amb vinyetes, llista numerada i número de pàgina',
-   FR(120,14,400,242,'#fff','#8a96a6',3,6)+
-   FT(320,54,'Els llops',28,800)+badge(540,44,1)+
-   FT(150,92,'1. Alimentació',19,700,'#1f2a37','start')+badge(540,86,2)+
-   FT(150,120,'• carn   • peixos   • fruita',17,400,'#1f2a37','start')+badge(540,114,3)+
-   FT(150,158,'2. Com cacen',19,700,'#1f2a37','start')+
-   FT(150,186,'1) Es reuneixen   2) Persegueixen',16,400,'#1f2a37','start')+badge(540,180,4)+
-   `<line x1="150" y1="210" x2="490" y2="210" stroke="#dbe1e8" stroke-width="2"/>`+
-   FT(320,244,'– 1 –',17,700)+badge(540,238,5))+
+  /* una pàgina de text vertical (format DIN A4) amb títol, apartats, llistes i número de pàgina */
+  const bar=(y,w)=>`<rect x="244" y="${y}" width="${w}" height="6" rx="3" fill="#dfe4ea"/>`;
+  return FS(350,'Una pàgina de text en vertical amb títol, apartats, llista amb vinyetes, llista numerada i número de pàgina',
+   `<rect x="225" y="12" width="190" height="326" rx="4" fill="#fff" stroke="#8a96a6" stroke-width="3"/>`+
+   FT(320,46,'Els llops',22,800)+
+   FT(244,76,'1. Alimentació',14,700,'#1f2a37','start')+bar(86,150)+bar(98,150)+bar(110,100)+
+   FT(244,140,'• carn',13,400,'#1f2a37','start')+FT(244,158,'• peixos',13,400,'#1f2a37','start')+
+   FT(244,190,'2. Com cacen',14,700,'#1f2a37','start')+bar(200,150)+bar(212,150)+
+   FT(244,244,'1) Es reuneixen',13,400,'#1f2a37','start')+FT(244,262,'2) Persegueixen',13,400,'#1f2a37','start')+
+   bar(278,150)+bar(290,110)+FT(320,326,'– 1 –',14,700)+
+   badge(445,40,1)+badge(445,72,2)+badge(445,150,3)+badge(445,252,4)+badge(445,322,5)+
+   `<g stroke="#e8830c" stroke-width="2" stroke-dasharray="4 3"><path d="M432 40 H 405"/><path d="M432 72 H 405"/><path d="M432 150 H 405"/><path d="M432 252 H 405"/><path d="M432 322 H 405"/></g>`)+
    legend(['<b>Títol</b>: gran i en negreta.','<b>Apartats</b> amb subtítols.','<b>Llista amb vinyetes</b>: l’ordre no importa.','<b>Llista numerada</b>: l’ordre importa.','<b>Número de pàgina</b>: a baix.']);
 }
 
@@ -306,12 +315,48 @@ function figFormats(){
    FT(320,246,'No hi ha un format «millor»: depèn del que vols transmetre i a qui.',15,600,'#5b6776'));
 }
 
-/* CS6 · mapa conceptual d’exemple */
+/* CS6 · mapa conceptual d’exemple (centrat i simètric) */
 function figMapa(){
-  const n=(x,y,w,t,c)=>`${FR(x,y,w,40,c,'#8a96a6',2,18)}${FT(x+w/2,y+26,t,16,700)}`;
-  const l=(x1,y1,x2,y2,t,tx,ty)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#8a96a6" stroke-width="3"/>${FT(tx,ty,t,13,400,'#e8830c')}`;
-  return FS(290,'Mapa conceptual: els llops viuen en ramats i mengen carn',
-   l(320,76,170,150,'viuen en',226,106)+l(320,76,470,150,'mengen',420,106)+l(170,190,170,232,'dirigit per',232,216)+
-   n(250,36,140,'Els llops','#fff4e5')+n(100,150,140,'Ramats','#e7f1fb')+n(400,150,140,'Carn','#e7f1fb')+n(100,232,140,'Un líder','#e5f4e4')+
-   FT(320,270,'Caixes = idees · Fletxes amb paraules = relacions',14,400,'#5b6776'));
+  const n=(cx,y,w,t,c)=>`${FR(cx-w/2,y,w,40,c,'#8a96a6',2,18)}${FT(cx,y+26,t,16,700)}`;
+  const l=(x1,y1,x2,y2,t)=>{const mx=(x1+x2)/2,my=(y1+y2)/2,w=t.length*7.4+16;return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#8a96a6" stroke-width="3"/><rect x="${mx-w/2}" y="${my-11}" width="${w}" height="22" rx="6" fill="#fff"/>${FT(mx,my+5,t,13,600,'#e8830c')}`};
+  return FS(322,'Mapa conceptual: els llops viuen en ramats i mengen carn; el ramat té un líder i la carn és de cérvols i conills',
+   l(320,76,170,138,'viuen en')+l(320,76,470,138,'mengen')+l(170,178,170,236,'dirigit per')+l(470,178,470,236,'com ara')+
+   n(320,36,150,'Els llops','#fff4e5')+n(170,138,140,'Ramats','#e7f1fb')+n(470,138,140,'Carn','#e7f1fb')+n(170,236,140,'Un líder','#e5f4e4')+n(470,236,190,'Cérvols i conills','#e5f4e4')+
+   FT(320,306,'Caixes = idees · Fletxes amb paraules = relacions',14,400,'#5b6776'));
+}
+
+/* Teclat (distribució espanyola/catalana) amb tecles ressaltades. sel: {idTecla: número d’etiqueta} */
+function kbCatSVG(sel,row5){
+  const u=40,k=37;
+  const Q=['Q','W','E','R','T','Y','U','I','O','P'];
+  const rows=[
+   {y:12,x:20,keys:[['º'],['1'],['2'],['3','tres'],['4'],['5'],['6'],['7'],['8'],['9'],['0'],['’','apos'],['¡']],tail:['⌫',58]},
+   {y:56,x:20,lead:['Tab',54],keys:Q.map(c=>[c]).concat([['`','obert'],['+']])},
+   {y:100,x:20,lead:['Bloq Maj',66,'bloq'],keys:['A','S','D','F','G','H','J','K','L','Ñ'].map(c=>[c]).concat([['´','tancat'],['Ç','ce']])},
+   {y:144,x:20,lead:['⇧',50,'maj'],keys:[['<'],['Z'],['X'],['C'],['V'],['B'],['N'],['M'],[','],['.'],['-','guio']],tail:['⇧',88,'maj2']}];
+  const key=(x,y,w,t,id,fs)=>{const on=sel&&id&&sel[id];return `<rect x="${x}" y="${y}" width="${w}" height="${k}" rx="7" fill="${on?'#ffe0b2':'#fff'}" stroke="${on?'#e8830c':'#b8c2cf'}" stroke-width="${on?3:2}"/>${FT(x+w/2,y+25,t,fs||(t.length>3?13:17),700)}${on?badge(x+w-4,y+4,sel[id]):''}`};
+  let out='';
+  rows.forEach(r=>{let x=r.x;
+    if(r.lead){out+=key(x,r.y,r.lead[1]-3,r.lead[0],r.lead[2],12);x+=r.lead[1];}
+    r.keys.forEach(kk=>{const id=kk[1]||(kk[0].length===1?kk[0]:'');out+=key(x,r.y,k,kk[0],id);x+=u;});
+    if(r.tail){const id=r.tail[2];out+=key(x,r.y,r.tail[1]-3,r.tail[0],id&&(id==='maj2'?'maj':id),r.tail[0]==='⌫'?16:17);}
+  });
+  let h=196;
+  if(row5){
+    const y=188;
+    out+=key(20,y,56,'Ctrl','ctrl',13)+key(80,y,40,'Win','',11)+key(124,y,46,'Alt','',13)+`<rect x="174" y="${y}" width="230" height="${k}" rx="7" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>${FT(289,y+25,'Espai',14,700)}`+key(408,y,56,'AltGr','',13)+key(468,y,40,'Win','',11)+key(512,y,56,'Ctrl','ctrl2',13);
+    h=240;
+  }
+  return FS(h,'Teclat amb les tecles que es fan servir ressaltades',out);
+}
+function figTecladCat(mode){
+  const note='<p style="margin:6px 0 0;font-size:15px;color:var(--mut)">Teclat espanyol o català. Si el teu és diferent, les tecles poden canviar de lloc.</p>';
+  if(mode==='accents')return kbCatSVG({obert:1,tancat:2})+legend(['<b>Accent obert</b> (à è ò): tecla <b>`</b>, a la dreta de la P. Prem-la <b>i deixa-la</b>; després prem la vocal.','<b>Accent tancat</b> (é í ó ú): tecla <b>´</b>, a la dreta de la Ñ. Prem-la i deixa-la; després prem la vocal.'])+note;
+  if(mode==='apos')return kbCatSVG({apos:1,guio:2,tres:3,maj:3})+legend(['<b>Apòstrof</b> (’): tecla a la dreta del 0, a la fila dels números.','<b>Guionet</b> (-): tecla a baix a la dreta, al costat del punt.','<b>Punt volat</b> (·) per a la <b>l·l</b>: prem <b>⇧</b> i la tecla del <b>3</b>.'])+note;
+  if(mode==='dieresi')return kbCatSVG({tancat:1,maj:1,ce:2})+legend(['<b>Dieresi</b> (ï ü): prem <b>⇧</b> i la tecla <b>´</b>; després la <b>i</b> o la <b>u</b>.','<b>Ç</b> (ce trencada): té la seva tecla, a la dreta de la ´.'])+note;
+  return kbCatSVG({maj:1,bloq:2})+legend(['<b>⇧ Majúscula</b>: la prems <b>mentre</b> prems la lletra (una sola majúscula).','<b>Bloq Maj</b>: activa la majúscula fixa; per desactivar-la, torna-la a prémer.'])+note;
+}
+/* Teclat per a les dreceres: Ctrl a baix a l’esquerra */
+function figTecladDreceres(){
+  return kbCatSVG({ctrl:1,C:2,V:3,X:4,F:5},true)+legend(['<b>Ctrl</b>: a baix a l’esquerra (i també a la dreta). Es prem <b>primer</b> i no es deixa.','<b>C</b>: copiar','<b>V</b>: enganxar','<b>X</b>: retallar','<b>F</b>: cercar (find)']);
 }

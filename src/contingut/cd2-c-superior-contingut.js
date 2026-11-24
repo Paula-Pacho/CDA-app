@@ -3,9 +3,10 @@
 Object.assign(CONTENT, {
 
 'cd2-superior-1':{
+ fig:()=>figTecladDreceres(),
  puc:['Sé què fa cada drecera (Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+F) i quan l’uso','Sé copiar i enganxar amb format i només el text','Sé copiar el format d’un títol a un altre'],
  lessons:[
-  {t:'Copiar, enganxar i retallar',h:`Amb el teclat és més ràpid:<br>[[key:Ctrl]] + [[key:C]] <b>copia</b> el que has seleccionat.<br>[[key:Ctrl]] + [[key:V]] <b>enganxa</b> el que has copiat.<br>[[key:Ctrl]] + [[key:X]] <b>retalla</b>: ho treu d’aquí i ho pots enganxar en un altre lloc.<br>Sempre prems <b>Ctrl</b> i, sense deixar-la, la lletra.`,fig:()=>figDreceres()},
+  {t:'Copiar, enganxar i retallar',h:`Amb el teclat és més ràpid:<br>[[key:Ctrl]] + [[key:C]] <b>copia</b> el que has seleccionat.<br>[[key:Ctrl]] + [[key:V]] <b>enganxa</b> el que has copiat.<br>[[key:Ctrl]] + [[key:X]] <b>retalla</b>: ho treu d’aquí i ho pots enganxar en un altre lloc.<br><b>Ctrl</b> és la tecla de baix a l’esquerra del teclat (també n’hi ha una a la dreta). Sempre prems <b>Ctrl</b> primer i, sense deixar-la, la lletra.`,fig:()=>figDreceres()},
   {t:'Enganxar amb o sense format',h:`Quan copies un text d’una pàgina web, també copies el seu <b>format</b> (lletra, color, mida). Si l’enganxes tal qual, el teu document queda <b>barrejat</b>.<br>Per enganxar només el text i que agafi el format del teu document, fes servir <b>«Enganxa sense format»</b> ([[key:Ctrl]] + [[key:Maj]] + [[key:V]]).`,fig:()=>figEnganxar()},
   {t:'Copiar el format',h:`Si has fet un títol amb un format (mida, color, negreta) i vols el mateix en un altre títol, no cal repetir-ho: fes servir <b>«Copia el format»</b> (el pinzell 🖌️): selecciona el títol, prem el pinzell i passa’l pel text nou.`},
   {t:'Cercar dins d’un document',h:`Amb [[key:Ctrl]] + [[key:F]] <b>cerques una paraula</b> dins del document. Va molt bé en documents llargs, i a CD1 ja l’has fet servir per trobar una paraula dins d’una pàgina web.`}],
