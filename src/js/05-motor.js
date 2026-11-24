@@ -240,7 +240,7 @@ function header(extra){
 }
 function vMenu(){
   const list=SESSIONS[S.cicle];
-  return header(`<button class="btn sec" data-act="go" data-v="estat">Mostra l’estat</button>`)+
+  return header('')+
   `<h2>Triem sessió</h2><p>Comença per l’ordre (1, 2, 3…). Si ja has fet alguna sessió, el professorat et dirà per quina vas.</p>`+
   list.map(s=>{
     const k=skey(S.cicle,s.id),st=sessionStatus(k);
@@ -253,7 +253,7 @@ function stepper(){
 }
 function vSessio(){
   const k=S.sk,s=sessOf(k),cs=CONTENT[k];
-  let h=header(`<button class="btn sec" data-act="go" data-v="menu">☰ Menú</button>`)+`<h2>${s.id}. ${esc(s.titol)}</h2>`+stepper();
+  let h=header('')+`<h2>${s.id}. ${esc(s.titol)}</h2>`+stepper();
   const self=S.self[k]||(S.self[k]={pre:[],post:[]});
   const emoOne=(g,i,labs)=>{const L=labs||['Ho sé fer','Una mica','Encara no'];return `<div class="emo" style="margin-top:6px">${[[3,'g',L[0]],[2,'y',L[1]],[1,'r',L[2]]].map(([v,cl,t])=>`<button class="sem ${cl} ${self[g][i]===v?'on':''}" data-act="self" data-g="${g}" data-i="${i}" data-v="${v}"><i></i>${t}</button>`).join('')}</div>`};
   const emoCard=(g,i)=>`<div class="card"><div>${esc(cs.puc[i])}</div>${emoOne(g,i)}</div>`;
@@ -302,7 +302,7 @@ function vSessio(){
     }else{
       h+=bubble('Molt bé! Mira com et veus ara i després ensenya l’estat al professorat.')+emo('post');
     }
-    h+=`<p><button class="btn big" data-act="go" data-v="estat">📋 Mostra l’estat</button> <button class="btn sec" data-act="go" data-v="menu">← Menú</button></p>`;
+    h+=`<p><button class="btn big" data-act="go" data-v="estat">📋 Estat</button> <button class="btn sec" data-act="go" data-v="menu">← Sessions</button></p>`;
   }
   return h;
 }
@@ -374,13 +374,28 @@ function vEstat(){
    <tr><td class="st assolit">✔ Assolit</td><td>Ha acabat les preguntes i n’ha encertat a la primera <b>7 de cada 10 o més</b>. Pot haver fet servir pistes (és a dir, ho fa amb ajuda).</td></tr>
    <tr><td class="st dominat">⭐ Dominat</td><td>Ha encertat a la primera <b>9 de cada 10 o més</b>, <b>sense cap pista</b>, i ha fet la cerca real (fitxa). L’app només ho proposa: el docent ho confirma marcant la casella ☐.</td></tr>
   </table></div>
-  <p class="noprint"><button class="btn" data-act="copy">📎 Copia el resum</button> <button class="btn sec" data-act="go" data-v="menu">← Torna al menú</button></p><div id="copied" class="noprint"></div>`;
+  <p class="noprint"><button class="btn" data-act="copy">📎 Copia el resum</button> <button class="btn sec" data-act="go" data-v="menu">← Torna a les sessions</button></p><div id="copied" class="noprint"></div>`;
   return h;
+}
+/* Barra de navegació: camí clicable (Inici › Primària › CD › Cicle › Sessió) i dos botons fixos (Sessions i Estat) */
+function navBar(){
+  const sc=S.screen;
+  if(sc==='portada')return '';
+  const n=NIVELLS[S.nivell],c=CICLES[S.cicle];
+  const it=[['portada','🏠 Inici','Torna a la portada'],['nivell',n.nom,'Tria la competència']];
+  if(['inici','menu','sessio','estat'].includes(sc))it.push(['inici',S.cd,COMP[S.cd].titol+': canvia de nivell']);
+  if(['menu','sessio','estat'].includes(sc))it.push(['menu',c.nom,'Llista de sessions']);
+  if(sc==='sessio')it.push([null,'Sessió '+sessOf(S.sk).id]);
+  if(sc==='estat')it.push([null,'Estat']);
+  const last=it.length-1;
+  const crumbs=it.map(([v,t,tt],i)=>i===last?`<li><span class="cur" aria-current="page">${esc(t)}</span></li>`:`<li><button class="crumb" data-act="go" data-v="${v}" title="${esc(tt||'')}">${esc(t)}</button></li>`).join('');
+  const acts=['menu','sessio','estat'].includes(sc)?`<div class="navb"><button class="btn sec ${sc==='menu'?'on':''}" data-act="go" data-v="menu">☰ Sessions</button><button class="btn sec ${sc==='estat'?'on':''}" data-act="go" data-v="estat">📋 Estat</button></div>`:'';
+  return `<nav class="nav noprint" aria-label="Camí de navegació"><ol class="crumbs">${crumbs}</ol>${acts}</nav>`;
 }
 function render(){
   document.body.dataset.c=S.cicle;
   const v={portada:vPortada,nivell:vNivell,inici:vInici,menu:vMenu,sessio:vSessio,estat:vEstat}[S.screen];
-  $app.innerHTML=fmtBar()+v();
+  $app.innerHTML=fmtBar()+navBar()+v();
   applyFmt();
   window.scrollTo(0,0);
 }

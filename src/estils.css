@@ -115,3 +115,16 @@ a.lg:hover{border-color:var(--c);background:var(--cl)}
 .lic{width:100%;border-collapse:collapse;margin:8px 0}.lic th,.lic td{border:1px solid #dbe1e8;padding:6px 8px;text-align:left;font-size:16px;vertical-align:top}.lic th{background:#f1f4f8}
 .cols{align-items:end;display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:640px){.cols{grid-template-columns:1fr}}
 .resp{width:100%}.resp td,.resp th{vertical-align:top}
+
+/* Barra de navegació */
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);padding:8px 0;margin:0 0 10px;border-bottom:2px solid #dbe1e8}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;list-style:none;margin:0;padding:0;flex:1;font-size:17px}
+.crumbs li+li::before{content:'›';margin:0 6px;color:var(--mut);font-weight:700}
+.crumb{background:none;border:0;color:var(--c);font:inherit;font-weight:700;padding:6px 4px;cursor:pointer;border-radius:8px;text-decoration:underline;text-underline-offset:3px}
+.crumb:hover{background:var(--cl)}
+.crumbs .cur{font-weight:800;padding:6px 4px}
+.navb{display:flex;gap:8px}
+.nav .btn{padding:6px 14px;font-size:16px}
+.nav .btn.on{background:var(--c);color:#fff;border-color:var(--c)}
+@media(max-width:700px){.crumbs li:last-child::before{content:none}.crumbs li:not(:nth-last-child(-n+2)){display:none}.crumbs li:nth-last-child(2)::before{content:none}.crumbs li:nth-last-child(2) .crumb::before{content:'‹ '}}
+@media print{.nav{display:none}}
