@@ -1,0 +1,12 @@
+/* ============ HELPERS DE CONTINGUT ============ */
+/* Contingut de totes les competències. Claus: CD1 → 'cicle-n' (p. ex. 'mitja-3'); la resta → 'cdN-cicle-n' (p. ex. 'cd2-mitja-3'). */
+const CONTENT = {};
+const ch=(id,saber,prompt,opts,ok,hint,expl,extra)=>Object.assign({id,saber,type:'choice',prompt,opts,ok,hint,expl},extra||{});
+const clic=(id,saber,prompt,html,target,hint,expl)=>({id,saber,type:'clic',prompt,html,target,hint,expl});
+const req=ks=>r=>ks.every(k=>(r[k]||'').trim().length>0);
+const BAR=`<div class="toy"><div class="bar"><span class="b" data-act="clic" data-id="back">←</span><span class="b" data-act="clic" data-id="fwd">→</span><span class="b" data-act="clic" data-id="reload">↻</span><span class="b" data-act="clic" data-id="newtab">＋</span><span class="url" data-act="clic" data-id="addr">🔒 pagina-exemple.exemple/inici</span><span class="b" data-act="clic" data-id="star">☆</span></div><div class="body"><small style="color:var(--mut)">Navegador d’exemple (no és real)</small></div></div>`;
+const TABS=`<div class="toy"><div class="bar"><span class="url" data-act="clic" data-id="box">🔎 Escriu aquí per cercar…</span><span class="b" data-act="clic" data-id="mic">🎤</span></div><div class="bar" style="background:#f4f6f9"><span class="b" data-act="clic" data-id="tot">Tot</span><span class="b" data-act="clic" data-id="img">Imatges</span><span class="b" data-act="clic" data-id="vid">Vídeos</span><span class="b" data-act="clic" data-id="not">Notícies</span></div></div>`;
+const pg=(url,titol,autor,data,font,text)=>({url,titol,autor,data,font,text});
+const pageBox=p=>`<div class="toy"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">🔒 ${p.url}</span></div><div class="body"><small style="color:var(--mut)">Pàgina d’exemple (no és real)</small><h3>${p.titol}</h3><table><tr><th>Autor/a</th><td>${p.autor}</td></tr><tr><th>Data</th><td>${p.data}</td></tr><tr><th>Font</th><td>${p.font}</td></tr></table>${p.text?`<p style="margin:8px 0 0">${p.text}</p>`:''}</div></div>`;
+const LINKPAGE=`<div class="toy"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">🔒 llops-exemple.exemple</span></div><div class="body"><h3>Els llops</h3><p>Els llops viuen en grups. <span class="lnk" data-act="clic" data-id="ok">Mira què mengen els llops</span>. També pots <b data-act="clic" data-id="b">veure el mapa</b> o llegir <i data-act="clic" data-id="i">aquesta nota</i>.</p></div></div>`;
+

@@ -1,0 +1,25 @@
+COM AFEGIR UNA COMPETÈNCIA NOVA (p. ex. CD2)
+============================================
+
+1) Crea  src/contingut/cd2-sessions.js  (es carrega abans dels helpers):
+
+   COMP.CD2 = {titol:'Títol de l’app', chip:'Competència digital 2 · Creació de continguts'};
+   SESSIONS_BY.CD2 = {
+     inicial:[ {id:1, titol:'…', sabers:[sb('clau','CA 2.1','Text del saber')]}, … ],
+     mitja:[ … ],
+     superior:[ … ]
+   };
+
+2) Crea  src/contingut/cd2-contingut.js  (es carrega després dels helpers ch(), clic(), req(), pageBox()…):
+
+   Object.assign(CONTENT, {
+     'cd2-inicial-1': { puc:[…], lessons:[…], items:[ch(…)], sabers:{clau:{realDone:req([…])}}, real:{blocks:[…], fields:[…]} },
+     …
+   });
+
+   Claus: CD1 usa 'cicle-n' (p. ex. 'mitja-3'); la resta, 'cdN-cicle-n' (p. ex. 'cd2-mitja-3').
+   Cada bloc de Practiquem ha de tenir 'fields' (encara que sigui []).
+
+3) Genera l'app:  node build.mjs   (crea index.html)
+
+4) Prova-la: obre index.html, tria Primària → CD2. La competència s'activa sola quan té sessions.

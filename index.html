@@ -5,7 +5,7 @@
 <!-- Cerquem bé! · Paula Pacho (Mentories 4.0) · Llicència CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca -->
 <link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cerquem bé! · Competència digital 1</title>
+<title>Cerquem bé! · Competència digital</title>
 <style>
 :root{color-scheme:light;--c:#0f9d9a;--cl:#dff6f5;--ink:#1f2a37;--mut:#5b6776;--bg:#f6f8fb;--ok:#1b8a3a;--okl:#e3f6e8;--ko:#c0392b;--kol:#fdecea;--warn:#b7791f;--warnl:#fff4d6}
 body[data-c="inicial"]{--c:#e8830c;--cl:#fff0dc}
@@ -141,7 +141,12 @@ const CICLES = {
   superior:{nom:'Cicle superior',cursos:'5è i 6è',parella:false}
 };
 const sb=(id,ca,text)=>({id,ca,text});
-const SESSIONS = {
+/* Competències: cada fitxer contingut/cdN-sessions.js hi registra les seves sessions (SESSIONS_BY.CDN) i les dades de portada (COMP.CDN). */
+const SESSIONS_BY = {};
+const COMP = {};
+let SESSIONS = {}; /* sessions de la competència activa (S.cd); es canvia amb useCD() */
+COMP.CD1 = {titol:'Cerquem bé!', chip:'Competència digital 1 · Navegadors i cerca per internet'};
+SESSIONS_BY.CD1 = {
   inicial:[
     {id:1,titol:'Icones dels navegadors',icon:'🌐',sabers:[sb('nav','CA 1.1','Identificació de les icones de navegadors')]},
     {id:2,titol:'Botons del navegador',icon:'🔘',sabers:[sb('botons','CA 1.1','Ús dels botons dels navegadors web')]},
@@ -168,7 +173,36 @@ const SESSIONS = {
   ]
 };
 
+COMP.CD2 = {titol:'Fem-ho digital!', chip:'Competència digital 2 · Creació de continguts', tema:'Tema de la nostra producció', exemple:'Per exemple: els llops', pIcon:'✏️'};
+SESSIONS_BY.CD2 = {
+  inicial:[
+    {id:1,titol:'Escriure i presentar',icon:'📝',sabers:[sb('apps','CA 2.1','Identificació d’aplicacions per crear documents i presentacions; finestres')]},
+    {id:2,titol:'El teclat',icon:'⌨️',sabers:[sb('teclat','CA 2.1','Teclat: lletres, números i signes de puntuació')]},
+    {id:3,titol:'Donar format',icon:'🎨',sabers:[sb('format','CA 2.1','Eines de format (negreta, colors, alineació), desfer i refer, inserir text i imatges')]},
+    {id:4,titol:'Desar i recuperar',icon:'💾',sabers:[sb('desar','CA 2.1','Desar, anomenar i recuperar documents')]},
+    {id:5,titol:'Fotos, vídeos i sons',icon:'📷',sabers:[sb('multi','CA 2.2','Dispositius i programaris per crear imatges, fotos, vídeos i àudios; funcions bàsiques')]}],
+  mitja:[
+    {id:1,titol:'El teclat en català',sabers:[sb('teclat','CA 2.1','Teclat: símbols, accents, apòstrofs i puntuació')]},
+    {id:2,titol:'Format i canvis',sabers:[sb('format','CA 2.1','Format del text (mida, subratllat) i desfer i refer')]},
+    {id:3,titol:'Imatges, vídeos i taules',sabers:[sb('inserir','CA 2.1','Inserir imatges, vídeos, taules i altres elements en un document')]},
+    {id:4,titol:'Guardar i ordenar',sabers:[sb('guardar','CA 2.1','Desar, anomenar i recuperar documents; organitzar-los en carpetes')]},
+    {id:5,titol:'Presentacions',sabers:[sb('present','CA 2.1','Presentacions: duplicar i amagar diapositives, canviar el fons, hipervincles')]},
+    {id:6,titol:'Editar fotos, vídeos i sons',sabers:[
+      sb('editar','CA 2.2','Dispositius i programaris d’edició; edició senzilla d’imatge, vídeo i àudio'),
+      sb('font','CA 2.3','Indicar la font dels textos i les imatges utilitzades')]}],
+  superior:[
+    {id:1,titol:'Dreceres i copiar',sabers:[sb('dreceres','CA 2.1','Dreceres Ctrl+C, V, X i cercar; copiar format; enganxar amb i sense format')]},
+    {id:2,titol:'Format avançat d’un document',sabers:[sb('doc','CA 2.1','Orientació, numeració de pàgines, llistes, salt de pàgina, símbols, correcció ortogràfica i impressió')]},
+    {id:3,titol:'Taules avançades i gràfics',sabers:[sb('taules','CA 2.1','Taules avançades (combinar cel·les, files i columnes) i gràfics')]},
+    {id:4,titol:'Presentacions avançades',sabers:[sb('presav','CA 2.1','Presentacions: animacions, transicions i efectes')]},
+    {id:5,titol:'Edició multimèdia',sabers:[sb('multi','CA 2.2','Importar fitxers; edició senzilla de vídeo, imatge i àudio; guardar el producte final')]},
+    {id:6,titol:'Escollir el format',sabers:[sb('format','CA 2.1','Seleccionar el format més adient: text, taula, imatge, àudio, vídeo, esquemes i mapes conceptuals')]},
+    {id:7,titol:'Citar l’autoria',sabers:[sb('autoria','CA 2.3','Citar l’autoria en les produccions, pròpies o d’altres persones')]}
+  ]
+};
 /* ============ HELPERS DE CONTINGUT ============ */
+/* Contingut de totes les competències. Claus: CD1 → 'cicle-n' (p. ex. 'mitja-3'); la resta → 'cdN-cicle-n' (p. ex. 'cd2-mitja-3'). */
+const CONTENT = {};
 const ch=(id,saber,prompt,opts,ok,hint,expl,extra)=>Object.assign({id,saber,type:'choice',prompt,opts,ok,hint,expl},extra||{});
 const clic=(id,saber,prompt,html,target,hint,expl)=>({id,saber,type:'clic',prompt,html,target,hint,expl});
 const req=ks=>r=>ks.every(k=>(r[k]||'').trim().length>0);
@@ -179,7 +213,7 @@ const pageBox=p=>`<div class="toy"><div class="bar"><span class="dots"><span></s
 const LINKPAGE=`<div class="toy"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">🔒 llops-exemple.exemple</span></div><div class="body"><h3>Els llops</h3><p>Els llops viuen en grups. <span class="lnk" data-act="clic" data-id="ok">Mira què mengen els llops</span>. També pots <b data-act="clic" data-id="b">veure el mapa</b> o llegir <i data-act="clic" data-id="i">aquesta nota</i>.</p></div></div>`;
 
 /* ============ CONTINGUT DE LES SESSIONS ============ */
-const CONTENT = {
+Object.assign(CONTENT, {
 /* ---------- CICLE INICIAL ---------- */
 'inicial-1':{
  fig:()=>figDesktop(),
@@ -718,16 +752,586 @@ const CONTENT = {
    {k:'g5',type:'text',label:'Enllaç lliure: títol de la pàgina'},
    {k:'hist',type:'text',label:'Adreça o títol de la pàgina recuperada de l’historial'},
    {k:'revisio',type:'check',label:'Revisió del professorat',opts:['Estan totes en una carpeta','No hi ha cap enllaç del cercador: són totes pàgines web concretes']}]}}
-};
+});
 
+/* ============ FIGURES I ELEMENTS INTERACTIUS DE CD2 ============ */
+/* Es fan servir de manera diferida (dins de lessons/items), per això poden cridar badge() i legend() del motor. */
+
+const D_BTN=(x,y,w,t,sz,extra)=>`<rect x="${x}" y="${y}" width="${w}" height="44" rx="9" fill="#fff" stroke="#b8c2cf" stroke-width="2"/><text x="${x+w/2}" y="${y+30}" text-anchor="middle" font-size="${sz||22}" fill="#1f2a37" ${extra||''}>${t}</text>`;
+
+/* Finestra amb els tres botons: minimitzar, maximitzar/restaurar, tancar */
+function figFinestraCD2(){
+  return `<svg viewBox="0 0 640 230" role="img" aria-label="Finestra d’un programa amb els botons de minimitzar, maximitzar i tancar"><rect x="2" y="2" width="636" height="226" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>
+  <path d="M2 16a14 14 0 0 1 14-14h608a14 14 0 0 1 14 14v34H2z" fill="#dbe7f5"/>
+  <text x="24" y="34" font-size="18" fill="#1f2a37" font-weight="700">📝 El meu document</text>
+  <rect x="470" y="10" width="46" height="34" rx="7" fill="#fff" stroke="#b8c2cf" stroke-width="2"/><text x="493" y="36" text-anchor="middle" font-size="22">–</text>
+  <rect x="524" y="10" width="46" height="34" rx="7" fill="#fff" stroke="#b8c2cf" stroke-width="2"/><text x="547" y="36" text-anchor="middle" font-size="20">▢</text>
+  <rect x="578" y="10" width="46" height="34" rx="7" fill="#fff" stroke="#b8c2cf" stroke-width="2"/><text x="601" y="36" text-anchor="middle" font-size="20">✕</text>
+  <rect x="40" y="86" width="360" height="12" rx="6" fill="#e9edf2"/><rect x="40" y="112" width="520" height="10" rx="5" fill="#eef1f5"/><rect x="40" y="134" width="480" height="10" rx="5" fill="#eef1f5"/><rect x="40" y="156" width="440" height="10" rx="5" fill="#eef1f5"/>
+  ${badge(493,8,1)}${badge(547,8,2)}${badge(601,8,3)}</svg>`+legend(['<b>–</b> Minimitzar: la finestra s’amaga a la barra de tasques, però el document no es tanca.','<b>▢</b> Maximitzar: la finestra ocupa tota la pantalla. Si ja és gran, el botó la fa petita (restaurar).','<b>✕</b> Tancar: tanquem el document. Abans cal desar-lo!']);
+}
+
+/* Barra d’eines d’un processador de textos (v: 'tot') */
+function figBarraDoc(){
+  return `<svg viewBox="0 0 640 170" role="img" aria-label="Barra d’eines d’un document amb els botons desfer, refer, negreta, color, alineació i imatge"><rect x="2" y="2" width="636" height="166" rx="14" fill="#f4f6f9" stroke="#b8c2cf" stroke-width="2"/>
+  ${D_BTN(20,24,64,'↶')}${D_BTN(92,24,64,'↷')}${D_BTN(176,24,64,'<tspan font-weight="800">N</tspan>','22')}${D_BTN(248,24,64,'<tspan fill="#d33">A</tspan>','22')}${D_BTN(320,24,64,'☰')}${D_BTN(392,24,64,'🖼️')}${D_BTN(464,24,64,'🔤','20')}
+  <rect x="40" y="96" width="560" height="56" rx="10" fill="#fff" stroke="#dbe1e8" stroke-width="2"/><text x="60" y="132" font-size="22" fill="#1f2a37">El gat dorm al sofà.</text>
+  ${badge(52,22,1)}${badge(124,22,2)}${badge(208,22,3)}${badge(280,22,4)}${badge(352,22,5)}${badge(424,22,6)}</svg>`+legend(['<b>↶</b> Desfer: torna enrere l’últim canvi.','<b>↷</b> Refer: torna a fer el que hem desfet.','<b>N</b> Negreta: les lletres es veuen més gruixudes.','<b>A</b> Color: canvia el color de les lletres.','<b>☰</b> Alineació: esquerra, centre o dreta.','<b>🖼️</b> Imatge: posa una imatge al document.']);
+}
+
+/* Menú Insereix */
+function figInsereix(){
+  return `<svg viewBox="0 0 640 260" role="img" aria-label="Menú Insereix amb les opcions imatge, vídeo, taula i enllaç"><rect x="2" y="2" width="636" height="256" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>
+  <rect x="2" y="2" width="636" height="46" rx="14" fill="#e9edf2"/><text x="24" y="33" font-size="18" fill="#1f2a37">Fitxer &#160;&#160; Edita &#160;&#160;</text><rect x="196" y="8" width="96" height="34" rx="8" fill="#fff" stroke="#e8830c" stroke-width="3"/><text x="244" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2a37">Insereix</text>
+  <rect x="196" y="52" width="260" height="196" rx="10" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>
+  <text x="214" y="86" font-size="19" fill="#1f2a37">🖼️ Imatge</text><text x="214" y="120" font-size="19" fill="#1f2a37">🎞️ Vídeo</text><text x="214" y="154" font-size="19" fill="#1f2a37">▦ Taula</text><text x="214" y="188" font-size="19" fill="#1f2a37">🔗 Enllaç</text><text x="214" y="222" font-size="19" fill="#1f2a37">Ω Caràcter especial</text>
+  ${badge(300,26,1)}${badge(440,76,2)}</svg>`+legend(['<b>Insereix</b>: el menú on triem què afegim al document.','<b>Imatge, Vídeo, Taula, Enllaç</b>: cada opció afegeix una cosa diferent.']);
+}
+
+/* Núvol i ordinador (guardar al núvol o en local) */
+function figNuvolLocal(){
+  return `<svg viewBox="0 0 640 230" role="img" aria-label="Un document al núvol i un document a l’ordinador"><rect x="2" y="2" width="636" height="226" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>
+  <text x="160" y="60" text-anchor="middle" font-size="54">☁️</text><text x="160" y="104" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2a37">Al núvol</text>
+  <text x="160" y="136" text-anchor="middle" font-size="17" fill="#5b6776">Documents de Google</text><text x="160" y="160" text-anchor="middle" font-size="17" fill="#5b6776">Es desa sol</text><text x="160" y="184" text-anchor="middle" font-size="17" fill="#5b6776">Necessita Internet</text><text x="160" y="208" text-anchor="middle" font-size="17" fill="#5b6776">S’obre des de qualsevol ordinador</text>
+  <line x1="320" y1="20" x2="320" y2="210" stroke="#dbe1e8" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="480" y="60" text-anchor="middle" font-size="54">💻</text><text x="480" y="104" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2a37">En local (a l’ordinador)</text>
+  <text x="480" y="136" text-anchor="middle" font-size="17" fill="#5b6776">Word o LibreOffice</text><text x="480" y="160" text-anchor="middle" font-size="17" fill="#5b6776">Cal prémer «Desa»</text><text x="480" y="184" text-anchor="middle" font-size="17" fill="#5b6776">Funciona sense Internet</text><text x="480" y="208" text-anchor="middle" font-size="17" fill="#5b6776">El fitxer queda en aquest ordinador</text></svg>`;
+}
+
+/* Carpetes */
+function figCarpetes(){
+  return `<svg viewBox="0 0 640 250" role="img" aria-label="Una carpeta Escola amb dues carpetes dins i fitxers"><rect x="2" y="2" width="636" height="246" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>
+  <text x="30" y="46" font-size="22" fill="#1f2a37">📁 <tspan font-weight="700">Escola</tspan></text>
+  <text x="70" y="86" font-size="21" fill="#1f2a37">📁 Llops</text><text x="110" y="122" font-size="19" fill="#1f2a37">📄 Llops_Resum_2026-11.docx</text><text x="110" y="154" font-size="19" fill="#1f2a37">🖼️ Llops_Foto_Pirineu.jpg</text>
+  <text x="70" y="192" font-size="21" fill="#1f2a37">📁 Mates</text><text x="110" y="226" font-size="19" fill="#1f2a37">📄 Mates_Problemes_2026-11.docx</text>
+  ${badge(250,76,1)}${badge(470,112,2)}</svg>`+legend(['<b>Carpeta</b>: guarda fitxers que van junts, com un calaix. Pot tenir carpetes a dins.','<b>Nom del fitxer</b>: Tema_Què és_Data. Així se sap què és sense obrir-lo.']);
+}
+
+/* Diapositives */
+function figDiapos(){
+  const sl=(x,y,t,sel)=>`<rect x="${x}" y="${y}" width="120" height="70" rx="6" fill="#fff" stroke="${sel?'#e8830c':'#b8c2cf'}" stroke-width="${sel?4:2}"/><text x="${x+60}" y="${y+42}" text-anchor="middle" font-size="16" fill="#1f2a37">${t}</text>`;
+  return `<svg viewBox="0 0 640 280" role="img" aria-label="Presentació amb una columna de diapositives i una diapositiva gran"><rect x="2" y="2" width="636" height="276" rx="14" fill="#f4f6f9" stroke="#b8c2cf" stroke-width="2"/>
+  ${sl(24,20,'1. Portada')}${sl(24,106,'2. Els llops',true)}${sl(24,192,'3. Què mengen')}
+  <rect x="170" y="20" width="440" height="242" rx="10" fill="#fff" stroke="#dbe1e8" stroke-width="2"/><text x="390" y="100" text-anchor="middle" font-size="30" font-weight="700" fill="#1f2a37">Els llops</text><text x="390" y="150" text-anchor="middle" font-size="20" fill="#5b6776">• Viuen en grup</text><text x="390" y="184" text-anchor="middle" font-size="20" fill="#5b6776">• Caminen molt</text>
+  ${badge(150,30,1)}${badge(590,40,2)}</svg>`+legend(['<b>Columna de diapositives</b>: cada requadre és una diapositiva. Amb el botó dret podem <b>duplicar-la</b> o <b>amagar-la</b>.','<b>Diapositiva gran</b>: aquí escrivim. Una idea per diapositiva!']);
+}
+
+/* Dispositius per crear contingut */
+function figDispositius(){
+  return `<svg viewBox="0 0 640 190" role="img" aria-label="Una càmera de fotos, una càmera de vídeo i un micròfon"><rect x="2" y="2" width="636" height="186" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>
+  <text x="120" y="94" text-anchor="middle" font-size="64">📷</text><text x="120" y="140" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2a37">Càmera de fotos</text><text x="120" y="166" text-anchor="middle" font-size="16" fill="#5b6776">fa fotografies</text>
+  <text x="320" y="94" text-anchor="middle" font-size="64">🎥</text><text x="320" y="140" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2a37">Càmera de vídeo</text><text x="320" y="166" text-anchor="middle" font-size="16" fill="#5b6776">grava imatges i so</text>
+  <text x="520" y="94" text-anchor="middle" font-size="64">🎤</text><text x="520" y="140" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2a37">Micròfon</text><text x="520" y="166" text-anchor="middle" font-size="16" fill="#5b6776">grava la veu</text></svg>`;
+}
+
+/* Botons de gravar (fer foto, gravar, aturar) */
+function figBotonsGravar(){
+  return `<svg viewBox="0 0 640 170" role="img" aria-label="Botons de fer una foto, gravar i aturar"><rect x="2" y="2" width="636" height="166" rx="14" fill="#f4f6f9" stroke="#b8c2cf" stroke-width="2"/>
+  <circle cx="130" cy="70" r="36" fill="#fff" stroke="#1f2a37" stroke-width="6"/><circle cx="130" cy="70" r="22" fill="#1f2a37"/><text x="130" y="140" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2a37">Fer una foto</text>
+  <circle cx="320" cy="70" r="36" fill="#fff" stroke="#d33" stroke-width="6"/><circle cx="320" cy="70" r="20" fill="#d33"/><text x="320" y="140" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2a37">Gravar</text>
+  <circle cx="510" cy="70" r="36" fill="#fff" stroke="#1f2a37" stroke-width="6"/><rect x="494" y="54" width="32" height="32" rx="4" fill="#1f2a37"/><text x="510" y="140" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2a37">Aturar</text></svg>`;
+}
+
+/* Barra d’eines interactiva (per a preguntes de clic) */
+const DOCBAR=`<div class="toy"><div class="bar"><span class="b" data-act="clic" data-id="desfer">↶</span><span class="b" data-act="clic" data-id="refer">↷</span><span class="b" data-act="clic" data-id="negreta"><b>N</b></span><span class="b" data-act="clic" data-id="color" style="color:#d33">A</span><span class="b" data-act="clic" data-id="alinea">☰</span><span class="b" data-act="clic" data-id="imatge">🖼️</span></div><div class="body"><small style="color:var(--mut)">Barra d’eines d’exemple (no és real)</small></div></div>`;
+
+/* Finestra interactiva (botons minimitzar, maximitzar, tancar) */
+const WINBAR=`<div class="toy"><div class="bar"><b style="flex:1">📝 El meu document</b><span class="b" data-act="clic" data-id="min">–</span><span class="b" data-act="clic" data-id="max">▢</span><span class="b" data-act="clic" data-id="close">✕</span></div><div class="body"><small style="color:var(--mut)">Finestra d’exemple (no és real)</small></div></div>`;
+
+/* Menú Insereix interactiu */
+const INSMENU=`<div class="toy"><div class="bar"><b>Insereix</b></div><div class="body" style="display:grid;gap:6px"><span class="b" style="font-size:18px" data-act="clic" data-id="imatge">🖼️ Imatge</span><span class="b" style="font-size:18px" data-act="clic" data-id="video">🎞️ Vídeo</span><span class="b" style="font-size:18px" data-act="clic" data-id="taula">▦ Taula</span><span class="b" style="font-size:18px" data-act="clic" data-id="enllac">🔗 Enllaç</span></div></div>`;
+
+/* Document d’exemple amb una font citada */
+const DOCFONT=`<div class="toy"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">📝 Els llops · document d’exemple</span></div><div class="body"><h3>Els llops</h3><p>Els llops viuen en grup que es diu <b>ramat</b>.</p><p style="color:var(--mut);font-size:15px"><span data-act="clic" data-id="fonttext" style="cursor:pointer;border-bottom:2px dotted #e8830c">Font del text: Viquipèdia, «Llop», 2026.</span></p><p>🖼️ <small style="color:var(--mut)">[imatge d’un llop]</small></p><p style="color:var(--mut);font-size:15px"><span data-act="clic" data-id="fontimg" style="cursor:pointer;border-bottom:2px dotted #e8830c">Imatge: Pep Soler, Wikimedia Commons, 2024.</span></p></div></div>`;
+/* ============ CD2 · CICLE INICIAL (1r i 2n) ============ */
+/* Sense tauleta: cada pràctica combina un pas a la pissarra digital (un alumne o alumna per pas) i una producció manual en paper o cartolina. */
+Object.assign(CONTENT, {
+
+'cd2-inicial-1':{
+ fig:()=>figFinestraCD2(),
+ sabem:['Si volem escriure una carta amb l’ordinador, què fem servir?','Heu vist mai una presentació amb diapositives? On?','Què fem quan una finestra és massa gran o ens destorba?','Qui ha escrit alguna vegada alguna cosa amb l’ordinador?'],
+ puc:['Sé què és un processador de textos i per a què serveix','Sé què és una presentació i per a què serveix','Sé què fan els botons de la finestra: minimitzar, maximitzar i tancar'],
+ defs:[{p:0,t:'Processador de textos',h:'El <b>processador de textos</b> és el programa per <b>escriure</b> amb l’ordinador: cartes, notes, un conte… A l’aula fem servir <b>Documents de Google</b>.'},{p:1,t:'Presentació',h:'La <b>presentació</b> és un programa per fer <b>diapositives</b>: cada diapositiva té una idea i imatges. A l’aula fem servir <b>Presentacions de Google</b>.'}],
+ lessons:[
+  {t:'Per escriure: processador de textos',h:`Quan volem <b>escriure</b> amb l’ordinador, obrim un <b>processador de textos</b> 📝.<br>Hi podem fer una carta, una nota o un conte.<br>A l’aula fem servir <b>Documents de Google</b>.`},
+  {t:'Per presentar: diapositives',h:`Quan volem <b>ensenyar</b> una cosa a la classe, fem una <b>presentació</b> 🖼️.<br>Té moltes <b>diapositives</b>, com pàgines que passem una darrere l’altra.<br>A l’aula fem servir <b>Presentacions de Google</b>.<br>En una diapositiva hi ha <b>poc text</b> i alguna imatge.`},
+  {t:'Les finestres',h:`Els programes s’obren dins d’una <b>finestra</b>. Té tres botons a dalt a la dreta.<br>Amb el botó <b>–</b> la <b>minimitzem</b>: s’amaga a baix, a la barra de tasques.<br>Amb el botó <b>▢</b> la <b>maximitzem</b>: ocupa tota la pantalla.<br>Amb el botó <b>✕</b> la <b>tanquem</b>.`}],
+ items:[
+  ch('A1','apps','Voleu escriure una <b>carta</b> amb l’ordinador. Què obriu?',['Un processador de textos 📝','Una calculadora 🧮','Un joc 🎮'],0,'Serveix per escriure.','El processador de textos serveix per escriure cartes i notes.'),
+  ch('A2','apps','Voleu <b>ensenyar a la classe</b> fotos i poques paraules. Què fem?',['Una presentació amb diapositives','Una carta','Un dibuix a mà'],0,'Té moltes pàgines que anem passant.','La presentació serveix per ensenyar idees amb diapositives.'),
+  ch('A3','apps','A l’aula, quin programa fem servir per <b>escriure</b>?',['Presentacions de Google','Documents de Google','Fotos'],1,'El nom diu què fem: documents.','Escrivim amb Documents de Google.'),
+  clic('A4','apps','Clica el botó que <b>amaga</b> la finestra a la barra de tasques (minimitzar).',WINBAR,'min','És el botó amb un guió.','Minimitzar és el botó – : amaga la finestra sense tancar-la.'),
+  clic('A5','apps','Clica el botó que <b>tanca</b> la finestra.',WINBAR,'close','És una creu.','El botó ✕ tanca la finestra.'),
+  ch('A6','apps','Volem que la finestra <b>ocupi tota la pantalla</b>. Quin botó fem servir?',['Minimitzar –','Maximitzar ▢','Tancar ✕'],1,'Pensa en «fer-la molt gran».','Maximitzar fa que la finestra ocupi tota la pantalla.'),
+  ch('A7','apps','Si <b>minimitzem</b> un document, el document…',['s’esborra','es tanca per sempre','continua obert, amagat a baix'],2,'Només l’amaguem.','Minimitzar només amaga la finestra: el document continua obert.')],
+ sabers:{apps:{realDone:req(['a1','a2','a3'])}},
+ real:{blocks:[
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre <b>Documents de Google</b> i un altre obre <b>Presentacions de Google</b>. Mireu com són.',fields:['a1']},
+   {h:'<b>2. A la pissarra.</b> Un alumne o alumna prova els tres botons de la finestra: minimitzar, maximitzar i restaurar.',fields:['a2']},
+   {h:'<b>3. Amb paper i colors.</b> Cada alumne o alumna <b>dibuixa en un full</b> l’ordinador amb la finestra i els seus tres botons, i escriu a mà què fa cada botó.',fields:['a3']}],
+  fields:[{k:'a1',type:'select',label:'Quin programa serveix per escriure?',opts:['Documents de Google','Presentacions de Google'],ok:'Documents de Google'},
+   {k:'a2',type:'select',label:'Els alumnes han provat els botons?',opts:['Sí, tots tres','Només alguns','No'],ok:'Sí, tots tres'},
+   {k:'a3',type:'select',label:'Els dibuixos mostren els tres botons?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}},
+
+'cd2-inicial-2':{
+ fig:()=>kbSVG(false)+legend(['<b>Lletres</b>: al mig del teclat, per escriure paraules.','<b>Intro</b>: la tecla gran de la dreta; canvia de línia.']),
+ sabem:['On són les lletres al teclat? Són totes iguals?','Com escrivim una lletra majúscula?','Com deixem un espai entre dues paraules?','Quina tecla fem servir per esborrar si ens equivoquem?'],
+ puc:['Sé trobar les lletres i els números al teclat','Sé fer un espai, un punt i una coma','Sé esborrar una lletra quan m’he equivocat'],
+ lessons:[
+  {t:'Lletres i números',h:`El <b>teclat</b> té <b>lletres</b> al mig i <b>números</b> a la fila de dalt.<br>Per escriure la lletra, hi fem un <b>toc</b> amb el dit. No cal prémer molt de temps: si la deixem premuda, <b>es repeteix</b>!`},
+  {t:'Espai, punt i coma',h:`La tecla <b>llarga de baix</b> és l’<b>espai</b>: serveix per separar paraules.<br>El <b>punt</b> (.) va al final de la frase i la <b>coma</b> (,) fa una petita pausa.<br>Després del punt, la paraula següent comença amb <b>majúscula</b>.`},
+  {t:'Majúscula i Intro',h:`Per fer una <b>majúscula</b>, premem [[key:⇧]] (la fletxa cap amunt) <b>i</b>, alhora, la lletra.<br>Amb [[key:↵ Intro]] <b>canviem de línia</b>.`},
+  {t:'Esborrar',h:`Si ens equivoquem, no passa res! Premem la tecla de <b>retrocedir</b> (⌫, a dalt a la dreta de les lletres) i <b>esborra la lletra</b> que acabem d’escriure.`}],
+ items:[
+  clic('T1','teclat','Clica la tecla de l’<b>espai</b> (la més llarga).',`<div class="toy"><div class="body">${kbSVG(true)}</div></div>`,'espai','És la tecla llarga de baix.','L’espai és la tecla llarga de baix: separa les paraules.'),
+  clic('T2','teclat','Clica la tecla de les <b>majúscules</b> (⇧).',`<div class="toy"><div class="body">${kbSVG(true)}</div></div>`,'maj','Té una fletxa cap amunt.','La tecla ⇧ serveix per fer majúscules.'),
+  clic('T3','teclat','Clica una <b>lletra</b>.',`<div class="toy"><div class="body">${kbSVG(true)}</div></div>`,'lletra','Les lletres són al mig del teclat.','Les lletres són al mig del teclat.'),
+  ch('T4','teclat','Per <b>separar dues paraules</b> escrites fem…',['un espai','una coma','un número'],0,'És la tecla llarga.','L’espai separa les paraules.'),
+  ch('T5','teclat','Ens hem equivocat d’una lletra. Quina tecla ens ajuda?',['La de retrocedir ⌫','L’espai','El número 0'],0,'Serveix per esborrar.','La tecla de retrocedir esborra la lletra.'),
+  ch('T6','teclat','Una frase acaba amb un…',['espai','punt','número'],1,'És com una petita bola.','Al final de la frase posem un punt.'),
+  ch('T7','teclat','Volem escriure el nom <b>Maria</b> amb la M gran. Què fem?',['Premem [[key:⇧]] i la M alhora','Premem l’espai i la M','Premem la M molta estona'],0,'La M gran és una majúscula.','Premem ⇧ i la lletra a la vegada.')],
+ sabers:{teclat:{realDone:req(['t1','t2','t3'])}},
+ real:{blocks:[
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre un document i escriu el seu <b>nom</b> amb la primera lletra en majúscula.',fields:['t1']},
+   {h:'<b>2. A la pissarra.</b> Un altre alumne o alumna escriu una <b>frase curta</b> amb punt i un espai entre les paraules.',fields:['t2']},
+   {h:'<b>3. Amb cartolina.</b> Cada alumne o alumna fa un <b>cartell amb el seu nom</b> en lletres de colors: la primera, més gran (majúscula).',fields:['t3']}],
+  fields:[{k:'t1',type:'select',label:'Ha escrit el nom amb majúscula inicial?',opts:['Sí, sol o sola','Sí, amb ajuda','No']},
+   {k:'t2',type:'select',label:'La frase té espais i punt?',opts:['Sí, tots dos','Només un','Cap']},
+   {k:'t3',type:'select',label:'Els cartells tenen el nom ben escrit?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}},
+
+'cd2-inicial-3':{
+ fig:()=>figBarraDoc(),
+ sabem:['Com podem fer unes lletres més grosses o d’un altre color?','Si ens equivoquem amb l’ordinador, podem tornar enrere?','Com posem una imatge en un document?','Heu usat mai una barra de botons per canviar un text?'],
+ puc:['Sé seleccionar un text i canviar-ne el format: negreta, color i alineació','Sé desfer i refer un canvi','Sé inserir una imatge en un document'],
+ defs:[{p:1,t:'Desfer i refer',h:'<b>Desfer ↶</b> torna enrere l’últim canvi. <b>Refer ↷</b> el torna a fer. Si ens equivoquem, <b>no passa res</b>!'}],
+ lessons:[
+  {t:'Seleccionar el text',h:`Abans de canviar un text, el cal <b>seleccionar</b>: l’arrosseguem amb el ratolí i es pinta d’un color.<br>El canvi només afecta el que <b>hem seleccionat</b>.`},
+  {t:'Negreta, color i alineació',h:`Amb els botons de la <b>barra d’eines</b> canviem com es veu el text:<br><b>N</b> fa les lletres <b>gruixudes</b> (negreta).<br><span style="color:#d33"><b>A</b></span> canvia el <b>color</b> de les lletres.<br>☰ canvia l’<b>alineació</b>: a l’esquerra, al centre o a la dreta.`},
+  {t:'Desfer i refer',h:`Si ens equivoquem, premem <b>↶ Desfer</b> i tornem enrere.<br>Si ens en penedim, premem <b>↷ Refer</b> i tornem a fer-ho.<br>Un error no és un problema!`},
+  {t:'Posar una imatge',h:`Per posar una <b>imatge</b>, cliquem el botó 🖼️ de la barra d’eines i triem una imatge.<br>Així el document queda més bonic i s’entén millor.`}],
+ items:[
+  clic('F1','format','Clica el botó per fer les lletres <b>gruixudes</b> (negreta).',DOCBAR,'negreta','És la N.','La N fa el text en negreta.'),
+  clic('F2','format','Clica el botó per <b>desfer</b> l’últim canvi.',DOCBAR,'desfer','Una fletxa que torna enrere.','↶ desfà l’últim canvi.'),
+  clic('F3','format','Clica el botó per <b>posar una imatge</b>.',DOCBAR,'imatge','Té un dibuix de paisatge.','El botó 🖼️ posa una imatge.'),
+  ch('F4','format','Volem canviar el <b>color</b> de les lletres. Què fem primer?',['Seleccionem el text','Tanquem el document','Premem l’espai'],0,'Abans de canviar, cal triar què canviem.','Cal seleccionar el text abans d’aplicar un canvi.'),
+  ch('F5','format','Ens hem equivocat i volem tornar enrere. Què fem?',['Desfer ↶','Refer ↷','Tancar ✕'],0,'Torna a l’estat d’abans.','Desfer torna enrere l’últim canvi.'),
+  ch('F6','format','Hem desfet un canvi per error i el volem recuperar. Què fem?',['Desfer ↶','Refer ↷','Esborrar tot'],1,'Torna a fer-ho.','Refer torna a fer el que havíem desfet.'),
+  ch('F7','format','Una imatge en un document serveix per…',['fer-lo més clar i més bonic','apagar l’ordinador','que no es pugui llegir'],0,'Ens ajuda a entendre millor.','Una imatge ajuda a entendre i fa el document més bonic.')],
+ sabers:{format:{realDone:req(['f1','f2','f3'])}},
+ real:{blocks:[
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna escriu una paraula, la <b>selecciona</b> i la posa en <b>negreta</b> i d’un altre <b>color</b>.',fields:['f1']},
+   {h:'<b>2. A la pissarra.</b> Un altre alumne o alumna fa un canvi, el <b>desfà</b> i el <b>refà</b>.',fields:['f2']},
+   {h:'<b>3. Amb paper.</b> Cada alumne o alumna <b>dissenya a mà una diapositiva</b>: un títol gran, una imatge dibuixada i una frase. Marca amb colors la negreta.',fields:['f3']}],
+  fields:[{k:'f1',type:'select',label:'Ha posat negreta i color?',opts:['Sí, tots dos','Només un','Cap']},
+   {k:'f2',type:'select',label:'Ha sabut desfer i refer?',opts:['Sí, sol o sola','Sí, amb ajuda','No']},
+   {k:'f3',type:'select',label:'Les diapositives tenen títol, imatge i frase?',opts:['Sí, totes','La majoria','Cal repetir-ho']}]}},
+
+'cd2-inicial-4':{
+ fig:()=>figNuvolLocal(),
+ sabem:['Quan acabem un dibuix, què fem perquè no es perdi?','On guardem els treballs de l’escola?','Si volem un document que vam fer fa dies, com el trobem?','Per què un fitxer ha de tenir un nom?'],
+ puc:['Sé què vol dir desar un document','Sé posar un nom que expliqui què hi ha al document','Sé obrir un document que ja tinc'],
+ lessons:[
+  {t:'Desar és guardar',h:`<b>Desar</b> vol dir <b>guardar</b> el document perquè no es perdi.<br>A <b>Documents de Google</b> es desa <b>sol</b> al núvol ☁️, però en altres programes cal prémer <b>«Desa»</b>.`},
+  {t:'El nom del document',h:`El <b>nom</b> ha de dir <b>què és</b>: <i>Els llops</i> és millor que <i>Document1</i>.<br>Així el trobarem fàcilment quan el volguem.`},
+  {t:'Núvol o ordinador',h:`Un document es pot guardar <b>al núvol</b> ☁️ (a Internet) o a l’<b>ordinador</b> 💻.<br>Al núvol, el podem obrir des de qualsevol ordinador amb Internet.`},
+  {t:'Obrir un document que ja tenim',h:`Per <b>obrir</b> un document guardat, el busquem pel <b>nom</b> i hi fem doble clic o un clic, segons on sigui.<br>Després ja podem continuar treballant-hi.`}],
+ items:[
+  ch('D1','desar','<b>Desar</b> un document vol dir…',['guardar-lo perquè no es perdi','esborrar-lo','imprimir-lo'],0,'Pensa en el que fem amb un dibuix que volem conservar.','Desar és guardar el document.'),
+  ch('D2','desar','Quin <b>nom</b> és millor per al document sobre els llops?',['Els llops','Document1','aaa'],0,'El nom ha de dir què hi ha.','Un bon nom explica què conté el document.'),
+  ch('D3','desar','A Documents de Google, el document es guarda…',['al núvol ☁️, sol','només en un paper','en un llibre'],0,'No cal prémer res: es desa sol.','Documents de Google desa al núvol automàticament.'),
+  ch('D4','desar','Volem continuar un document que vam fer ahir. Què fem?',['El busquem pel nom i l’obrim','Escrivim un document nou','Apaguem l’ordinador'],0,'Ja el tenim guardat.','Obrim el document guardat buscant-lo pel nom.'),
+  {id:'D5',saber:'desar',type:'ordre',prompt:'<b>Ordeneu els passos</b> per guardar un document. Toqueu-los en l’ordre correcte.',steps:['Escrivim el nom que explica què és','Obrim un document nou','Comprovem que s’ha desat','Escrivim el text'],order:[1,3,0,2],hint:'Primer cal tenir un document obert.',expl:'Obrim el document, escrivim el text, posem un bon nom i comprovem que s’ha desat.'},
+  ch('D6','desar','Volem veure el document des d’un altre ordinador de l’escola. On convé que estigui?',['Al núvol ☁️','Només en aquest ordinador','Només en un full'],0,'Un lloc a què es pot arribar des de qualsevol ordinador.','Al núvol, el podem obrir des de qualsevol ordinador amb Internet.')],
+ sabers:{desar:{realDone:req(['d1','d2','d3'])}},
+ real:{blocks:[
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna posa un nom al document de classe. Entre tots decidim quin nom explica millor què és.',fields:['d1']},
+   {h:'<b>2. A la pissarra.</b> Un altre alumne o alumna tanca el document i el torna a obrir buscant-lo pel nom.',fields:['d2']},
+   {h:'<b>3. Amb targetes de cartolina.</b> Per grups, ordeneu les targetes dels passos per desar un document (obrir, escriure, posar nom, comprovar).',fields:['d3']}],
+  fields:[{k:'d1',type:'select',label:'El nom diu què és el document?',opts:['Sí','Més o menys','No']},
+   {k:'d2',type:'select',label:'Han trobat el document pel nom?',opts:['Sí, sense ajuda','Sí, amb ajuda','No']},
+   {k:'d3',type:'select',label:'Els grups han ordenat bé les targetes?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}},
+
+'cd2-inicial-5':{
+ fig:()=>figDispositius(),
+ sabem:['Amb què fem una foto?','Com podem guardar la nostra veu?','Una foto i un dibuix són el mateix?','Heu fet mai un vídeo? Amb què?'],
+ puc:['Sé quins aparells serveixen per fer fotos, vídeos i enregistrar sons','Sé què fan els botons de fer foto, gravar i aturar','Sé dir en què es diferencia una foto d’un dibuix'],
+ lessons:[
+  {t:'Aparells que graven',h:`Per <b>crear</b> imatges i sons fem servir aparells:<br>📷 la <b>càmera de fotos</b> fa fotografies.<br>🎥 la <b>càmera de vídeo</b> grava imatges i so.<br>🎤 el <b>micròfon</b> grava la veu.`},
+  {t:'Foto, gravar i aturar',h:`Tots els aparells tenen botons semblants:<br>⚫ <b>Fer una foto</b>.<br>🔴 <b>Gravar</b>: comença a gravar el vídeo o el so.<br>⏹️ <b>Aturar</b>: acaba la gravació.`,fig:()=>figBotonsGravar()},
+  {t:'Dues maneres de crear una imatge',h:`Una <b>foto</b> mostra el que hi ha de veritat, amb una càmera.<br>Un <b>dibuix</b> el fem nosaltres, amb llapis o amb un programa.<br>Són dues maneres de crear una imatge.`}],
+ items:[
+  ch('M1','multi','Voleu fer una <b>fotografia</b>. Què feu servir?',['Una càmera 📷','Un micròfon 🎤','Un teclat ⌨️'],0,'Mira el que té la lent.','La càmera de fotos fa fotografies.'),
+  ch('M2','multi','Voleu <b>gravar la vostra veu</b>. Què feu servir?',['Un micròfon 🎤','Una càmera de fotos','Un ratolí'],0,'Escolta i grava el so.','El micròfon grava la veu.'),
+  ch('M3','multi','Per <b>començar a gravar</b> un vídeo, quin botó premem?',['Gravar 🔴','Aturar ⏹️','Cap'],0,'Té un cercle vermell.','El botó vermell comença a gravar.'),
+  ch('M4','multi','Per <b>acabar la gravació</b>, quin botó premem?',['Aturar ⏹️','Gravar 🔴','Fer una foto'],0,'Té un quadrat.','El botó quadrat atura la gravació.'),
+  ch('M5','multi','Una <b>foto</b> és diferent d’un <b>dibuix</b> perquè…',['la foto es fa amb una càmera i mostra el que hi ha de veritat','tots dos són el mateix','la foto es fa amb un llapis'],0,'Pensa en l’aparell.','La foto mostra la realitat; el dibuix el fem nosaltres.'),
+  ch('M6','multi','Quins aparells serveixen per <b>crear un vídeo</b> amb so?',['Una càmera de vídeo 🎥','Un micròfon sol','Un ratolí'],0,'Grava imatges i so.','La càmera de vídeo grava imatge i so.')],
+ sabers:{multi:{realDone:req(['m1','m2','m3'])}},
+ real:{blocks:[
+   {h:'<b>1. A la pissarra digital o amb l’aparell del professorat.</b> Un alumne o alumna fa una <b>foto</b> de la classe i la mirem entre tots.',fields:['m1']},
+   {h:'<b>2. Amb el micròfon o amb l’aparell del professorat.</b> Un altre alumne o alumna <b>grava la seva veu</b> dient el seu nom, i després l’escoltem.',fields:['m2']},
+   {h:'<b>3. Amb cartolina.</b> Cada alumne o alumna <b>dibuixa una càmera</b> amb els seus botons (foto, gravar, aturar) i escriu què fa cada botó.',fields:['m3']}],
+  fields:[{k:'m1',type:'select',label:'S’ha pogut fer la foto?',opts:['Sí','Amb ajuda','No']},
+   {k:'m2',type:'select',label:'S’ha pogut gravar i escoltar la veu?',opts:['Sí','Amb ajuda','No']},
+   {k:'m3',type:'select',label:'Els dibuixos mostren els botons?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}}
+
+});
+/* ============ CD2 · CICLE MITJÀ (3r i 4t) ============ */
+/* Treball en parella. El tema de les produccions és el de la investigació de CD1. */
+Object.assign(CONTENT, {
+
+'cd2-mitja-1':{
+ puc:['Sé escriure accents oberts i tancats, l’apòstrof i el guionet','Sé escriure la l·l i la dieresi','Sé fer una majúscula i activar la majúscula fixa'],
+ lessons:[
+  {t:'Accent obert i tancat',h:`En català hi ha dos accents:<br>L’<b>accent obert</b> (à, è, ò) va cap a l’esquerra.<br>L’<b>accent tancat</b> (é, í, ó, ú) va cap a la dreta.<br>En molts teclats, <b>primer</b> es prem la tecla de l’accent i <b>després</b> la lletra. La posició de les tecles pot variar segons el teclat.`},
+  {t:'Apòstrof, guionet i punt volat',h:`L’<b>apòstrof</b> (’) apareix a <b>l’escola</b>, <b>d’aquí</b>, <b>m’agrada</b>.<br>El <b>guionet</b> (-) uneix paraules en casos com <b>porta-li</b> o <b>vés-hi</b>.<br>La <b>l·l</b> porta un <b>punt volat</b> (·): <b>col·legi</b>, <b>il·lusió</b>. És un punt al mig, no un punt normal.`},
+  {t:'Dieresi i ç',h:`La <b>dieresi</b> (¨) es posa sobre la <b>i</b> o la <b>u</b>: <b>país</b> (no porta dieresi), <b>raïm</b>, <b>pingüí</b>.<br>La <b>ç</b> (ce trencada) té una tecla pròpia al teclat.`},
+  {t:'Majúscula i majúscula fixa',h:`Per fer <b>una</b> majúscula premem [[key:⇧]] i la lletra.<br>Per escriure <b>moltes</b> majúscules seguides activem la <b>majúscula fixa</b> ([[key:Bloq Maj]]). Per desactivar-la, la tornem a prémer.<br>Pot ser útil per a <b>TÍTOLS</b>, però un text ben escrit no va tot en majúscules.`}],
+ items:[
+  ch('C1','teclat','Quina paraula té <b>accent tancat</b>?',['també','això','cafè'],0,'L’accent tancat va cap a la dreta (é).','«també» porta accent tancat (é); «això» i «cafè» en porten d’oberts.'),
+  ch('C2','teclat','Quina paraula porta un <b>apòstrof</b>?',['l’escola','la escola','l-escola'],0,'L’article perd una lletra davant d’una vocal.','«l’escola» porta apòstrof: l’article «la» es converteix en «l’».'),
+  ch('C3','teclat','Quina paraula s’escriu bé amb <b>punt volat</b>?',['col.legi','col·legi','col-legi'],1,'Cal un punt al mig, no a baix.','«col·legi» porta punt volat (l·l).'),
+  ch('C4','teclat','Quina paraula porta <b>dieresi</b>?',['pingüí','país','llapis'],0,'Pensa en la u i en la i.','«pingüí» porta dieresi sobre la u.'),
+  ch('C5','teclat','Vols escriure un <b>títol</b> en majúscules. Què pots fer?',['Activar la majúscula fixa [[key:Bloq Maj]]','Premre l’espai','Esborrar'],0,'Així no cal prémer ⇧ cada vegada.','La majúscula fixa deixa escriure moltes majúscules seguides.'),
+  ch('C6','teclat','Quina d’aquestes frases està <b>ben escrita</b>?',['M’agrada anar a l’escola','Magrada anar a la escola','M agrada anar a l’escola'],0,'Hi ha dos apòstrofs.','«M’agrada» i «l’escola» porten apòstrof.'),
+  ch('C7','teclat','La <b>ç</b> és…',['una lletra que té tecla pròpia','una c amb una cua que no existeix al teclat','un signe de puntuació'],0,'Busca-la prop de la Ñ.','La ç és una lletra pròpia del català i té tecla pròpia.')],
+ sabers:{teclat:{realDone:req(['c1','c2','c3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> Escriviu en parella, a <b>Documents de Google</b>, una frase sobre el vostre tema amb un <b>accent obert</b> i un <b>accent tancat</b>. Copieu aquí la frase.',fields:['c1']},
+   {h:'<b>2.</b> Escriviu una paraula amb <b>l·l</b> (punt volat) i una amb <b>apòstrof</b> i copieu-les aquí.',rows:[['c2','c3']],fields:[]}],
+  fields:[{k:'c1',type:'text',label:'La vostra frase amb els dos accents'},
+   {k:'c2',type:'text',label:'Paraula amb l·l'},
+   {k:'c3',type:'text',label:'Paraula amb apòstrof'}]}},
+
+'cd2-mitja-2':{
+ puc:['Sé canviar la mida del text, subratllar-lo i posar-lo en cursiva','Sé quan convé cada format (títol, destacar)','Sé desfer i refer amb els botons i amb les dreceres'],
+ lessons:[
+  {t:'Mida, cursiva i subratllat',h:`Amb la <b>mida</b> fem el text més gran (per a un <b>títol</b>) o més petit.<br>La <b>cursiva</b> inclina les lletres: <i>per destacar un títol d’un llibre o una paraula estrangera</i>.<br>El <b>subratllat</b> posa una ratlla sota el text. Compte: els enllaços també són subratllats; no l’abusem.`},
+  {t:'Tipus de lletra',h:`El <b>tipus de lletra</b> canvia com es veu el text. Convé usar <b>pocs tipus</b> (un o dos) i que es llegeixin bé.<br>Un text amb molts tipus diferents queda <b>embolicat</b>.`},
+  {t:'Quan convé cada format',h:`<b>Títol</b>: mida gran i negreta.<br><b>Destacar</b> una idea: negreta o color, però no a tot arreu.<br><b>Llegir bé</b>: lletra clara i mida còmoda. Si tot està destacat, <b>res no destaca</b>.`},
+  {t:'Desfer i refer amb dreceres',h:`Amb els botons ↶ i ↷ desfem i refem.<br>També es pot fer amb el teclat: [[key:Ctrl]] i [[key:Z]] <b>desfà</b>; [[key:Ctrl]] i [[key:Y]] <b>refà</b>.<br>Fixeu-vos que sempre es prem <b>Ctrl</b> primer i, sense deixar-la, la lletra.`,fig:()=>figBarraDoc()}],
+ items:[
+  ch('F1','format','Volem un <b>títol</b>. Què fem?',['Mida gran i negreta','Mida petita i tot en color','Tot subratllat'],0,'El títol s’ha de veure de seguida.','Un títol convé que sigui gran i en negreta.'),
+  ch('F2','format','Per destacar el <b>títol d’un llibre</b> dins d’un text, fem servir…',['la cursiva','el subratllat','un color qualsevol'],0,'Inclina les lletres.','La cursiva s’usa per a títols d’obres.'),
+  ch('F3','format','Un text té <b>cinc tipus de lletra diferents</b>. Què passa?',['Queda embolicat i costa de llegir','Queda més clar','No passa res'],0,'Pensa en la lectura.','Convé usar pocs tipus de lletra.'),
+  ch('F4','format','Quina drecera <b>desfà</b> l’últim canvi?',['[[key:Ctrl]] i [[key:Z]]','[[key:Ctrl]] i [[key:C]]','[[key:Ctrl]] i [[key:P]]'],0,'La Z és a baix a l’esquerra.','Ctrl i Z desfà l’últim canvi.'),
+  ch('F5','format','Quina drecera <b>refà</b> el que hem desfet?',['[[key:Ctrl]] i [[key:Y]]','[[key:Ctrl]] i [[key:Z]]','[[key:Ctrl]] i [[key:0]]'],0,'Va a la inversa de desfer.','Ctrl i Y refà el que hem desfet.'),
+  ch('F6','format','Si <b>tot</b> el text està en negreta i en color…',['res no destaca','tot es llegeix millor','el text desapareix'],0,'Destacar vol dir que una part sigui diferent.','Si tot està destacat, res no destaca.'),
+  ch('F7','format','Per què no convé <b>subratllar</b> molt de text?',['Perquè es confon amb els enllaços','Perquè no es veu mai','Perquè està prohibit'],0,'Pensa en el color blau dels enllaços.','Els enllaços també van subratllats: no convé confondre’ls.')],
+ sabers:{format:{realDone:req(['f1','f2','f3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> A <b>Documents de Google</b>, escriviu un <b>títol</b> sobre el vostre tema amb una mida gran i en negreta.',fields:['f1']},
+   {h:'<b>2.</b> Escriviu una frase i destaqueu-ne <b>només una part</b> (cursiva o negreta).',fields:['f2']},
+   {h:'<b>3.</b> Feu un canvi, <b>desfeu-lo</b> amb una drecera i <b>refeu-lo</b>. Quina drecera heu fet servir per desfer?',fields:['f3']}],
+  fields:[{k:'f1',type:'select',label:'El títol té mida gran i negreta?',opts:['Sí, tots dos','Només un','Cap']},
+   {k:'f2',type:'select',label:'Heu destacat només una part del text?',opts:['Sí','No, tot el text']},
+   {k:'f3',type:'select',label:'Drecera per desfer',opts:['Ctrl + Z','Ctrl + C','Ctrl + P'],ok:'Ctrl + Z'}]}},
+
+'cd2-mitja-3':{
+ puc:['Sé inserir una imatge, un vídeo i una taula en un document','Sé quan una taula és millor que un text','Sé canviar la mida d’una imatge sense deformar-la'],
+ lessons:[
+  {t:'El menú Insereix',h:`El menú <b>Insereix</b> és on afegim coses al document: una <b>imatge</b>, un <b>vídeo</b>, una <b>taula</b>, un <b>enllaç</b>…<br>Triem l’opció i seguim les instruccions.`,fig:()=>figInsereix()},
+  {t:'Quan una taula és millor',h:`Una <b>taula</b> és millor que un text quan hem de <b>comparar dades</b>.<br>Per exemple: quant mengen tres animals. En una taula es veu d’un cop d’ull.<br>Una taula té <b>files</b> (en horitzontal) i <b>columnes</b> (en vertical).`},
+  {t:'Imatges: mida i deformació',h:`Per fer una imatge més gran o més petita, <b>arrosseguem una cantonada</b>.<br>Si arrosseguem un <b>costat</b> en lloc d’una cantonada, la imatge es <b>deforma</b> (queda aplanada o estirada).<br>Per això sempre usem les <b>cantonades</b>.`},
+  {t:'Vídeos',h:`També podem inserir un <b>vídeo</b> a un document. Quan ho fem, hem de pensar si <b>cal</b> o si només <b>distreu</b>.<br>Si l’aprofitem, convé que expliqui el tema i sigui curt.`}],
+ items:[
+  clic('I1','inserir','Clica l’opció per <b>inserir una taula</b>.',INSMENU,'taula','Té una quadrícula.','L’opció ▦ Taula insereix una taula.'),
+  clic('I2','inserir','Clica l’opció per <b>inserir una imatge</b>.',INSMENU,'imatge','Té un dibuix de paisatge.','L’opció Imatge serveix per afegir imatges.'),
+  ch('I3','inserir','Voleu <b>comparar</b> quant pesen quatre animals. Què és millor?',['Una taula','Una imatge sola','Una frase llarga'],0,'Pensa en files i columnes.','Una taula ajuda a comparar dades.'),
+  ch('I4','inserir','Una <b>imatge s’ha deformat</b> (s’ha aplanat). Què hem fet malament?',['Hem arrossegat un costat en lloc d’una cantonada','Hem premut Ctrl','Hem guardat el document'],0,'Les cantonades mantenen la proporció.','Per no deformar-la cal arrossegar una cantonada.'),
+  ch('I5','inserir','Una taula té…',['files i columnes','només pàgines','només colors'],0,'En horitzontal i en vertical.','Les files van en horitzontal i les columnes en vertical.'),
+  ch('I6','inserir','Voleu posar un <b>vídeo</b> al document. Quan té sentit?',['Quan ajuda a explicar el tema','Sempre, encara que no tingui relació','Mai'],0,'Pensa en si ajuda.','Un vídeo s’insereix quan ajuda a entendre el tema.'),
+  ch('I7','inserir','El menú <b>Insereix</b> serveix per…',['afegir coses al document','apagar l’ordinador','canviar el color de la pantalla'],0,'Afegim imatges i taules.','Insereix serveix per afegir elements al document.')],
+ sabers:{inserir:{realDone:req(['i1','i2','i3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> A <b>Documents de Google</b>, escriviu una frase sobre el vostre tema i <b>inseriu una imatge</b>.',fields:['i1']},
+   {h:'<b>2.</b> <b>Inseriu una taula</b> de dues columnes (per exemple: animal i què menja) amb tres files.',fields:['i2']},
+   {h:'<b>3.</b> Canvieu la mida de la imatge arrossegant una <b>cantonada</b>. Es veu bé, sense deformar?',fields:['i3']}],
+  fields:[{k:'i1',type:'select',label:'Heu inserit una imatge?',opts:['Sí','No']},
+   {k:'i2',type:'select',label:'Heu inserit una taula?',opts:['Sí, amb 2 columnes i 3 files','Sí, però diferent','No']},
+   {k:'i3',type:'select',label:'La imatge es veu sense deformar?',opts:['Sí','No, s’ha deformat']}]}},
+
+'cd2-mitja-4':{
+ puc:['Sé posar un bon nom als fitxers i desar-los','Sé organitzar fitxers en carpetes','Sé explicar la diferència entre treballar al núvol i en local','Sé que hi ha programari lliure i programari de pagament']
+ ,
+ lessons:[
+  {t:'Noms que s’entenen',h:`Un bon nom de fitxer diu <b>què és</b>, <b>de què va</b> i <b>de quan és</b>: <b>Llops_Resum_2026-11</b>.<br>Un nom com <b>Document1</b> no explica res: d’aquí a un mes no sabrem què és.`},
+  {t:'Carpetes i subcarpetes',h:`Una <b>carpeta</b> és com un calaix: guarda fitxers que van junts.<br>Dins d’una carpeta en podem posar d’altres: les <b>subcarpetes</b>. Per exemple: <b>Escola → Llops → fotos</b>.<br>Així ho trobem tot més de pressa.`,fig:()=>figCarpetes()},
+  {t:'Núvol o ordinador local',h:`Al <b>núvol</b> ☁️ (Documents de Google) el document es desa <b>sol</b> i el podem obrir des de <b>qualsevol ordinador</b> amb Internet.<br>En <b>local</b> 💻 (Word, LibreOffice) el fitxer es guarda a <b>aquest ordinador</b>: cal prémer <b>Desa</b> i funciona sense Internet.<br>Els fitxers de Word acaben en <b>.docx</b> i els de LibreOffice en <b>.odt</b>.`,fig:()=>figNuvolLocal()},
+  {t:'Programari lliure o de pagament',h:`Els programes poden ser:<br>🆓 <b>Lliures i gratuïts</b>, com <b>LibreOffice</b>: els pots instal·lar a casa i copiar sense pagar.<br>💶 <b>De pagament</b>, com <b>Microsoft Office</b> (Word): cal tenir una <b>llicència</b> per usar-lo.<br>☁️ <b>Documents de Google</b> és gratuït, però cal tenir un <b>compte</b> i connexió a Internet.<br>Cap és «millor»: l’important és saber que n’hi ha de diferents i que sovint <b>es poden obrir els fitxers d’un a l’altre</b>.`},
+  {t:'Reobrir un fitxer',h:`Per <b>reobrir</b> un fitxer el busquem a la carpeta pel seu <b>nom</b> i l’obrim. Si el nom és clar, el trobem de seguida.`}],
+ items:[
+  ch('G1','guardar','Quin és el <b>millor nom</b> per a un resum sobre els llops?',['Llops_Resum_2026-11','Document1','Resum','Cosa nova'],0,'Diu què és, de què va i de quan és.','Un bon nom explica el contingut i la data.'),
+  ch('G2','guardar','Una <b>subcarpeta</b> és…',['una carpeta dins d’una altra','un fitxer molt gran','un programa'],0,'Pensa en un calaix dins d’un calaix.','Una subcarpeta és una carpeta dins d’una altra.'),
+  ch('G3','guardar','Un document de <b>Documents de Google</b> es guarda…',['al núvol, sol','només si premem un botó','a l’ordinador en local sempre'],0,'No cal prémer «Desa».','Documents de Google desa al núvol automàticament.'),
+  ch('G4','guardar','Un fitxer <b>.docx</b> és de…',['Word (Microsoft Office)','LibreOffice','Google'],0,'Mira l’extensió.','.docx és el format de Word. LibreOffice usa .odt.'),
+  ch('G5','guardar','<b>LibreOffice</b> és un programa…',['lliure i gratuït','de pagament','només per a mòbils'],0,'Es pot instal·lar a casa sense pagar.','LibreOffice és lliure i gratuït.'),
+  ch('G6','guardar','Per usar <b>Microsoft Office</b> cal…',['tenir una llicència (pagar)','res, és lliure','una impressora'],0,'No és gratuït.','Microsoft Office és de pagament i necessita llicència.'),
+  {id:'G7',saber:'guardar',type:'ordre',prompt:'<b>Ordeneu els passos</b> per guardar i trobar un document. Toqueu-los en l’ordre correcte.',steps:['El deso en una carpeta amb un bon nom','Obro un document nou','Escric el text','El reobro buscant-lo a la carpeta'],order:[1,2,0,3],hint:'Primer cal tenir el document.',expl:'Obrim, escrivim, desem amb un bon nom en una carpeta i el reobrim.'},
+  ch('G8','guardar','Voleu continuar el treball des de casa amb qualsevol ordinador. Què us convé?',['Treballar al núvol','Guardar-ho només en local sense còpia','Escriure-ho a mà'],0,'El núvol és accessible des de qualsevol lloc.','Al núvol podeu obrir el document des de qualsevol ordinador amb Internet.')],
+ sabers:{guardar:{realDone:req(['g1','g2','g3','g4'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> Poseu un <b>bon nom</b> al document de la vostra producció (tema, què és i data) i escriviu-lo aquí.',fields:['g1']},
+   {h:'<b>2.</b> <b>Creeu una carpeta</b> amb el nom del vostre tema i moveu-hi el document. Com s’anomena la carpeta?',fields:['g2']},
+   {h:'<b>3.</b> Respon: el document, <b>és al núvol o en local</b>? I amb quin programa l’heu fet? És <b>lliure o de pagament</b>?',rows:[['g3','g4']],fields:[]}],
+  fields:[{k:'g1',type:'text',label:'Nom del fitxer'},
+   {k:'g2',type:'text',label:'Nom de la carpeta'},
+   {k:'g3',type:'select',label:'On és guardat?',opts:['Al núvol','En local']},
+   {k:'g4',type:'select',label:'El programa que heu fet servir és…',opts:['Gratuït (com Documents de Google o LibreOffice)','De pagament (com Microsoft Office)','No ho sé']}]}},
+
+'cd2-mitja-5':{
+ puc:['Sé què porta una bona diapositiva: una idea i poc text','Sé duplicar i amagar una diapositiva i canviar-ne el fons','Sé crear un hipervincle en un text i en una imatge'],
+ lessons:[
+  {t:'Una idea per diapositiva',h:`Una bona diapositiva té <b>una sola idea</b>, <b>poc text</b> i alguna <b>imatge</b>.<br>Si hi ha molt text, el públic llegeix i no escolta. Mireu la figura: un <b>títol</b> i dues frases curtes.`,fig:()=>figDiapos()},
+  {t:'Duplicar i amagar',h:`Per <b>duplicar</b> una diapositiva (fer-ne una còpia) fem clic amb el <b>botó dret</b> sobre la diapositiva i triem «Duplica».<br>Per <b>amagar-la</b> sense esborrar-la, triem «Oculta»: no es veu a la presentació, però continua guardada.`},
+  {t:'Canviar el fons',h:`Podem canviar el <b>fons</b> d’una diapositiva: un color o una imatge.<br>Cal que el text es <b>llegeixi bé</b> sobre el fons: fons clar amb text fosc, o al revés.`},
+  {t:'Hipervincles que creem',h:`A CD1 vam aprendre què és un <b>hipervincle</b>. Ara en <b>creem</b> un:<br>1. Seleccionem el <b>text</b> o la <b>imatge</b>.<br>2. Premem [[key:Ctrl]] i [[key:K]] (o el botó d’enllaç).<br>3. Enganxem l’<b>adreça</b> de la pàgina.<br>Ara el text o la imatge ens porta a aquella pàgina.`}],
+ items:[
+  ch('P1','present','Una <b>bona diapositiva</b> té…',['una idea i poc text','cinc idees i molt text','només text petit'],0,'Pensa en què es veu de lluny.','Una idea per diapositiva i poc text.'),
+  ch('P2','present','Volem <b>fer una còpia</b> d’una diapositiva. Què fem?',['La dupliquem','L’amaguem','La tanquem'],0,'Una còpia igual.','Duplicar fa una còpia de la diapositiva.'),
+  ch('P3','present','Una diapositiva està <b>amagada</b>. Què vol dir?',['No es veu a la presentació, però existeix','S’ha esborrat','Només es veu a la meitat'],0,'Està guardada, però no es mostra.','Amagar no esborra: només no es mostra.'),
+  ch('P4','present','El <b>fons</b> és fosc. Quin color de text es llegeix millor?',['Blanc o molt clar','Negre','Blau fosc'],0,'Cal contrast.','Sobre fons fosc, el text clar es llegeix millor.'),
+  ch('P5','present','Per <b>crear un hipervincle</b> en un text, primer…',['seleccionem el text','escrivim l’adreça sense seleccionar','apaguem l’ordinador'],0,'Cal triar a què va l’enllaç.','Primer seleccionem el text o la imatge.'),
+  ch('P6','present','Un hipervincle en una <b>imatge</b> serveix per…',['portar a una altra pàgina quan hi fem clic','fer-la més petita','esborrar-la'],0,'Igual que en un text.','Una imatge també pot ser un enllaç.'),
+  ch('P7','present','Una diapositiva té <b>molt de text petit</b>. Què millorem?',['Posem menys text i més gran','Posem més text','Canviem el color a vermell'],0,'El públic ha de poder llegir-ho.','Menys text i més gran: així s’entén millor.')],
+ sabers:{present:{realDone:req(['p1','p2','p3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> A <b>Presentacions de Google</b>, creeu una presentació de <b>tres diapositives</b> sobre el vostre tema (una idea per diapositiva).',fields:['p1']},
+   {h:'<b>2.</b> <b>Dupliqueu</b> una diapositiva i <b>amagueu-ne</b> una. Canvieu el fons d’una.',fields:['p2']},
+   {h:'<b>3.</b> Creeu un <b>hipervincle</b> en una paraula o una imatge que porti a una pàgina que ja heu fet servir a CD1. Copieu l’adreça aquí.',fields:['p3']}],
+  fields:[{k:'p1',type:'select',label:'Quantes diapositives té la presentació?',opts:['Tres o més','Dues','Una']},
+   {k:'p2',type:'check',label:'Què heu fet?',opts:['He duplicat una diapositiva','He amagat una diapositiva','He canviat el fons']},
+   {k:'p3',type:'text',label:'Adreça de l’hipervincle'}]}},
+
+'cd2-mitja-6':{
+ fig:()=>figDispositius(),
+ puc:['Sé quines edicions senzilles es poden fer amb una imatge, un vídeo i un àudio','Sé gravar millor (llum, soroll i micròfon)','Sé indicar la font d’un text i d’una imatge que no són meus'],
+ lessons:[
+  {t:'Editar una imatge',h:`Amb un programa d’imatges podem:<br>✂️ <b>Retallar</b>: ens quedem només amb la part que interessa.<br>↔️ <b>Redimensionar</b>: fer-la més gran o més petita.<br>🔄 <b>Girar</b>: posar-la bé si està girada.`},
+  {t:'Editar un vídeo i un àudio',h:`En un <b>vídeo</b> podem <b>retallar el clip</b> (treure el principi o el final), <b>afegir text</b> i <b>afegir àudio</b>.<br>En un <b>àudio</b> podem <b>retallar</b> la pista i quedar-nos amb la part bona.<br>Amb un editor senzill és molt fàcil.`},
+  {t:'Gravar bé',h:`Per gravar bé:<br>💡 <b>Llum</b>: davant d’una finestra, no d’esquena a ella.<br>🔇 <b>Silenci</b>: tanquem portes i fem callar el soroll.<br>🎤 <b>Micròfon</b>: a prop de qui parla, però sense tocar.`},
+  {t:'Indicar la font',h:`Quan fem servir un <b>text</b> o una <b>imatge</b> que <b>no és nostre</b>, hem de dir <b>d’on l’hem tret</b>: és la <b>font</b>.<br>Posem l’<b>autoria</b> (qui l’ha fet) i d’on l’hem agafat.<br>Exemple: <i>Imatge: Pep Soler, Wikimedia Commons, 2024.</i> Així respectem el treball dels altres.`}],
+ items:[
+  ch('E1','editar','Una imatge té massa espai buit al voltant. Què fem?',['La retallem','La girem','La imprimim'],0,'Ens quedem amb la part que interessa.','Retallar deixa només la part que ens interessa.'),
+  ch('E2','editar','Una foto està <b>girada</b> de costat. Què fem?',['La girem','La retallem','L’esborrem'],0,'La posem dreta.','Girar posa la imatge dreta.'),
+  ch('E3','editar','En un vídeo, <b>retallar el clip</b> serveix per…',['treure el principi o el final que no volem','canviar el color','afegir música'],0,'Treiem el que sobra.','Retallar el clip elimina parts del vídeo.'),
+  ch('E4','editar','Per gravar un àudio, <b>on</b> ens posem?',['Un lloc silenciós','A prop d’una obra','Dins d’un cotxe en marxa'],0,'Pensa en el soroll.','Un lloc silenciós dona un àudio més net.'),
+  ch('E5','editar','Per gravar un vídeo, la <b>llum</b> ha de…',['il·luminar la cara, no d’esquena a la finestra','ser molt fosca','venir de darrere'],0,'Volem veure bé qui parla.','La llum ha de caure sobre la cara.'),
+  clic('E6','font','Clica la <b>font de la imatge</b>.',DOCFONT,'fontimg','Diu qui l’ha feta i d’on és.','La font de la imatge diu qui l’ha feta i d’on l’hem tret.'),
+  clic('E7','font','Clica la <b>font del text</b>.',DOCFONT,'fonttext','És al final del paràgraf.','La font del text diu d’on hem tret la informació.'),
+  ch('E8','font','Hem usat una foto d’un llop d’Internet. Què hem de posar al document?',['La font i l’autoria','Res, ja és meva','Només “Internet”'],0,'No és nostra.','Cal posar l’autoria i d’on l’hem tret.')],
+ sabers:{editar:{realDone:req(['e1','e2'])},font:{realDone:req(['e3','e4'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> Agafeu una imatge del vostre tema i <b>retalleu-la o redimensioneu-la</b> a l’editor. Què heu fet?',fields:['e1']},
+   {h:'<b>2.</b> Graveu (o editeu) un <b>àudio o un vídeo curt</b> d’uns 10 segons. Hi heu retallat alguna cosa?',fields:['e2']},
+   {h:'<b>3.</b> Poseu en el document una <b>imatge i un text d’una font</b> i escriviu-ne la <b>font</b> a sota. Copieu aquí la font de la imatge i del text.',rows:[['e3','e4']],fields:[]}],
+  fields:[{k:'e1',type:'select',label:'Què heu fet amb la imatge?',opts:['L’he retallada','L’he redimensionada','L’he girada','Cap de les anteriors']},
+   {k:'e2',type:'select',label:'Què heu fet amb l’àudio o vídeo?',opts:['Hem retallat el clip o la pista','Hem afegit text o àudio','Només l’hem gravat','No ho he fet']},
+   {k:'e3',type:'text',label:'Font de la imatge (autoria i web)'},
+   {k:'e4',type:'text',label:'Font del text (autoria i web)'}]}}
+
+});
+/* ============ CD2 · CICLE SUPERIOR (5è i 6è) ============ */
+/* Treball individual. El tema és el de la investigació de CD1. Les sessions s’acumulen: a la 7 es fa una producció completa. */
+Object.assign(CONTENT, {
+
+'cd2-superior-1':{
+ puc:['Sé què fa cada drecera (Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+F) i quan l’uso','Sé copiar i enganxar amb format i només el text','Sé copiar el format d’un títol a un altre'],
+ lessons:[
+  {t:'Copiar, enganxar i retallar',h:`Amb el teclat és més ràpid:<br>[[key:Ctrl]] + [[key:C]] <b>copia</b> el que has seleccionat.<br>[[key:Ctrl]] + [[key:V]] <b>enganxa</b> el que has copiat.<br>[[key:Ctrl]] + [[key:X]] <b>retalla</b>: ho treu d’aquí i ho pots enganxar en un altre lloc.<br>Sempre prems <b>Ctrl</b> i, sense deixar-la, la lletra.`},
+  {t:'Enganxar amb o sense format',h:`Quan copies un text d’una pàgina web, també copies el seu <b>format</b> (lletra, color, mida). Si l’enganxes tal qual, el teu document queda <b>barrejat</b>.<br>Per enganxar només el text i que agafi el format del teu document, fes servir <b>«Enganxa sense format»</b> ([[key:Ctrl]] + [[key:Maj]] + [[key:V]]).`},
+  {t:'Copiar el format',h:`Si has fet un títol amb un format (mida, color, negreta) i vols el mateix en un altre títol, no cal repetir-ho: fes servir <b>«Copia el format»</b> (el pinzell 🖌️): selecciona el títol, prem el pinzell i passa’l pel text nou.`},
+  {t:'Cercar dins d’un document',h:`Amb [[key:Ctrl]] + [[key:F]] <b>cerques una paraula</b> dins del document. Va molt bé en documents llargs, i a CD1 ja l’has fet servir per trobar una paraula dins d’una pàgina web.`}],
+ items:[
+  ch('D1','dreceres','Quina drecera <b>copia</b>?',['[[key:Ctrl]] + [[key:C]]','[[key:Ctrl]] + [[key:V]]','[[key:Ctrl]] + [[key:X]]'],0,'La C de «copiar».','Ctrl + C copia.'),
+  ch('D2','dreceres','Vols <b>moure</b> un paràgraf (treure’l d’aquí i posar-lo allà). Què fas?',['Ctrl + X i després Ctrl + V','Ctrl + C i després Ctrl + X','Només Ctrl + V'],0,'Retallar i enganxar.','Ctrl + X retalla i Ctrl + V enganxa en un altre lloc.'),
+  ch('D3','dreceres','Copies un text d’una web i, en enganxar-lo, hi ha <b>lletres de colors i tipus diferents</b>. Com ho solucionaries?',['Enganxo sense format','Escric tot de nou','Ho deixo així'],0,'Només vols el text.','Enganxar sense format conserva només el text i adopta el format del teu document.'),
+  ch('D4','dreceres','Vols el <b>mateix format d’un títol</b> en un altre. Què és més ràpid?',['Copiar el format amb el pinzell 🖌️','Repetir tots els canvis un per un','Esborrar el document'],0,'No cal fer-ho tot de nou.','Copia el format aplica d’una vegada el mateix format.'),
+  ch('D5','dreceres','Vols trobar la paraula «ramat» en un document de 10 pàgines. Què fas?',['[[key:Ctrl]] + [[key:F]]','[[key:Ctrl]] + [[key:P]]','Ho llegeixo tot'],0,'La F de «find».','Ctrl + F cerca una paraula dins del document.'),
+  ch('D6','dreceres','<b>Per què</b> és millor «Enganxa sense format» quan copies d’una pàgina web?',['Perquè el document manté un format coherent','Perquè s’enganxa més de pressa','Perquè no cal citar la font'],0,'Pensa en l’estil global.','Mantenir un format coherent fa el document més net. Citar la font cal igualment.'),
+  ch('D7','dreceres','Has copiat un fragment d’un article sense posar-ne la font. Què falta?',['Citar la font i l’autoria','Res, ja està','Canviar el color'],0,'Copiar no vol dir que sigui teu.','Quan fem servir text d’altri cal citar-ne la font.'),
+  {id:'D8',saber:'dreceres',type:'ordre',prompt:'<b>Ordena els passos</b> per moure un paràgraf a un altre lloc.',steps:['Premo Ctrl + V','Selecciono el paràgraf','Poso el cursor on el vull','Premo Ctrl + X'],order:[1,3,2,0],hint:'Primer cal seleccionar.',expl:'Seleccionem, retallem, posem el cursor al lloc nou i enganxem.'}],
+ sabers:{dreceres:{realDone:req(['d1','d2','d3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> A <b>Documents de Google</b>, copia (Ctrl + C) un paràgraf sobre el teu tema d’una pàgina web que hagis fet servir a CD1. Enganxa’l <b>sense format</b>.',fields:['d1']},
+   {h:'<b>2.</b> Fes un títol amb un format (mida, color, negreta) i <b>copia el format</b> a un segon títol amb el pinzell.',fields:['d2']},
+   {h:'<b>3.</b> Cerca amb Ctrl + F una paraula clau del teu tema dins del document. Quantes vegades hi apareix?',fields:['d3']}],
+  fields:[{k:'d1',type:'select',label:'Has enganxat sense format?',opts:['Sí','No, amb format']},
+   {k:'d2',type:'select',label:'Has copiat el format del títol?',opts:['Sí, amb el pinzell','Ho he fet a mà','No']},
+   {k:'d3',type:'text',label:'Quantes vegades apareix la paraula?'}]}},
+
+'cd2-superior-2':{
+ puc:['Sé estructurar un treball amb títol, apartats i pàgines numerades','Sé fer llistes numerades i amb vinyetes i inserir un salt de pàgina','Sé fer servir la correcció ortogràfica i canviar l’idioma','Sé configurar la impressió'],
+ lessons:[
+  {t:'Estructura d’un treball',h:`Un treball ben fet té <b>títol</b>, <b>apartats</b> amb subtítols i <b>pàgines numerades</b>.<br>Per posar la <b>numeració de pàgines</b> fes servir el menú <b>Insereix → Números de pàgina</b>.<br>L’<b>orientació</b> (vertical o horitzontal) es canvia a la configuració de la pàgina; l’horitzontal va bé per a taules amples.`},
+  {t:'Llistes i salt de pàgina',h:`Una <b>llista amb vinyetes</b> (•) s’usa quan l’ordre <b>no importa</b>.<br>Una <b>llista numerada</b> s’usa quan l’<b>ordre importa</b> (passos d’una recepta).<br>Un <b>salt de pàgina</b> fa que el contingut següent comenci a la pàgina nova, sense haver de prémer Intro moltes vegades.`},
+  {t:'Símbols, formes i correcció',h:`Pots inserir <b>símbols</b> (€, ©, Ω, ≈) i <b>formes</b> (fletxes, cercles) des del menú Insereix.<br>La <b>correcció ortogràfica</b> subratlla en vermell les faltes. Si el document té una part en un altre idioma, <b>canvia l’idioma</b> d’aquesta part perquè no la marqui com a falta.`},
+  {t:'Imprimir bé',h:`Abans d’imprimir revisa la <b>vista prèvia</b>: la mida del paper, l’orientació, els marges i quantes pàgines serà.<br>Així estalvies paper i tinta. Imprimir és l’últim pas, no el primer.`}],
+ items:[
+  ch('G1','doc','Per a una <b>recepta</b> amb passos, quina llista és millor?',['Numerada','Amb vinyetes','Cap'],0,'L’ordre importa.','Una llista numerada serveix quan l’ordre importa.'),
+  ch('G2','doc','Per a una llista de <b>ingredients</b>, quina llista és millor?',['Amb vinyetes','Numerada','Un paràgraf sense separar'],0,'L’ordre no importa.','Amb vinyetes quan l’ordre no importa.'),
+  ch('G3','doc','Vols que un apartat <b>comenci en una pàgina nova</b>. Què és millor?',['Un salt de pàgina','Prémer Intro moltes vegades','Esborrar el text'],0,'Una eina pensada per això.','El salt de pàgina és més net i no es descol·loca.'),
+  ch('G4','doc','El document té una part en <b>anglès</b> i el corrector la marca en vermell. Què fas?',['Canvio l’idioma d’aquesta part','L’esborro','Ignoro el corrector sempre'],0,'No és una falta, és un altre idioma.','Cal canviar l’idioma d’aquesta part perquè no es marqui com a falta.'),
+  ch('G5','doc','Una taula és <b>massa ampla</b> per a la pàgina. Què pots provar?',['Canviar l’orientació a horitzontal','Fer la lletra més gran','Esborrar columnes'],0,'La pàgina serà més ampla.','L’orientació horitzontal dona més amplada.'),
+  ch('G6','doc','Per què és útil la <b>vista prèvia</b> abans d’imprimir?',['Per veure com quedarà i no malgastar paper','Per canviar el nom','Per esborrar el document'],0,'Una mirada abans.','La vista prèvia evita imprimir amb errors.'),
+  ch('G7','doc','El corrector no marca una paraula, però està malament escrita («<i>cassa</i>» en lloc de «<i>casa</i>»). Per què?',['Perquè «cassa» també existeix i el corrector no sap quina volies','Perquè el corrector no funciona','Perquè no cal revisar'],0,'Pensa en paraules que existeixen.','El corrector no entén el significat: cal rellegir.')],
+ sabers:{doc:{realDone:req(['g1','g2','g3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> Crea un document sobre el teu tema amb <b>títol, almenys dos apartats</b> i <b>pàgines numerades</b>.',fields:['g1']},
+   {h:'<b>2.</b> Afegeix una <b>llista numerada</b> o una <b>llista amb vinyetes</b> i fes un <b>salt de pàgina</b> abans de l’últim apartat.',fields:['g2']},
+   {h:'<b>3.</b> Passa el corrector, comprova la vista prèvia d’impressió i apunta quantes faltes has corregit.',fields:['g3']}],
+  fields:[{k:'g1',type:'check',label:'Què té el document?',opts:['Títol','Dos apartats o més','Pàgines numerades']},
+   {k:'g2',type:'select',label:'Quina llista has fet servir?',opts:['Numerada','Amb vinyetes','Cap']},
+   {k:'g3',type:'text',label:'Faltes corregides'}]}},
+
+'cd2-superior-3':{
+ puc:['Sé triar entre taula, gràfica i esquema segons la informació','Sé combinar cel·les i ajustar files i columnes','Sé inserir una gràfica a partir d’una taula'],
+ lessons:[
+  {t:'Taula, gràfica o esquema?',h:`<b>Taula</b>: per comparar o consultar <b>dades exactes</b> (quantitat per animal).<br><b>Gràfica</b>: per veure <b>com canvien</b> les dades o <b>quina és més gran</b> d’un cop d’ull (per exemple, l’augment de la temperatura al llarg dels anys).<br><b>Esquema</b>: per mostrar <b>relacions</b> entre idees.<br>Decideix què vols que l’altra persona entengui <b>primer</b>.`},
+  {t:'Combinar cel·les i ajustar la taula',h:`Pots <b>combinar cel·les</b> perquè una gran ocupi diverses columnes, per exemple per a un títol que abraça tota la taula.<br>Pots <b>ajustar la mida</b> de files i columnes arrossegant les vores: fes-les del mida del contingut, ni massa grans ni massa petites.<table class="lic"><tr><th colspan="2">Animals del bosc</th></tr><tr><th>Animal</th><th>Què menja</th></tr><tr><td>Llop</td><td>Carn</td></tr></table>`},
+  {t:'De taula a gràfica',h:`Per fer una <b>gràfica</b>: 1) escriu les dades en una <b>taula</b>; 2) selecciona-les; 3) a <b>Insereix → Gràfica</b> tria el tipus (barres, línies, sectors); 4) posa-li un <b>títol</b> i indica què representa cada eix.<br>Una gràfica sense títol no s’entén.`},
+  {t:'Quin tipus de gràfica?',h:`<b>Barres</b>: compara quantitats entre grups.<br><b>Línies</b>: mostra l’evolució amb el temps.<br><b>Sectors</b> (com un formatge 🧀): mostra les parts d’un total (sumen el 100 %).`}],
+ items:[
+  ch('T1','taules','Vols mostrar <b>com ha pujat la temperatura</b> any rere any. Què és millor?',['Una gràfica de línies','Un esquema','Un text llarg'],0,'Evolució al llarg del temps.','Les línies mostren l’evolució amb el temps.'),
+  ch('T2','taules','Vols comparar el <b>pes</b> de cinc animals. Què és millor?',['Una gràfica de barres','Un paràgraf','Una imatge sola'],0,'Quantitats entre grups.','Les barres comparen quantitats entre grups.'),
+  ch('T3','taules','Una cel·la <b>combinada</b> serveix per…',['ocupar diverses columnes, per exemple un títol','esborrar la taula','canviar el color'],0,'Com unir quadrats.','Combinar cel·les uneix diverses cel·les en una.'),
+  ch('T4','taules','Quin tipus de gràfica és millor per mostrar <b>quina part del total</b> ocupa cada cosa?',['Sectors','Línies','Barres sempre'],0,'Pensa en un formatge tallat en parts.','Els sectors mostren parts d’un total.'),
+  ch('T5','taules','Una gràfica no té <b>títol</b> ni indicacions. Què passa?',['No s’entén què representa','Es veu millor','És més exacta'],0,'Cal context.','Una gràfica sempre necessita títol i eixos clars.'),
+  ch('T6','taules','Per fer una gràfica, normalment, primer cal…',['tenir les dades en una taula','escollir el color','imprimir'],0,'Les dades van primer.','La gràfica surt de les dades d’una taula.'),
+  ch('T7','taules','Vols mostrar <b>com es relacionen</b> els fets d’una història (qui fa què). Què és millor?',['Un esquema','Una gràfica de línies','Una taula de nombres'],0,'Relacions entre idees.','Un esquema mostra relacions.')],
+ sabers:{taules:{realDone:req(['t1','t2','t3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> Fes una <b>taula</b> amb dades del teu tema (almenys tres files) i <b>combina cel·les</b> per a un títol.',fields:['t1']},
+   {h:'<b>2.</b> Fes una <b>gràfica</b> a partir de la taula. Quin tipus has triat?',fields:['t2']},
+   {h:'<b>3.</b> Explica en una frase <b>per què</b> has triat aquest tipus de gràfica.',fields:['t3']}],
+  fields:[{k:'t1',type:'select',label:'Has combinat cel·les per al títol?',opts:['Sí','No']},
+   {k:'t2',type:'select',label:'Tipus de gràfica',opts:['Barres','Línies','Sectors']},
+   {k:'t3',type:'text',label:'Per què aquest tipus de gràfica?'}]}},
+
+'cd2-superior-4':{
+ puc:['Sé quan ajuda una animació o una transició i quan distreu','Sé triar colors, lletra i quantitat de text perquè es vegi bé','Sé afegir animacions i transicions i justificar-ne l’ús'],
+ lessons:[
+  {t:'Animacions i transicions',h:`Una <b>transició</b> és l’efecte que es veu <b>quan canvies de diapositiva</b>.<br>Una <b>animació</b> fa que un element (títol, imatge) <b>aparegui o es mogui</b> dins la diapositiva.<br>Es poden afegir des del menú <b>Insereix</b> o <b>Diapositiva</b>.`},
+  {t:'Menys és més',h:`Ajuden quan <b>revelen un punt a poc a poc</b> i així el públic segueix el que expliques.<br>Distreuen quan són <b>massa</b>, <b>massa llargues</b> o no tenen relació amb el contingut.<br>Una bona regla: <b>com a màxim</b> un tipus de transició a tota la presentació.`},
+  {t:'Que es vegi bé',h:`<b>Contrast</b>: text clar sobre fons fosc o text fosc sobre fons clar.<br><b>Mida de lletra</b>: es llegeix des de l’última fila de la classe, si no és massa gran.<br><b>Poques paraules</b> per diapositiva: idees, no paràgrafs.`},
+  {t:'Presentar',h:`Una presentació és un <b>suport</b>: tu expliques i les diapositives <b>ajuden</b>. No llegeixis la diapositiva tal qual; afegeix el que no hi ha escrit.`}],
+ items:[
+  ch('V1','presav','Una <b>transició</b> és…',['l’efecte en canviar de diapositiva','una imatge','un tipus de lletra'],0,'Passes d’una a una altra.','La transició és l’efecte en passar d’una diapositiva a una altra.'),
+  ch('V2','presav','Una animació <b>ajuda</b> quan…',['mostra els punts d’un en un mentre els expliques','fa botar tot sense motiu','és molt llarga'],0,'Va al ritme del que expliques.','Ajuda quan acompanya el que expliques.'),
+  ch('V3','presav','Una presentació té <b>cinc tipus de transicions</b> diferents. Què és probable?',['Que distreguin l’atenció','Que s’entengui millor','Que sigui més curta'],0,'Menys és més.','Massa efectes distreuen del contingut.'),
+  ch('V4','presav','Quin <b>color de text</b> es llegeix millor sobre fons blau fosc?',['Blanc','Blau marí','Verd fosc'],0,'Cal contrast.','El text clar sobre fons fosc es llegeix millor.'),
+  ch('V5','presav','Una diapositiva té <b>tres paràgrafs llargs</b>. Què millorem?',['Posem idees clau, poques paraules','Posem la lletra més petita','Afegim més text'],0,'La diapositiva no és el discurs.','Convé usar idees clau i poques paraules.'),
+  ch('V6','presav','Quan fas la presentació, el millor és…',['explicar amb les teves paraules i no llegir la diapositiva','llegir-la tal qual','no dir res'],0,'La diapositiva és suport.','Les diapositives són un suport: tu expliques.'),
+  ch('V7','presav','Vols justificar una animació. Quina és una <b>bona raó</b>?',['Mostra els passos d’un procés un per un','Fa que quedi més bonic i prou','Em va semblar divertit'],0,'Ha de tenir un sentit.','Una animació ha de tenir una funció clara.')],
+ sabers:{presav:{realDone:req(['v1','v2','v3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> A <b>Presentacions de Google</b>, crea una presentació de <b>quatre diapositives</b> sobre el teu tema. Cada una, amb una idea i poc text.',fields:['v1']},
+   {h:'<b>2.</b> Afegeix <b>una animació</b> en un lloc on ajudi i <b>una sola transició</b> a tota la presentació.',fields:['v2']},
+   {h:'<b>3.</b> Explica <b>per què</b> has posat aquesta animació.',fields:['v3']}],
+  fields:[{k:'v1',type:'select',label:'Quantes diapositives té?',opts:['Quatre o més','Tres','Menys de tres']},
+   {k:'v2',type:'select',label:'Què has afegit?',opts:['Una animació i una transició','Només animació','Només transició','Res']},
+   {k:'v3',type:'text',label:'Per què aquesta animació?'}]}},
+
+'cd2-superior-5':{
+ fig:()=>figDispositius(),
+ puc:['Sé importar un fitxer a un editor multimèdia','Sé fer una edició senzilla d’imatge, vídeo i àudio','Sé on guardar el producte final (núvol, local o memòria externa) i triar el programa'],
+ lessons:[
+  {t:'Importar a un editor',h:`<b>Importar</b> vol dir <b>portar</b> una foto, un vídeo o un àudio a l’editor des d’una carpeta, de la càmera o del núvol.<br>Fes servir el menú <b>Fitxer → Importa/Obre</b> o arrossega el fitxer a l’editor.`},
+  {t:'Edició senzilla',h:`<b>Imatge</b>: retallar, redimensionar, girar, ajustar la llum.<br><b>Vídeo</b>: retallar clips, ordenar-los, afegir text, música o una veu.<br><b>Àudio</b>: retallar la pista, baixar o pujar el volum.<br>Edita només el que és <b>necessari</b>.`},
+  {t:'Exportar i guardar el producte final',h:`<b>Exportar</b> és <b>crear el fitxer final</b> a partir de l’editor.<br>Pots guardar-lo:<br>☁️ al <b>núvol</b> (el pots obrir des de qualsevol lloc);<br>💻 en <b>local</b>, a l’ordinador;<br>💾 en una <b>memòria externa</b> (llapis de memòria, disc dur).<br>Un consell: té <b>dues còpies</b> del que és important.`,fig:()=>figNuvolLocal()},
+  {t:'Triar el programa',h:`Per editar pots fer servir programes <b>lliures i gratuïts</b> (com <b>Audacity</b> o <b>GIMP</b>) o <b>de pagament</b> (que cal comprar). Abans de triar, pensa en:<br>💶 el <b>cost</b> i la <b>llicència</b>;<br>🏠 si el pots <b>instal·lar a casa</b>;<br>🔁 si el <b>fitxer s’obre</b> en altres programes.`}],
+ items:[
+  ch('M1','multi','<b>Importar</b> un fitxer a un editor vol dir…',['portar-lo a l’editor per treballar-hi','esborrar-lo','imprimir-lo'],0,'Portem el fitxer cap a dins.','Importar és portar el fitxer a l’editor.'),
+  ch('M2','multi','Per <b>treure el principi i el final</b> d’un vídeo, fas…',['retallar el clip','girar','canviar el color'],0,'Treiem el que sobra.','Retallar el clip elimina parts del vídeo.'),
+  ch('M3','multi','<b>Exportar</b> és…',['crear el fitxer final','esborrar els originals','obrir un fitxer'],0,'Després de l’edició.','Exportar crea el fitxer final.'),
+  ch('M4','multi','Vols tenir un vídeo important <b>segur</b>. Què fas?',['El guardo en dos llocs (per exemple, núvol i memòria externa)','El deixo només en un ordinador compartit','No el guardo'],0,'Les còpies protegeixen.','Dues còpies eviten perdre el treball.'),
+  ch('M5','multi','Vols editar àudio gratuïtament a casa. Què mires primer?',['Si el programa és lliure o gratuït i es pot instal·lar','Només el nom','Que sigui car'],0,'Cost i instal·lació.','Convé mirar el cost, la llicència i si es pot instal·lar.'),
+  ch('M6','multi','Un programa lliure com <b>Audacity</b> és…',['gratuït i es pot instal·lar a casa','de pagament','només per a escoles'],0,'No cal comprar-lo.','Audacity és lliure i gratuït.'),
+  ch('M7','multi','Per què convé <b>editar només el necessari</b>?',['Perquè així es manté clar i es treballa més ràpid','Perquè està prohibit fer més','Perquè no cal revisar'],0,'Menys és més.','Editar només el necessari fa el producte més clar.'),
+  {id:'M8',saber:'multi',type:'ordre',prompt:'<b>Ordena els passos</b> per treballar amb un àudio.',steps:['L’exporto','L’importo a l’editor','El guardo en dos llocs','El retallo'],order:[1,3,0,2],hint:'Primer cal portar-lo a l’editor.',expl:'Importar, retallar, exportar i guardar en dos llocs.'}],
+ sabers:{multi:{realDone:req(['m1','m2','m3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> <b>Importa</b> una foto, un vídeo o un àudio del teu tema a un editor (el que us indiqui el professorat). Què has importat?',fields:['m1']},
+   {h:'<b>2.</b> <b>Edita’l de manera senzilla</b> (retalla, redimensiona o ajusta el volum) i guarda’l. Què has fet?',fields:['m2']},
+   {h:'<b>3.</b> On has guardat el producte final i <b>amb quin programa</b> l’has fet? Era lliure o de pagament?',rows:[['m3','m4']],fields:[]}],
+  fields:[{k:'m1',type:'select',label:'Què has importat?',opts:['Una foto','Un vídeo','Un àudio']},
+   {k:'m2',type:'select',label:'Quina edició has fet?',opts:['Retallar','Redimensionar','Ajustar volum','Una altra']},
+   {k:'m3',type:'select',label:'On l’has guardat?',opts:['Al núvol','En local','En una memòria externa','En dos llocs']},
+   {k:'m4',type:'select',label:'El programa és…',opts:['Lliure o gratuït','De pagament','No ho sé']}]}},
+
+'cd2-superior-6':{
+ puc:['Sé decidir primer què vull transmetre i a qui','Sé triar el format més adient: text, taula, imatge, àudio, vídeo, esquema o mapa conceptual','Sé valorar la qualitat estètica d’una producció'],
+ lessons:[
+  {t:'Primer pensa què vols transmetre',h:`Abans de triar el format, pregunta’t:<br>❓ <b>Què</b> vull que s’entengui?<br>👥 <b>A qui</b> ho explico (companys, famílies, nens petits)?<br>Segons la resposta, el format és un altre: un nen petit entén millor una imatge; una persona gran potser prefereix un text més gran.`},
+  {t:'Triar el format',h:`📝 <b>Text</b>: explicacions i raonaments.<br>▦ <b>Taula</b>: comparar dades.<br>🖼️ <b>Imatge</b>: mostrar com és una cosa.<br>🔊 <b>Àudio</b>: entrevistes, música, relats.<br>🎞️ <b>Vídeo</b>: processos i accions.<br>🧩 <b>Esquema o mapa conceptual</b>: relacions entre idees.<br>Cap no és «millor» sempre: <b>depèn</b> del que vols explicar.`},
+  {t:'Mapes conceptuals',h:`Un <b>mapa conceptual</b> posa les idees en <b>caixes</b> unides per <b>fletxes amb paraules</b> que expliquen la relació («es menja», «viu a»).<br>Hi ha aplicacions per fer-los fàcilment. Ajuden a estudiar i a veure l’estructura d’un tema.`},
+  {t:'Cura estètica',h:`Una bona producció té:<br>🎨 <b>colors</b> que combinen i es llegeixen;<br>📐 una <b>composició</b> ordenada (res amuntegat);<br>📸 <b>imatges</b> nítides i <b>àudios</b> sense soroll.<br>Una producció cuidada demostra respecte per qui la mira.`}],
+ items:[
+  ch('E1','format','Abans de triar el format, el més important és pensar…',['què vols transmetre i a qui','quin color triar','quant dura el vídeo'],0,'El format ve després.','Primer el missatge i el públic; després, el format.'),
+  ch('E2','format','Vols mostrar <b>com es fa</b> un procés (per exemple, com neixen els llops). Què és millor?',['Un vídeo','Una taula','Un àudio'],0,'Mostra moviment.','El vídeo mostra processos amb moviment.'),
+  ch('E3','format','Vols <b>comparar</b> tres animals amb dades. Què és millor?',['Una taula','Un àudio','Una imatge'],0,'Cal comparar.','Una taula compara dades.'),
+  ch('E4','format','Vols mostrar com es <b>relacionen</b> els elements d’un ecosistema. Què és millor?',['Un mapa conceptual','Un àudio','Una foto'],0,'Relacions entre idees.','Un mapa conceptual mostra relacions.'),
+  ch('E5','format','Una entrevista a una persona gran del poble queda millor en…',['àudio o vídeo','taula','esquema'],0,'La veu té valor.','L’àudio o el vídeo conserven la veu.'),
+  ch('E6','format','Una presentació té <b>textos amuntegats</b> i colors que no es llegeixen. Quin aspecte falla?',['La cura estètica i la composició','El tema','El fitxer'],0,'Pensa en l’ordre i el contrast.','La composició i els colors són part de la qualitat.'),
+  ch('E7','format','Expliques el mateix tema a nens de P4 i a adults. Què canvia?',['El format i el nivell, segons a qui ho expliques','Res: sempre igual','El nom del fitxer'],0,'Hem de pensar en el públic.','El públic condiciona el format i el nivell.'),
+  ch('E8','format','Dos companys expliquen el mateix amb una taula i un vídeo. Quin és «millor»?',['Depèn del que volen transmetre','Sempre el vídeo','Sempre la taula'],0,'No hi ha una resposta única.','El format adequat depèn del missatge i del públic.')],
+ sabers:{format:{realDone:req(['e1','e2','e3'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> Escriu en una frase <b>què vols transmetre</b> sobre el teu tema i <b>a qui</b>.',fields:['e1']},
+   {h:'<b>2.</b> Tria <b>el format</b> que et sembla millor i explica <b>per què</b>.',rows:[['e2','e3']],fields:[]}],
+  fields:[{k:'e1',type:'text',label:'Què vull transmetre i a qui'},
+   {k:'e2',type:'select',label:'Format triat',opts:['Text','Taula','Imatge','Àudio','Vídeo','Esquema o mapa conceptual']},
+   {k:'e3',type:'text',label:'Per què aquest format?'}]}},
+
+'cd2-superior-7':{
+ puc:['Sé qui és l’autor o l’autora d’un contingut','Sé citar un text i una imatge amb autoria, adreça i data de consulta','Sé posar el meu nom a la meva producció i citar les fonts que he fet servir'],
+ lessons:[
+  {t:'Qui és l’autor o l’autora?',h:`Tot contingut (text, foto, vídeo, so) té <b>una autoria</b>: algú l’ha fet.<br>Quan el fem servir en el nostre treball hem de <b>reconèixer-ho</b>: dir qui l’ha fet i d’on l’hem tret. A CD1 ho vas veure en mirar les fonts consultades.`},
+  {t:'Citar un text i una imatge',h:`Una <b>cita</b> bona té:<br>👤 l’<b>autoria</b> (persona o entitat);<br>📄 el <b>títol</b> de la pàgina;<br>🔗 l’<b>adreça</b> web;<br>📅 la <b>data de consulta</b> (el dia que l’has mirada).<br>Exemple: <i>Pep Soler. «Els llops». Viquipèdia. https://… (consulta: 24/11/2026).</i><br>Per a una imatge, el mateix: autoria, lloc d’on l’has agafada i data.`},
+  {t:'La nostra autoria',h:`També has d’<b>escriure el teu nom</b> a la teva producció: ets autor o autora del que has creat.<br>A més, dona les <b>gràcies</b> a les fonts que has fet servir amb una llista al final: les <b>fonts consultades</b>.`},
+  {t:'Per què citem?',h:`Citem perquè:<br>1. Respectem el <b>treball dels altres</b>.<br>2. Qui ens llegeix pot <b>comprovar</b> el que diem i veure si és fiable.<br>3. Mostrem què és <b>nostre</b> i què hem pres d’altres persones.`}],
+ items:[
+  ch('A1','autoria','Una cita bona inclou…',['autoria, títol, adreça i data de consulta','només l’adreça','només «Internet»'],0,'Quatre dades.','L’autoria, el títol, l’adreça i la data permeten trobar la font.'),
+  clic('A2','autoria','Clica la <b>font del text</b>.',DOCFONT,'fonttext','Diu d’on hem tret la informació.','La font del text diu d’on s’ha tret.'),
+  clic('A3','autoria','Clica la <b>font de la imatge</b>.',DOCFONT,'fontimg','Diu qui l’ha feta i on l’hem agafat.','La font de la imatge identifica autoria i lloc.'),
+  ch('A4','autoria','Per què cal posar la <b>data de consulta</b>?',['Perquè una pàgina pot canviar amb el temps','Perquè és bonic','No cal'],0,'Les webs s’actualitzen.','La informació d’una web pot canviar.'),
+  ch('A5','autoria','Has fet un treball amb text d’una web i una imatge d’un banc d’imatges. Què fas al final?',['Poso una llista de fonts amb autoria i adreça','No poso res','Poso només el nom de la web'],0,'Dono crèdit.','Una llista de fonts reconeix el treball dels altres.'),
+  ch('A6','autoria','Hi ha una imatge sense autoria visible. Què és millor?',['Busco una imatge amb autoria clara o en demano permís','La faig servir igualment','Esborro la font'],0,'No sabem de qui és.','Convé fer servir imatges amb autoria identificable.'),
+  ch('A7','autoria','Per què posem <b>el nostre nom</b> a la producció?',['Perquè som els autors del que hem creat','Perquè sí','Perquè ho exigeix l’ordinador'],0,'Som autors.','Qui crea un contingut n’és l’autor o l’autora.'),
+  ch('A8','autoria','Una cita permet que un lector…',['comprovi i trobi la font','imprimeixi el treball','tanqui el document'],0,'Pensa en la fiabilitat.','Citar permet verificar la informació.')],
+ sabers:{autoria:{realDone:req(['a1','a2','a3','a4'])}},
+ real:{blocks:[
+   {h:'<b>1.</b> <b>Producció final.</b> Crea un document (o una presentació) sobre el teu tema amb: títol, una taula o gràfica, una imatge i el teu nom com a autor o autora. Indica el nom del fitxer.',fields:['a1']},
+   {h:'<b>2.</b> Escriu la <b>cita</b> d’un text que hagis fet servir (autoria, títol, adreça i data de consulta).',fields:['a2']},
+   {h:'<b>3.</b> Escriu la <b>cita</b> d’una imatge que hagis fet servir.',fields:['a3']},
+   {h:'<b>4.</b> Fes una <b>llista de comprovació</b>: marca el que té la teva producció.',fields:['a4']}],
+  fields:[{k:'a1',type:'text',label:'Nom del fitxer de la producció'},
+   {k:'a2',type:'text',label:'Cita del text'},
+   {k:'a3',type:'text',label:'Cita de la imatge'},
+   {k:'a4',type:'check',label:'La meva producció té…',opts:['Títol','Una taula o gràfica','Una imatge','El meu nom com a autor/a','Fonts citades amb data de consulta']}]}}
+
+});
+/* Reparteix la posició de la resposta correcta de les preguntes d’opció múltiple de CD2
+   (escrites amb la correcta primera), de manera determinista: cada pregunta gira les opcions un nombre diferent de llocs. */
+Object.keys(CONTENT).filter(k=>k.startsWith('cd2-')).forEach(k=>{
+  CONTENT[k].items.forEach((it,n)=>{
+    if(it.type!=='choice')return;
+    const len=it.opts.length,shift=(n+k.length)%len;
+    if(!shift)return;
+    it.opts=it.opts.map((_,i)=>it.opts[(i-shift+len)%len]);
+    it.ok=(it.ok+shift)%len;
+  });
+});
 /* ============ ESTAT ============ */
-const S={screen:'portada',nivell:'primaria',c:{nom:'',email:'',tipus:'Suggeriment',msg:''},cstat:null,us:'docent',fmt:{font:'app',maj:false},cicle:'mitja',n1:'',n2:'',tema:'',sk:null,step:0,item:0,res:{},real:{},self:{},tok:[],ord:[],fb:null,hint:false,back:false,err:'',opened:false};
+const S={screen:'portada',nivell:'primaria',cd:'CD1',c:{nom:'',email:'',tipus:'Suggeriment',msg:''},cstat:null,us:'docent',fmt:{font:'app',maj:false},cicle:'mitja',n1:'',n2:'',tema:'',sk:null,step:0,item:0,res:{},real:{},self:{},tok:[],ord:[],fb:null,hint:false,back:false,err:'',opened:false};
 const $app=document.getElementById('app');
 const STEPS=['Què sabem?','Aprenem','Repassem','Practiquem','Què hem après?'];
 const ST_LAB={no:'○ No fet',proces:'🔄 En procés',assolit:'✔ Assolit',dominat:'⭐ Dominat'};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const sessOf=k=>{const [c,i]=k.split('-');return SESSIONS[c].find(s=>s.id==i)};
-const skey=(c,i)=>c+'-'+i;
+const sessOf=k=>{const p=k.split('-');const cd=/^cd\d$/.test(p[0])?p.shift().toUpperCase():'CD1';return SESSIONS_BY[cd][p[0]].find(s=>s.id==p[1])};
+const skey=(c,i)=>(S.cd==='CD1'?'':S.cd.toLowerCase()+'-')+c+'-'+i;
+function useCD(id){S.cd=id;SESSIONS=SESSIONS_BY[id]}
+useCD('CD1');
 const WIDE=['google','startpage','duckduckgo','freesound','scholar'];
 const logoHTML=(id,sm)=>LOGOS[id]?`<img class="logo ${sm?'sm':''} ${WIDE.includes(id)?'wide':''}" src="${LOGOS[id]}" alt="${LNAME[id]}">`:`<span class="logo ph ${sm?'sm':''}">${sm?'':'logo'}</span>`;
 const logoRow=ids=>{const have=ids.filter(i=>LOGOS[i]);const use=have.length?have:ids;return `<div class="logos">${use.map(i=>`<div class="lg ${WIDE.includes(i)?'wide':''}">${logoHTML(i)}<b>${LNAME[i]}</b></div>`).join('')}</div>`};
@@ -896,7 +1500,7 @@ function applyFmt(){
 }
 function vInici(){
   const c=CICLES[S.cicle],ini=isIni(),alumn=!ini||S.us==='alumnat';
-  return `<div class="top"><div>${MASCOT}</div><div class="grow"><h1>Cerquem bé!</h1><span class="chip">Competència digital 1 · Navegadors i cerca per internet</span></div></div>
+  return `<div class="top"><div>${MASCOT}</div><div class="grow"><h1>${COMP[S.cd].titol}</h1><span class="chip">${COMP[S.cd].chip}</span></div></div>
   <div class="card">
     <label>Tria el nivell</label>
     <div class="cicles">${Object.entries(CICLES).map(([k,v])=>`<button class="cc ${S.cicle===k?'sel':''}" data-act="cicle" data-v="${k}"><b>${v.nom}</b>${v.cursos}<small>${k==='inicial'?'Guiat pel professorat':v.parella?'En parella':'Individual'} · ${SESSIONS[k].length} sessions</small></button>`).join('')}</div>
@@ -910,8 +1514,8 @@ function vInici(){
 }
 const NIVELLS={
   primaria:{nom:'Primària',cursos:'1r a 6è',actiu:true,cds:[
-    {id:'CD1',nom:'Cerca i tractament de la informació',sub:'Navegadors i cerca per internet',actiu:true},
-    {id:'CD2',nom:'Creació de continguts digitals'},
+    {id:'CD1',nom:'Cerca i tractament de la informació',sub:'Navegadors i cerca per internet'},
+    {id:'CD2',nom:'Creació de continguts digitals',sub:'Documents, presentacions i multimèdia'},
     {id:'CD3',nom:'Comunicació i col·laboració'},
     {id:'CD4',nom:'Seguretat i benestar digital'}]},
   secundaria:{nom:'Secundària',cursos:'1r a 4t d’ESO',actiu:false,cds:[
@@ -951,7 +1555,7 @@ function vPortada(){
 function vNivell(){
   const n=NIVELLS[S.nivell];
   return `<div class="top"><div>${MASCOT}</div><div class="grow"><h1>${n.nom}</h1><span class="chip">${n.cursos} · Tria la competència</span></div></div>
-  <div class="cdgrid">${n.cds.map(cd=>cd.actiu?`<button class="nv" data-act="cd" data-v="${cd.id}"><b>${cd.id}</b>${esc(cd.nom)}${cd.sub?`<small>${esc(cd.sub)}</small>`:''}</button>`:`<button class="nv" disabled><b>${cd.id}</b>${esc(cd.nom)}<span class="soon">Properament</span></button>`).join('')}</div>
+  <div class="cdgrid">${n.cds.map(cd=>(n.actiu&&SESSIONS_BY[cd.id])?`<button class="nv" data-act="cd" data-v="${cd.id}"><b>${cd.id}</b>${esc(cd.nom)}${cd.sub?`<small>${esc(cd.sub)}</small>`:''}</button>`:`<button class="nv" disabled><b>${cd.id}</b>${esc(cd.nom)}<span class="soon">Properament</span></button>`).join('')}</div>
   <p><button class="btn sec" data-act="go" data-v="portada">← Torna a l’inici</button></p>`;
 }
 function header(extra){
@@ -1001,7 +1605,7 @@ function vSessio(){
     const fbyk=Object.fromEntries(cs.real.fields.map(f=>[f.k,f]));
     if(blk){
       const blocks=cs.real.blocks||[{h:cs.real.intro,links:cs.real.links,fields:cs.real.fields.map(f=>f.k),search:!cs.real.links}];
-      h+=profNota('Convideu diferents alumnes a fer cada acció a la pissarra digital mentre la resta del grup els orienta. Anoteu les respostes entre tots just sota de cada pregunta.')+`<div class="card hl"><h3>🔎 Practiquem</h3><label for="tema">Tema de la investigació</label><input id="tema" type="text" data-k="tema" value="${esc(S.tema)}" placeholder="Per exemple: els llops" autocomplete="off">`
+      h+=profNota('Convideu diferents alumnes a fer cada acció a la pissarra digital mentre la resta del grup els orienta. Anoteu les respostes entre tots just sota de cada pregunta.')+`<div class="card hl"><h3>${COMP[S.cd].pIcon||'🔎'} Practiquem</h3><label for="tema">${COMP[S.cd].tema||'Tema de la investigació'}</label><input id="tema" type="text" data-k="tema" value="${esc(S.tema)}" placeholder="${COMP[S.cd].exemple||'Per exemple: els llops'}" autocomplete="off">`
       +blocks.map(bl=>`<div style="margin-top:16px">${bl.h?`<p>${fx(bl.h)}</p>`:''}${bl.links?logoLinks(bl.links):''}${bl.web?webLinks(bl.web):''}${bl.search?`<p><a class="btn big" href="${SEARCH_URL}" target="_blank" rel="noopener" data-act="opened">🔎 Obre el cercador (pestanya nova)</a></p>`:''}${(bl.rows||[]).map(r=>`<div class="cols">${r.map(x=>`<div>${fieldH(fbyk[x],bl.nolabel)}</div>`).join('')}</div>`).join('')}${bl.fields.map(x=>fieldH(fbyk[x],bl.nolabel)).join('')}</div>`).join('')
       +`</div>`;
     }else{
@@ -1123,7 +1727,7 @@ document.addEventListener('click',e=>{
   if(a==='cicle'){S.cicle=d.v;render()}
   else if(a==='start'){const need=isIni()?(S.us==='alumnat'&&!S.n1.trim()):!S.n1.trim();if(need){S.err='Escriu el teu nom per començar.';render();return}S.err='';S.screen='menu';render()}
   else if(a==='nivell'){S.nivell=d.v;S.screen='nivell';render()}
-  else if(a==='cd'){S.screen='inici';render()}
+  else if(a==='cd'){useCD(d.v);S.screen='inici';render()}
   else if(a==='enviaContacte'){enviaContacte()}
   else if(a==='go'){S.screen=d.v;render()}
   else if(a==='open'){S.sk=skey(S.cicle,d.i);S.screen='sessio';S.step=0;S.item=0;resetQ();S.back=false;S.opened=false;render()}
