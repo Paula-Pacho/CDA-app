@@ -5,10 +5,10 @@ Object.assign(CONTENT, {
 'cd2-mitja-1':{
  puc:['Sé escriure accents oberts i tancats, l’apòstrof i el guionet','Sé escriure la l·l i la dieresi','Sé fer una majúscula i activar la majúscula fixa'],
  lessons:[
-  {t:'Accent obert i tancat',h:`En català hi ha dos accents:<br>L’<b>accent obert</b> (à, è, ò) va cap a l’esquerra.<br>L’<b>accent tancat</b> (é, í, ó, ú) va cap a la dreta.<br>En molts teclats, <b>primer</b> es prem la tecla de l’accent i <b>després</b> la lletra. La posició de les tecles pot variar segons el teclat.`},
+  {t:'Accent obert i tancat',h:`En català hi ha dos accents:<br>L’<b>accent obert</b> (à, è, ò) va cap a l’esquerra.<br>L’<b>accent tancat</b> (é, í, ó, ú) va cap a la dreta.<br>En molts teclats, <b>primer</b> es prem la tecla de l’accent i <b>després</b> la lletra. La posició de les tecles pot variar segons el teclat.`,fig:()=>figAccents()},
   {t:'Apòstrof, guionet i punt volat',h:`L’<b>apòstrof</b> (’) apareix a <b>l’escola</b>, <b>d’aquí</b>, <b>m’agrada</b>.<br>El <b>guionet</b> (-) uneix paraules en casos com <b>porta-li</b> o <b>vés-hi</b>.<br>La <b>l·l</b> porta un <b>punt volat</b> (·): <b>col·legi</b>, <b>il·lusió</b>. És un punt al mig, no un punt normal.`},
   {t:'Dieresi i ç',h:`La <b>dieresi</b> (¨) es posa sobre la <b>i</b> o la <b>u</b>: <b>país</b> (no porta dieresi), <b>raïm</b>, <b>pingüí</b>.<br>La <b>ç</b> (ce trencada) té una tecla pròpia al teclat.`},
-  {t:'Majúscula i majúscula fixa',h:`Per fer <b>una</b> majúscula premem [[key:⇧]] i la lletra.<br>Per escriure <b>moltes</b> majúscules seguides activem la <b>majúscula fixa</b> ([[key:Bloq Maj]]). Per desactivar-la, la tornem a prémer.<br>Pot ser útil per a <b>TÍTOLS</b>, però un text ben escrit no va tot en majúscules.`}],
+  {t:'Majúscula i majúscula fixa',h:`Per fer <b>una</b> majúscula premem [[key:⇧]] i la lletra.<br>Per escriure <b>moltes</b> majúscules seguides activem la <b>majúscula fixa</b> ([[key:Bloq Maj]]). Per desactivar-la, la tornem a prémer.<br>Pot ser útil per a <b>TÍTOLS</b>, però un text ben escrit no va tot en majúscules.`,fig:()=>figTeclesCat()}],
  items:[
   ch('C1','teclat','Quina paraula té <b>accent tancat</b>?',['també','això','cafè'],0,'L’accent tancat va cap a la dreta (é).','«també» porta accent tancat (é); «això» i «cafè» en porten d’oberts.'),
   ch('C2','teclat','Quina paraula porta un <b>apòstrof</b>?',['l’escola','la escola','l-escola'],0,'L’article perd una lletra davant d’una vocal.','«l’escola» porta apòstrof: l’article «la» es converteix en «l’».'),
@@ -28,8 +28,8 @@ Object.assign(CONTENT, {
 'cd2-mitja-2':{
  puc:['Sé canviar la mida del text, subratllar-lo i posar-lo en cursiva','Sé quan convé cada format (títol, destacar)','Sé desfer i refer amb els botons i amb les dreceres'],
  lessons:[
-  {t:'Mida, cursiva i subratllat',h:`Amb la <b>mida</b> fem el text més gran (per a un <b>títol</b>) o més petit.<br>La <b>cursiva</b> inclina les lletres: <i>per destacar un títol d’un llibre o una paraula estrangera</i>.<br>El <b>subratllat</b> posa una ratlla sota el text. Compte: els enllaços també són subratllats; no l’abusem.`},
-  {t:'Tipus de lletra',h:`El <b>tipus de lletra</b> canvia com es veu el text. Convé usar <b>pocs tipus</b> (un o dos) i que es llegeixin bé.<br>Un text amb molts tipus diferents queda <b>embolicat</b>.`},
+  {t:'Mida, cursiva i subratllat',h:`Amb la <b>mida</b> fem el text més gran (per a un <b>títol</b>) o més petit.<br>La <b>cursiva</b> inclina les lletres: <i>per destacar un títol d’un llibre o una paraula estrangera</i>.<br>El <b>subratllat</b> posa una ratlla sota el text. Compte: els enllaços també són subratllats; no l’abusem.`,fig:()=>figFormatExemples()},
+  {t:'Tipus de lletra',h:`El <b>tipus de lletra</b> canvia com es veu el text. Convé usar <b>pocs tipus</b> (un o dos) i que es llegeixin bé.<br>Un text amb molts tipus diferents queda <b>embolicat</b>.`,fig:()=>figTipusLletra()},
   {t:'Quan convé cada format',h:`<b>Títol</b>: mida gran i negreta.<br><b>Destacar</b> una idea: negreta o color, però no a tot arreu.<br><b>Llegir bé</b>: lletra clara i mida còmoda. Si tot està destacat, <b>res no destaca</b>.`},
   {t:'Desfer i refer amb dreceres',h:`Amb els botons ↶ i ↷ desfem i refem.<br>També es pot fer amb el teclat: [[key:Ctrl]] i [[key:Z]] <b>desfà</b>; [[key:Ctrl]] i [[key:Y]] <b>refà</b>.<br>Fixeu-vos que sempre es prem <b>Ctrl</b> primer i, sense deixar-la, la lletra.`,fig:()=>figBarraDoc()}],
  items:[
@@ -53,8 +53,8 @@ Object.assign(CONTENT, {
  puc:['Sé inserir una imatge, un vídeo i una taula en un document','Sé quan una taula és millor que un text','Sé canviar la mida d’una imatge sense deformar-la'],
  lessons:[
   {t:'El menú Insereix',h:`El menú <b>Insereix</b> és on afegim coses al document: una <b>imatge</b>, un <b>vídeo</b>, una <b>taula</b>, un <b>enllaç</b>…<br>Triem l’opció i seguim les instruccions.`,fig:()=>figInsereix()},
-  {t:'Quan una taula és millor',h:`Una <b>taula</b> és millor que un text quan hem de <b>comparar dades</b>.<br>Per exemple: quant mengen tres animals. En una taula es veu d’un cop d’ull.<br>Una taula té <b>files</b> (en horitzontal) i <b>columnes</b> (en vertical).`},
-  {t:'Imatges: mida i deformació',h:`Per fer una imatge més gran o més petita, <b>arrosseguem una cantonada</b>.<br>Si arrosseguem un <b>costat</b> en lloc d’una cantonada, la imatge es <b>deforma</b> (queda aplanada o estirada).<br>Per això sempre usem les <b>cantonades</b>.`},
+  {t:'Quan una taula és millor',h:`Una <b>taula</b> és millor que un text quan hem de <b>comparar dades</b>.<br>Per exemple: quant mengen tres animals. En una taula es veu d’un cop d’ull.<br>Una taula té <b>files</b> (en horitzontal) i <b>columnes</b> (en vertical).`,fig:()=>figTaula()},
+  {t:'Imatges: mida i deformació',h:`Per fer una imatge més gran o més petita, <b>arrosseguem una cantonada</b>.<br>Si arrosseguem un <b>costat</b> en lloc d’una cantonada, la imatge es <b>deforma</b> (queda aplanada o estirada).<br>Per això sempre usem les <b>cantonades</b>.`,fig:()=>figDeformar()},
   {t:'Vídeos',h:`També podem inserir un <b>vídeo</b> a un document. Quan ho fem, hem de pensar si <b>cal</b> o si només <b>distreu</b>.<br>Si l’aprofitem, convé que expliqui el tema i sigui curt.`}],
  items:[
   clic('I1','inserir','Clica l’opció per <b>inserir una taula</b>.',INSMENU,'taula','Té una quadrícula.','L’opció ▦ Taula insereix una taula.'),
@@ -77,10 +77,10 @@ Object.assign(CONTENT, {
  puc:['Sé posar un bon nom als fitxers i desar-los','Sé organitzar fitxers en carpetes','Sé explicar la diferència entre treballar al núvol i en local','Sé que hi ha programari lliure i programari de pagament']
  ,
  lessons:[
-  {t:'Noms que s’entenen',h:`Un bon nom de fitxer diu <b>què és</b>, <b>de què va</b> i <b>de quan és</b>: <b>Llops_Resum_2026-11</b>.<br>Un nom com <b>Document1</b> no explica res: d’aquí a un mes no sabrem què és.`},
+  {t:'Noms que s’entenen',h:`Un bon nom de fitxer diu <b>què és</b>, <b>de què va</b> i <b>de quan és</b>: <b>Llops_Resum_2026-11</b>.<br>Un nom com <b>Document1</b> no explica res: d’aquí a un mes no sabrem què és.`,fig:()=>figNomsFitxer()},
   {t:'Carpetes i subcarpetes',h:`Una <b>carpeta</b> és com un calaix: guarda fitxers que van junts.<br>Dins d’una carpeta en podem posar d’altres: les <b>subcarpetes</b>. Per exemple: <b>Escola → Llops → fotos</b>.<br>Així ho trobem tot més de pressa.`,fig:()=>figCarpetes()},
   {t:'Núvol o ordinador local',h:`Al <b>núvol</b> ☁️ (Documents de Google) el document es desa <b>sol</b> i el podem obrir des de <b>qualsevol ordinador</b> amb Internet.<br>En <b>local</b> 💻 (Word, LibreOffice) el fitxer es guarda a <b>aquest ordinador</b>: cal prémer <b>Desa</b> i funciona sense Internet.<br>Els fitxers de Word acaben en <b>.docx</b> i els de LibreOffice en <b>.odt</b>.`,fig:()=>figNuvolLocal()},
-  {t:'Programari lliure o de pagament',h:`Els programes poden ser:<br>🆓 <b>Lliures i gratuïts</b>, com <b>LibreOffice</b>: els pots instal·lar a casa i copiar sense pagar.<br>💶 <b>De pagament</b>, com <b>Microsoft Office</b> (Word): cal tenir una <b>llicència</b> per usar-lo.<br>☁️ <b>Documents de Google</b> és gratuït, però cal tenir un <b>compte</b> i connexió a Internet.<br>Cap és «millor»: l’important és saber que n’hi ha de diferents i que sovint <b>es poden obrir els fitxers d’un a l’altre</b>.`},
+  {t:'Programari lliure o de pagament',h:`Els programes poden ser:<br>🆓 <b>Lliures i gratuïts</b>, com <b>LibreOffice</b>: els pots instal·lar a casa i copiar sense pagar.<br>💶 <b>De pagament</b>, com <b>Microsoft Office</b> (Word): cal tenir una <b>llicència</b> per usar-lo.<br>☁️ <b>Documents de Google</b> és gratuït, però cal tenir un <b>compte</b> i connexió a Internet.<br>Cap és «millor»: l’important és saber que n’hi ha de diferents i que sovint <b>es poden obrir els fitxers d’un a l’altre</b>.`,fig:()=>figProgramari()},
   {t:'Reobrir un fitxer',h:`Per <b>reobrir</b> un fitxer el busquem a la carpeta pel seu <b>nom</b> i l’obrim. Si el nom és clar, el trobem de seguida.`}],
  items:[
   ch('G1','guardar','Quin és el <b>millor nom</b> per a un resum sobre els llops?',['Llops_Resum_2026-11','Document1','Resum','Cosa nova'],0,'Diu què és, de què va i de quan és.','Un bon nom explica el contingut i la data.'),
@@ -106,8 +106,8 @@ Object.assign(CONTENT, {
  lessons:[
   {t:'Una idea per diapositiva',h:`Una bona diapositiva té <b>una sola idea</b>, <b>poc text</b> i alguna <b>imatge</b>.<br>Si hi ha molt text, el públic llegeix i no escolta. Mireu la figura: un <b>títol</b> i dues frases curtes.`,fig:()=>figDiapos()},
   {t:'Duplicar i amagar',h:`Per <b>duplicar</b> una diapositiva (fer-ne una còpia) fem clic amb el <b>botó dret</b> sobre la diapositiva i triem «Duplica».<br>Per <b>amagar-la</b> sense esborrar-la, triem «Oculta»: no es veu a la presentació, però continua guardada.`},
-  {t:'Canviar el fons',h:`Podem canviar el <b>fons</b> d’una diapositiva: un color o una imatge.<br>Cal que el text es <b>llegeixi bé</b> sobre el fons: fons clar amb text fosc, o al revés.`},
-  {t:'Hipervincles que creem',h:`A CD1 vam aprendre què és un <b>hipervincle</b>. Ara en <b>creem</b> un:<br>1. Seleccionem el <b>text</b> o la <b>imatge</b>.<br>2. Premem [[key:Ctrl]] i [[key:K]] (o el botó d’enllaç).<br>3. Enganxem l’<b>adreça</b> de la pàgina.<br>Ara el text o la imatge ens porta a aquella pàgina.`}],
+  {t:'Canviar el fons',h:`Podem canviar el <b>fons</b> d’una diapositiva: un color o una imatge.<br>Cal que el text es <b>llegeixi bé</b> sobre el fons: fons clar amb text fosc, o al revés.`,fig:()=>figContrast()},
+  {t:'Hipervincles que creem',h:`A CD1 vam aprendre què és un <b>hipervincle</b>. Ara en <b>creem</b> un:<br>1. Seleccionem el <b>text</b> o la <b>imatge</b>.<br>2. Premem [[key:Ctrl]] i [[key:K]] (o el botó d’enllaç).<br>3. Enganxem l’<b>adreça</b> de la pàgina.<br>Ara el text o la imatge ens porta a aquella pàgina.`,fig:()=>figHipervincle()}],
  items:[
   ch('P1','present','Una <b>bona diapositiva</b> té…',['una idea i poc text','cinc idees i molt text','només text petit'],0,'Pensa en què es veu de lluny.','Una idea per diapositiva i poc text.'),
   ch('P2','present','Volem <b>fer una còpia</b> d’una diapositiva. Què fem?',['La dupliquem','L’amaguem','La tanquem'],0,'Una còpia igual.','Duplicar fa una còpia de la diapositiva.'),
@@ -129,10 +129,10 @@ Object.assign(CONTENT, {
  fig:()=>figDispositius(),
  puc:['Sé quines edicions senzilles es poden fer amb una imatge, un vídeo i un àudio','Sé gravar millor (llum, soroll i micròfon)','Sé indicar la font d’un text i d’una imatge que no són meus'],
  lessons:[
-  {t:'Editar una imatge',h:`Amb un programa d’imatges podem:<br>✂️ <b>Retallar</b>: ens quedem només amb la part que interessa.<br>↔️ <b>Redimensionar</b>: fer-la més gran o més petita.<br>🔄 <b>Girar</b>: posar-la bé si està girada.`},
-  {t:'Editar un vídeo i un àudio',h:`En un <b>vídeo</b> podem <b>retallar el clip</b> (treure el principi o el final), <b>afegir text</b> i <b>afegir àudio</b>.<br>En un <b>àudio</b> podem <b>retallar</b> la pista i quedar-nos amb la part bona.<br>Amb un editor senzill és molt fàcil.`},
-  {t:'Gravar bé',h:`Per gravar bé:<br>💡 <b>Llum</b>: davant d’una finestra, no d’esquena a ella.<br>🔇 <b>Silenci</b>: tanquem portes i fem callar el soroll.<br>🎤 <b>Micròfon</b>: a prop de qui parla, però sense tocar.`},
-  {t:'Indicar la font',h:`Quan fem servir un <b>text</b> o una <b>imatge</b> que <b>no és nostre</b>, hem de dir <b>d’on l’hem tret</b>: és la <b>font</b>.<br>Posem l’<b>autoria</b> (qui l’ha fet) i d’on l’hem agafat.<br>Exemple: <i>Imatge: Pep Soler, Wikimedia Commons, 2024.</i> Així respectem el treball dels altres.`}],
+  {t:'Editar una imatge',h:`Amb un programa d’imatges podem:<br>✂️ <b>Retallar</b>: ens quedem només amb la part que interessa.<br>↔️ <b>Redimensionar</b>: fer-la més gran o més petita.<br>🔄 <b>Girar</b>: posar-la bé si està girada.`,fig:()=>figEditImatge()},
+  {t:'Editar un vídeo i un àudio',h:`En un <b>vídeo</b> podem <b>retallar el clip</b> (treure el principi o el final), <b>afegir text</b> i <b>afegir àudio</b>.<br>En un <b>àudio</b> podem <b>retallar</b> la pista i quedar-nos amb la part bona.<br>Amb un editor senzill és molt fàcil.`,fig:()=>figEditVideo()},
+  {t:'Gravar bé',h:`Per gravar bé:<br>💡 <b>Llum</b>: davant d’una finestra, no d’esquena a ella.<br>🔇 <b>Silenci</b>: tanquem portes i fem callar el soroll.<br>🎤 <b>Micròfon</b>: a prop de qui parla, però sense tocar.`,fig:()=>figGravarBe()},
+  {t:'Indicar la font',h:`Quan fem servir un <b>text</b> o una <b>imatge</b> que <b>no és nostre</b>, hem de dir <b>d’on l’hem tret</b>: és la <b>font</b>.<br>Posem l’<b>autoria</b> (qui l’ha fet) i d’on l’hem agafat.<br>Exemple: <i>Imatge: Pep Soler, Wikimedia Commons, 2024.</i> Així respectem el treball dels altres.`,fig:()=>figCita()}],
  items:[
   ch('E1','editar','Una imatge té massa espai buit al voltant. Què fem?',['La retallem','La girem','La imprimim'],0,'Ens quedem amb la part que interessa.','Retallar deixa només la part que ens interessa.'),
   ch('E2','editar','Una foto està <b>girada</b> de costat. Què fem?',['La girem','La retallem','L’esborrem'],0,'La posem dreta.','Girar posa la imatge dreta.'),

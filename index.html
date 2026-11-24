@@ -843,6 +843,234 @@ const INSMENU=`<div class="toy"><div class="bar"><b>Insereix</b></div><div class
 
 /* Document d’exemple amb una font citada */
 const DOCFONT=`<div class="toy"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">📝 Els llops · document d’exemple</span></div><div class="body"><h3>Els llops</h3><p>Els llops viuen en grup que es diu <b>ramat</b>.</p><p style="color:var(--mut);font-size:15px"><span data-act="clic" data-id="fonttext" style="cursor:pointer;border-bottom:2px dotted #e8830c">Font del text: Viquipèdia, «Llop», 2026.</span></p><p>🖼️ <small style="color:var(--mut)">[imatge d’un llop]</small></p><p style="color:var(--mut);font-size:15px"><span data-act="clic" data-id="fontimg" style="cursor:pointer;border-bottom:2px dotted #e8830c">Imatge: Pep Soler, Wikimedia Commons, 2024.</span></p></div></div>`;
+
+/* ================= FIGURES AMPLIADES (cicles mitjà i superior) ================= */
+const FS=(h,aria,inner)=>`<svg viewBox="0 0 640 ${h}" role="img" aria-label="${aria}"><rect x="2" y="2" width="636" height="${h-4}" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>${inner}</svg>`;
+const FT=(x,y,t,sz,w,f,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'middle'}" font-size="${sz||18}" font-weight="${w||400}" fill="${f||'#1f2a37'}">${t}</text>`;
+const FR=(x,y,w,h,f,s,sw,rx)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx===undefined?10:rx}" fill="${f||'#fff'}" stroke="${s||'#b8c2cf'}" stroke-width="${sw||2}"/>`;
+const FKEY=(x,y,w,t,sz)=>`${FR(x,y,w,46,'#fff','#8a96a6',2,8)}${FT(x+w/2,y+30,t,sz||20,700)}`;
+const FOK=(x,y)=>`<circle cx="${x}" cy="${y}" r="13" fill="#2e9e5b"/>${FT(x,y+6,'✓',18,800,'#fff')}`;
+const FKO=(x,y)=>`<circle cx="${x}" cy="${y}" r="13" fill="#d33"/>${FT(x,y+6,'✕',16,800,'#fff')}`;
+/* petit paisatge reutilitzable (sol i muntanya) dins d’un requadre x,y,w,h */
+const FPAIS=(x,y,w,h)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#cfe8f7"/><circle cx="${x+w*0.78}" cy="${y+h*0.25}" r="${Math.min(w,h)*0.12}" fill="#f6c343"/><polygon points="${x},${y+h} ${x+w*0.38},${y+h*0.32} ${x+w*0.72},${y+h}" fill="#5b8c5a"/><polygon points="${x+w*0.45},${y+h} ${x+w*0.72},${y+h*0.5} ${x+w},${y+h}" fill="#3f6f4e"/></g>`;
+
+/* CM1 · accents: obert i tancat + altres signes */
+function figAccents(){
+  const cel=(x,y,l,c,tag)=>`${FR(x,y,92,64,c,'#b8c2cf',2,10)}${FT(x+46,y+44,l,34,700)}${tag?FT(x+46,y+82,tag,14,600,'#5b6776'):''}`;
+  return FS(280,'Lletres amb accent obert, accent tancat, dieresi, ce trencada i l punt volat l',
+   FT(24,36,'Accent obert (cap a l’esquerra)',17,700,'#1f2a37','start')+
+   cel(24,46,'à','#fff4e5')+cel(126,46,'è','#fff4e5')+cel(228,46,'ò','#fff4e5')+
+   FT(380,36,'Accent tancat (cap a la dreta)',17,700,'#1f2a37','start')+
+   cel(380,46,'é','#e7f1fb')+cel(482,46,'í','#e7f1fb')+cel(584-24,46,'ó','#e7f1fb')+
+   FT(24,160,'Altres signes',17,700,'#1f2a37','start')+
+   cel(24,170,'ï','#efedff','dieresi')+cel(126,170,'ç','#efedff','ce trencada')+cel(228,170,'l·l','#efedff','punt volat')+cel(330,170,'l’','#efedff','apòstrof')+cel(432,170,'-','#efedff','guionet'));
+}
+
+/* CM1 · tecles que cal conèixer */
+function figTeclesCat(){
+  return FS(210,'Tecles útils per escriure en català: majúscula, majúscula fixa, accent, ce trencada i espai',
+   FKEY(24,28,90,'⇧','24')+FT(69,98,'Majúscula',15,600)+FT(69,118,'(una lletra)',13,400,'#5b6776')+
+   FKEY(140,28,130,'Bloq Maj','18')+FT(205,98,'Majúscula fixa',15,600)+FT(205,118,'(moltes lletres)',13,400,'#5b6776')+
+   FKEY(296,28,70,'´','24')+FT(331,98,'Accent',15,600)+FT(331,118,'+ la lletra',13,400,'#5b6776')+
+   FKEY(392,28,70,'Ç','24')+FT(427,98,'Ce trencada',15,600)+FT(427,118,'tecla pròpia',13,400,'#5b6776')+
+   FKEY(488,28,128,'AltGr','18')+FT(552,98,'Signes especials',15,600)+FT(552,118,'(segons el teclat)',13,400,'#5b6776')+
+   FT(320,172,'La posició i el nom de les tecles pot variar segons el teclat.',15,400,'#5b6776'));
+}
+
+/* CM2 · exemples de format */
+function figFormatExemples(){
+  return FS(250,'Exemples de mida, negreta, cursiva i subratllat',
+   FR(20,20,290,100,'#f9fafc')+FT(165,56,'Mida gran',34,700)+FT(165,102,'mida petita',15)+
+   FR(330,20,290,100,'#f9fafc')+FT(475,64,'<tspan font-weight="800">Negreta</tspan> · <tspan font-style="italic">cursiva</tspan>',26)+FT(475,104,'<tspan text-decoration="underline">subratllat</tspan>',24)+
+   FT(165,148,'Mida',15,600,'#e8830c')+FT(475,148,'Negreta, cursiva i subratllat',15,600,'#e8830c')+
+   FR(20,160,600,70,'#fff4e5','#e8830c')+FT(320,192,'<tspan font-weight="800">Títol:</tspan> mida gran i negreta',20)+FT(320,218,'Per destacar una idea: <tspan font-weight="800">només una part</tspan>',17));
+}
+
+/* CM2 · pocs tipus de lletra: bé o malament */
+function figTipusLletra(){
+  return FS(220,'Dos textos: un amb un tipus de lletra i un amb cinc tipus diferents',
+   FR(20,20,290,180,'#f4faf5','#2e9e5b',3)+FT(165,52,'Un o dos tipus de lletra',16,700,'#2e9e5b')+FT(165,98,'Els llops viuen en grup.',22)+FT(165,132,'Cada grup té un líder.',22)+FT(165,166,'Es llegeix bé.',22)+FOK(290,36)+
+   FR(330,20,290,180,'#fdf4f4','#d33',3)+FT(475,52,'Cinc tipus diferents',16,700,'#d33')+
+   `<text x="475" y="98" text-anchor="middle" font-size="22" font-family="Georgia,serif">Els llops</text><text x="475" y="128" text-anchor="middle" font-size="20" font-family="Courier New,monospace">viuen en grup.</text><text x="475" y="160" text-anchor="middle" font-size="24" font-family="Comic Sans MS,cursive" font-style="italic">Cada grup</text><text x="475" y="188" text-anchor="middle" font-size="18" font-family="Impact,sans-serif">té un líder</text>`+FKO(606,36));
+}
+
+/* CM3 · taula amb files i columnes */
+function figTaula(){
+  const c=(x,y,t,h)=>`${FR(x,y,150,44,h?'#e7f1fb':'#fff','#8a96a6',2,2)}${FT(x+75,y+29,t,17,h?700:400)}`;
+  return FS(250,'Una taula amb tres files i dues columnes',
+   c(180,30,'Animal',true)+c(330,30,'Pes (kg)',true)+c(180,74,'Llop')+c(330,74,'40')+c(180,118,'Guineu')+c(330,118,'6')+c(180,162,'Linx')+c(330,162,'18')+
+   FT(100,60,'Columna ↓',16,700,'#e8830c')+`<path d="M168 150h-48" stroke="#e8830c" stroke-width="3"/>`+FT(88,148,'Fila →',16,700,'#e8830c')+
+   FT(480,214,'Una taula serveix per comparar dades.',16,600,'#5b6776','start'));
+}
+
+/* CM3 · imatge bé i imatge deformada */
+function figDeformar(){
+  const h=(x,y)=>`<rect x="${x-5}" y="${y-5}" width="10" height="10" fill="#e8830c"/>`;
+  return FS(260,'Imatge original, imatge ampliada des d’una cantonada i imatge deformada',
+   FPAIS(30,50,140,100)+FT(100,36,'Original',17,700)+
+   FPAIS(235,50,180,128)+h(415,178)+FT(325,36,'Cantonada: es manté bé',17,700,'#2e9e5b')+FOK(425,36)+
+   FPAIS(470,50,120,128)+FT(530,36,'Costat: es deforma',17,700,'#d33')+FKO(600,32)+
+   FT(320,224,'Arrossega sempre una <tspan font-weight="800" fill="#e8830c">cantonada</tspan>, no un costat.',17));
+}
+
+/* CM4 · noms de fitxer bons i dolents */
+function figNomsFitxer(){
+  const f=(y,t,ok)=>`${FR(30,y,580,44,ok?'#f4faf5':'#fdf4f4',ok?'#2e9e5b':'#d33',2,10)}${FT(60,y+29,ok?'📄':'📄',22)}${FT(96,y+29,t,19,ok?700:400,'#1f2a37','start')}${ok?FOK(580,y+22):FKO(580,y+22)}`;
+  return FS(260,'Exemples de noms de fitxer bons i dolents',
+   FT(320,30,'Quin nom diu què és?',18,700)+f(46,'Document1',false)+f(98,'aaa',false)+f(150,'Llops_Resum_2026-11',true)+f(202,'Mates_Problemes_2026-11',true));
+}
+
+/* CM4 · programari lliure, de pagament i núvol */
+function figProgramari(){
+  const card=(x,ico,nom,l1,l2,l3,col)=>`${FR(x,20,196,210,'#fff',col,3)}${FT(x+98,76,ico,48)}${FT(x+98,110,nom,18,700)}${FT(x+98,140,l1,15,600,col)}${FT(x+98,166,l2,14,400,'#5b6776')}${FT(x+98,190,l3,14,400,'#5b6776')}`;
+  return FS(250,'LibreOffice és lliure i gratuït, Microsoft Office és de pagament i Documents de Google és gratuït amb compte',
+   card(14,'🆓','LibreOffice','Lliure i gratuït','Fitxers .odt','S’instal·la a casa','#2e9e5b')+
+   card(222,'💶','Microsoft Office','De pagament','Fitxers .docx','Cal llicència','#d9822b')+
+   card(430,'☁️','Documents de Google','Gratuït amb compte','Al núvol','Cal Internet','#3b82c4'));
+}
+
+/* CM5 · contrast de colors */
+function figContrast(){
+  const d=(x,bg,fg,ok,t)=>`${FR(x,40,270,130,bg,'#8a96a6',2)}${FT(x+135,88,'Els llops',32,700,fg)}${FT(x+135,128,t,18,400,fg)}${ok?FOK(x+250,28):FKO(x+250,28)}`;
+  return FS(230,'Text clar sobre fons fosc i text fosc sobre fons clar es llegeixen bé; text del mateix to no',
+   d(30,'#1f3a5f','#fff',true,'Contrast alt: es llegeix')+d(340,'#2b4a73','#3d5c88',false,'Poc contrast: no es llegeix')+
+   FT(320,206,'El text s’ha de llegir bé sobre el fons.',16,600,'#5b6776'));
+}
+
+/* CM5 · hipervincle en una diapositiva */
+function figHipervincle(){
+  return FS(240,'Un text subratllat d’una diapositiva que porta a una pàgina web',
+   FR(30,30,260,170,'#fff')+FT(160,70,'Els llops',26,700)+FT(160,110,'<tspan fill="#1a5fd0" text-decoration="underline">Més informació</tspan>',20)+FT(160,160,'Diapositiva',14,400,'#5b6776')+
+   `<path d="M215 106 C 300 106, 320 106, 360 106" fill="none" stroke="#e8830c" stroke-width="4"/><polygon points="360,96 382,106 360,116" fill="#e8830c"/>`+
+   FT(300,92,'clic',15,700,'#e8830c')+
+   FR(390,30,220,170,'#fff')+`<rect x="392" y="32" width="216" height="30" rx="8" fill="#e9edf2"/>`+FT(500,52,'🔒 pagina-exemple.cat',14,400,'#5b6776')+FT(500,110,'Pàgina web',24,700)+FT(500,150,'(s’obre en fer clic)',14,400,'#5b6776'));
+}
+
+/* CM6 · editar una imatge */
+function figEditImatge(){
+  return FS(230,'Original, retallar, redimensionar i girar una imatge',
+   FT(80,36,'Original',16,700)+FPAIS(30,52,100,72)+
+   FT(235,36,'✂️ Retallar',16,700)+FPAIS(185,52,100,72)+`<rect x="205" y="58" width="60" height="60" fill="none" stroke="#e8830c" stroke-width="3" stroke-dasharray="6 4"/>`+
+   FT(390,36,'↔️ Més petita',16,700)+FPAIS(365,68,50,36)+
+   FT(545,36,'🔄 Girar',16,700)+`<g transform="rotate(-20 545 88)">${FPAIS(495,52,100,72)}</g>`+
+   FT(320,190,'Retallar, redimensionar i girar: edició senzilla d’una imatge',16,600,'#5b6776'));
+}
+
+/* CM6 · editar un vídeo */
+function figEditVideo(){
+  const clip=(x,w,c,t)=>`${FR(x,70,w,56,c,'#8a96a6',2,6)}${FT(x+w/2,104,t,16,700)}`;
+  return FS(230,'Línia de temps d’un vídeo amb clips i una tisora per retallar',
+   FT(24,40,'🎞️ Vídeo (línia de temps)',17,700,'#1f2a37','start')+
+   clip(24,120,'#dbe7f5','Clip 1')+clip(150,140,'#dbe7f5','Clip 2')+FR(296,70,70,56,'#f1f1f1','#c5cdd8',2,6)+FT(331,104,'sobra',15,400,'#8a96a6')+`<path d="M296 60v76" stroke="#d33" stroke-width="3" stroke-dasharray="5 4"/>`+FT(296,56,'✂️',24)+
+   clip(372,120,'#dbe7f5','Clip 3')+
+   FR(24,140,468,28,'#fff4e5','#e8830c',2,6)+FT(258,160,'🎵 Àudio / música',15,600)+
+   FR(120,172,140,28,'#e7f1fb','#3b82c4',2,6)+FT(190,192,'Text: «Els llops»',14,600)+
+   FT(560,100,'✂️ retallar',16,700)+FT(560,128,'➕ text i àudio',16,700));
+}
+
+/* CM6 · gravar bé: llum, silenci, micròfon */
+function figGravarBe(){
+  const c=(x,ico,t1,t2,t3)=>`${FR(x,20,196,170,'#fff','#b8c2cf')}${FT(x+98,76,ico,48)}${FT(x+98,110,t1,18,700)}${FT(x+98,138,t2,14,400,'#5b6776')}${FT(x+98,160,t3,14,400,'#5b6776')}`;
+  return FS(210,'Per gravar bé: llum davant, silenci i micròfon a prop',
+   c(14,'💡','Llum','davant, no d’esquena','a la finestra')+c(222,'🔇','Silenci','portes tancades,','sense soroll')+c(430,'🎤','Micròfon','a prop de qui parla,','sense tocar-lo'));
+}
+
+/* CM6 i CS7 · anatomia d’una cita */
+function figCita(){
+  const p=(x,w,t,c,n)=>`${FR(x,60,w,56,c,'#8a96a6',2,8)}${FT(x+w/2,94,t,17,700)}${badge(x+w/2,50,n)}`;
+  return FS(250,'Una cita amb autoria, títol, lloc web, adreça i data de consulta',
+   p(14,110,'Autoria','#fff4e5',1)+p(134,120,'«Títol»','#e7f1fb',2)+p(264,110,'Web','#efedff',3)+p(384,110,'https://…','#e5f4e4',4)+p(504,122,'consulta: data','#f9eeda',5)+
+   FT(320,160,'Pep Soler. «Els llops». Viquipèdia. https://… (consulta: 24/11/2026).',16,600,'#1f2a37')+
+   FT(320,196,'Per a una imatge: autoria, lloc d’on l’has agafada i data.',15,400,'#5b6776')+
+   FT(320,226,'No és teu? Digues-ho: així respectem el treball dels altres.',15,600,'#e8830c'));
+}
+
+/* CS1 · dreceres */
+function figDreceres(){
+  const d=(x,k,ico,t)=>`${FKEY(x,20,56,'Ctrl','15')}${FT(x+68,52,'+',20,700)}${FKEY(x+80,20,46,k,'22')}${FT(x+68,100,ico,34)}${FT(x+68,130,t,16,700)}`;
+  return FS(170,'Dreceres Ctrl C copia, Ctrl V enganxa, Ctrl X retalla i Ctrl F cerca',
+   d(14,'C','📋','Copia')+d(172,'V','📥','Enganxa')+d(330,'X','✂️','Retalla')+d(488,'F','🔍','Cerca'));
+}
+
+/* CS1 · enganxar amb format i sense format */
+function figEnganxar(){
+  return FS(230,'Enganxar amb format barreja lletres; enganxar sense format manté el format del document',
+   FR(20,20,290,190,'#fdf4f4','#d33',3)+FT(165,50,'Enganxa amb format',17,700,'#d33')+
+   `<text x="165" y="96" text-anchor="middle" font-size="22" font-family="Georgia,serif" fill="#3b82c4">El llop és un</text><text x="165" y="128" text-anchor="middle" font-size="18" font-family="Courier New,monospace" fill="#d33">mamífer que viu</text><text x="165" y="162" text-anchor="middle" font-size="26" font-weight="700" fill="#2e9e5b">en grup.</text>`+FKO(298,36)+
+   FR(330,20,290,190,'#f4faf5','#2e9e5b',3)+FT(475,50,'Enganxa sense format',17,700,'#2e9e5b')+
+   FT(475,100,'El llop és un mamífer',22)+FT(475,134,'que viu en grup.',22)+FT(475,180,'Format coherent',15,600,'#5b6776')+FOK(608,36));
+}
+
+/* CS2 · orientació de la pàgina */
+function figOrientacio(){
+  return FS(240,'Pàgina vertical i pàgina horitzontal',
+   FR(90,26,130,170,'#fff','#8a96a6',3,6)+FT(155,60,'Vertical',16,700)+`<rect x="106" y="76" width="98" height="8" rx="4" fill="#dfe4ea"/><rect x="106" y="94" width="98" height="8" rx="4" fill="#dfe4ea"/><rect x="106" y="112" width="70" height="8" rx="4" fill="#dfe4ea"/>`+FT(155,222,'Per a text',15,600,'#5b6776')+
+   FR(300,56,230,130,'#fff','#8a96a6',3,6)+FT(415,84,'Horitzontal',16,700)+`<rect x="316" y="100" width="198" height="8" rx="4" fill="#dfe4ea"/><rect x="316" y="118" width="198" height="8" rx="4" fill="#dfe4ea"/><rect x="316" y="136" width="130" height="8" rx="4" fill="#dfe4ea"/>`+FT(415,222,'Per a taules amples',15,600,'#5b6776'));
+}
+
+/* CS2 · estructura d’un treball */
+function figEstructuraDoc(){
+  return FS(270,'Pàgina amb títol, apartats, llista amb vinyetes, llista numerada i número de pàgina',
+   FR(120,14,400,242,'#fff','#8a96a6',3,6)+
+   FT(320,54,'Els llops',28,800)+badge(540,44,1)+
+   FT(150,92,'1. Alimentació',19,700,'#1f2a37','start')+badge(540,86,2)+
+   FT(150,120,'• carn   • peixos   • fruita',17,400,'#1f2a37','start')+badge(540,114,3)+
+   FT(150,158,'2. Com cacen',19,700,'#1f2a37','start')+
+   FT(150,186,'1) Es reuneixen   2) Persegueixen',16,400,'#1f2a37','start')+badge(540,180,4)+
+   `<line x1="150" y1="210" x2="490" y2="210" stroke="#dbe1e8" stroke-width="2"/>`+
+   FT(320,244,'– 1 –',17,700)+badge(540,238,5))+
+   legend(['<b>Títol</b>: gran i en negreta.','<b>Apartats</b> amb subtítols.','<b>Llista amb vinyetes</b>: l’ordre no importa.','<b>Llista numerada</b>: l’ordre importa.','<b>Número de pàgina</b>: a baix.']);
+}
+
+/* CS3 · mateixes dades en barres, línies i sectors */
+function figGrafiques(){
+  const bars=[40,70,100,55];const bx=(i)=>40+i*46;
+  return FS(260,'Gràfica de barres, gràfica de línies i gràfica de sectors',
+   FT(106,32,'Barres',17,700)+FT(106,50,'compara quantitats',13,400,'#5b6776')+
+   bars.map((v,i)=>`<rect x="${bx(i)}" y="${210-v}" width="32" height="${v}" fill="#3b82c4"/>`).join('')+`<line x1="30" y1="210" x2="226" y2="210" stroke="#8a96a6" stroke-width="2"/>`+
+   FT(320,32,'Línies',17,700)+FT(320,50,'mostra l’evolució',13,400,'#5b6776')+
+   `<polyline points="240,190 290,160 340,170 390,100" fill="none" stroke="#e8830c" stroke-width="4"/><circle cx="240" cy="190" r="5" fill="#e8830c"/><circle cx="290" cy="160" r="5" fill="#e8830c"/><circle cx="340" cy="170" r="5" fill="#e8830c"/><circle cx="390" cy="100" r="5" fill="#e8830c"/><line x1="230" y1="210" x2="410" y2="210" stroke="#8a96a6" stroke-width="2"/>`+
+   FT(540,32,'Sectors',17,700)+FT(540,50,'parts d’un total',13,400,'#5b6776')+
+   `<circle cx="540" cy="130" r="64" fill="#3b82c4"/><path d="M540 130 L540 66 A64 64 0 0 1 596 98 Z" fill="#e8830c"/><path d="M540 130 L596 98 A64 64 0 0 1 560 192 Z" fill="#2e9e5b"/>`+
+   FT(320,248,'Les mateixes dades poden explicar coses diferents segons el gràfic.',15,600,'#5b6776'));
+}
+
+/* CS4 · animació i transició */
+function figTransicio(){
+  const s=(x,t,sel)=>`${FR(x,40,150,100,'#fff',sel?'#e8830c':'#b8c2cf',sel?4:2,8)}${FT(x+75,96,t,20,700)}`;
+  return FS(270,'Una transició entre dues diapositives i una animació que fa aparèixer els punts un a un',
+   FT(130,28,'Transició',17,700)+s(30,'Diap. 1')+`<path d="M184 90 H 224" stroke="#e8830c" stroke-width="4"/><polygon points="224,80 244,90 224,100" fill="#e8830c"/>`+s(250,'Diap. 2',true)+
+   FT(320,170,'Efecte en canviar de diapositiva',14,400,'#5b6776')+
+   FR(30,184,580,70,'#f9fafc')+FT(60,216,'Animació:',16,700,'#1f2a37','start')+FT(160,216,'1. aparix el títol',15,400,'#1f2a37','start')+FT(330,216,'2. aparix el primer punt',15,400,'#1f2a37','start')+FT(160,242,'Quan ajuda: mostra el que expliques, un punt cada vegada.',14,600,'#2e9e5b','start')+FOK(590,232));
+}
+
+/* CS5 · flux d’edició: importar → editar → exportar → guardar */
+function figFluxEdicio(){
+  const b=(x,ico,t,t2)=>`${FR(x,40,128,140,'#fff','#8a96a6',3)}${FT(x+64,94,ico,40)}${FT(x+64,128,t,17,700)}${FT(x+64,152,t2,13,400,'#5b6776')}`;
+  const a=(x)=>`<path d="M${x} 110 h16" stroke="#e8830c" stroke-width="4"/><polygon points="${x+16},100 ${x+30},110 ${x+16},120" fill="#e8830c"/>`;
+  return FS(220,'Passos: importar, editar, exportar i guardar el producte final',
+   b(14,'📥','Importar','porta el fitxer')+a(144)+b(176,'✂️','Editar','retalla i ajusta')+a(306)+b(338,'📤','Exportar','crea el fitxer')+a(468)+b(500,'💾','Guardar','en dos llocs')+
+   FT(320,206,'Núvol, ordinador o memòria externa: guarda sempre dues còpies.',15,600,'#5b6776'));
+}
+
+/* CS6 · formats: què serveix per a què */
+function figFormats(){
+  const c=(x,y,ico,t,u)=>`${FR(x,y,188,92,'#fff','#b8c2cf')}${FT(x+34,y+54,ico,32)}${FT(x+112,y+42,t,17,700)}${FT(x+112,y+66,u,13,400,'#5b6776')}`;
+  return FS(260,'Format de text, taula, imatge, àudio, vídeo i esquema, cadascun amb la seva utilitat',
+   c(14,14,'📝','Text','explicar i raonar')+c(226,14,'▦','Taula','comparar dades')+c(438,14,'🖼️','Imatge','mostrar com és')+
+   c(14,122,'🔊','Àudio','veu i música')+c(226,122,'🎞️','Vídeo','processos')+c(438,122,'🧩','Esquema','relacions entre idees')+
+   FT(320,246,'No hi ha un format «millor»: depèn del que vols transmetre i a qui.',15,600,'#5b6776'));
+}
+
+/* CS6 · mapa conceptual d’exemple */
+function figMapa(){
+  const n=(x,y,w,t,c)=>`${FR(x,y,w,40,c,'#8a96a6',2,18)}${FT(x+w/2,y+26,t,16,700)}`;
+  const l=(x1,y1,x2,y2,t,tx,ty)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#8a96a6" stroke-width="3"/>${FT(tx,ty,t,13,400,'#e8830c')}`;
+  return FS(290,'Mapa conceptual: els llops viuen en ramats i mengen carn',
+   l(320,76,170,150,'viuen en',226,106)+l(320,76,470,150,'mengen',420,106)+l(170,190,170,232,'dirigit per',232,216)+
+   n(250,36,140,'Els llops','#fff4e5')+n(100,150,140,'Ramats','#e7f1fb')+n(400,150,140,'Carn','#e7f1fb')+n(100,232,140,'Un líder','#e5f4e4')+
+   FT(320,270,'Caixes = idees · Fletxes amb paraules = relacions',14,400,'#5b6776'));
+}
 /* ============ CD2 · CICLE INICIAL (1r i 2n) ============ */
 /* Sense tauleta: cada pràctica combina un pas a la pissarra digital (un alumne o alumna per pas) i una producció manual en paper o cartolina. */
 Object.assign(CONTENT, {
@@ -983,10 +1211,10 @@ Object.assign(CONTENT, {
 'cd2-mitja-1':{
  puc:['Sé escriure accents oberts i tancats, l’apòstrof i el guionet','Sé escriure la l·l i la dieresi','Sé fer una majúscula i activar la majúscula fixa'],
  lessons:[
-  {t:'Accent obert i tancat',h:`En català hi ha dos accents:<br>L’<b>accent obert</b> (à, è, ò) va cap a l’esquerra.<br>L’<b>accent tancat</b> (é, í, ó, ú) va cap a la dreta.<br>En molts teclats, <b>primer</b> es prem la tecla de l’accent i <b>després</b> la lletra. La posició de les tecles pot variar segons el teclat.`},
+  {t:'Accent obert i tancat',h:`En català hi ha dos accents:<br>L’<b>accent obert</b> (à, è, ò) va cap a l’esquerra.<br>L’<b>accent tancat</b> (é, í, ó, ú) va cap a la dreta.<br>En molts teclats, <b>primer</b> es prem la tecla de l’accent i <b>després</b> la lletra. La posició de les tecles pot variar segons el teclat.`,fig:()=>figAccents()},
   {t:'Apòstrof, guionet i punt volat',h:`L’<b>apòstrof</b> (’) apareix a <b>l’escola</b>, <b>d’aquí</b>, <b>m’agrada</b>.<br>El <b>guionet</b> (-) uneix paraules en casos com <b>porta-li</b> o <b>vés-hi</b>.<br>La <b>l·l</b> porta un <b>punt volat</b> (·): <b>col·legi</b>, <b>il·lusió</b>. És un punt al mig, no un punt normal.`},
   {t:'Dieresi i ç',h:`La <b>dieresi</b> (¨) es posa sobre la <b>i</b> o la <b>u</b>: <b>país</b> (no porta dieresi), <b>raïm</b>, <b>pingüí</b>.<br>La <b>ç</b> (ce trencada) té una tecla pròpia al teclat.`},
-  {t:'Majúscula i majúscula fixa',h:`Per fer <b>una</b> majúscula premem [[key:⇧]] i la lletra.<br>Per escriure <b>moltes</b> majúscules seguides activem la <b>majúscula fixa</b> ([[key:Bloq Maj]]). Per desactivar-la, la tornem a prémer.<br>Pot ser útil per a <b>TÍTOLS</b>, però un text ben escrit no va tot en majúscules.`}],
+  {t:'Majúscula i majúscula fixa',h:`Per fer <b>una</b> majúscula premem [[key:⇧]] i la lletra.<br>Per escriure <b>moltes</b> majúscules seguides activem la <b>majúscula fixa</b> ([[key:Bloq Maj]]). Per desactivar-la, la tornem a prémer.<br>Pot ser útil per a <b>TÍTOLS</b>, però un text ben escrit no va tot en majúscules.`,fig:()=>figTeclesCat()}],
  items:[
   ch('C1','teclat','Quina paraula té <b>accent tancat</b>?',['també','això','cafè'],0,'L’accent tancat va cap a la dreta (é).','«també» porta accent tancat (é); «això» i «cafè» en porten d’oberts.'),
   ch('C2','teclat','Quina paraula porta un <b>apòstrof</b>?',['l’escola','la escola','l-escola'],0,'L’article perd una lletra davant d’una vocal.','«l’escola» porta apòstrof: l’article «la» es converteix en «l’».'),
@@ -1006,8 +1234,8 @@ Object.assign(CONTENT, {
 'cd2-mitja-2':{
  puc:['Sé canviar la mida del text, subratllar-lo i posar-lo en cursiva','Sé quan convé cada format (títol, destacar)','Sé desfer i refer amb els botons i amb les dreceres'],
  lessons:[
-  {t:'Mida, cursiva i subratllat',h:`Amb la <b>mida</b> fem el text més gran (per a un <b>títol</b>) o més petit.<br>La <b>cursiva</b> inclina les lletres: <i>per destacar un títol d’un llibre o una paraula estrangera</i>.<br>El <b>subratllat</b> posa una ratlla sota el text. Compte: els enllaços també són subratllats; no l’abusem.`},
-  {t:'Tipus de lletra',h:`El <b>tipus de lletra</b> canvia com es veu el text. Convé usar <b>pocs tipus</b> (un o dos) i que es llegeixin bé.<br>Un text amb molts tipus diferents queda <b>embolicat</b>.`},
+  {t:'Mida, cursiva i subratllat',h:`Amb la <b>mida</b> fem el text més gran (per a un <b>títol</b>) o més petit.<br>La <b>cursiva</b> inclina les lletres: <i>per destacar un títol d’un llibre o una paraula estrangera</i>.<br>El <b>subratllat</b> posa una ratlla sota el text. Compte: els enllaços també són subratllats; no l’abusem.`,fig:()=>figFormatExemples()},
+  {t:'Tipus de lletra',h:`El <b>tipus de lletra</b> canvia com es veu el text. Convé usar <b>pocs tipus</b> (un o dos) i que es llegeixin bé.<br>Un text amb molts tipus diferents queda <b>embolicat</b>.`,fig:()=>figTipusLletra()},
   {t:'Quan convé cada format',h:`<b>Títol</b>: mida gran i negreta.<br><b>Destacar</b> una idea: negreta o color, però no a tot arreu.<br><b>Llegir bé</b>: lletra clara i mida còmoda. Si tot està destacat, <b>res no destaca</b>.`},
   {t:'Desfer i refer amb dreceres',h:`Amb els botons ↶ i ↷ desfem i refem.<br>També es pot fer amb el teclat: [[key:Ctrl]] i [[key:Z]] <b>desfà</b>; [[key:Ctrl]] i [[key:Y]] <b>refà</b>.<br>Fixeu-vos que sempre es prem <b>Ctrl</b> primer i, sense deixar-la, la lletra.`,fig:()=>figBarraDoc()}],
  items:[
@@ -1031,8 +1259,8 @@ Object.assign(CONTENT, {
  puc:['Sé inserir una imatge, un vídeo i una taula en un document','Sé quan una taula és millor que un text','Sé canviar la mida d’una imatge sense deformar-la'],
  lessons:[
   {t:'El menú Insereix',h:`El menú <b>Insereix</b> és on afegim coses al document: una <b>imatge</b>, un <b>vídeo</b>, una <b>taula</b>, un <b>enllaç</b>…<br>Triem l’opció i seguim les instruccions.`,fig:()=>figInsereix()},
-  {t:'Quan una taula és millor',h:`Una <b>taula</b> és millor que un text quan hem de <b>comparar dades</b>.<br>Per exemple: quant mengen tres animals. En una taula es veu d’un cop d’ull.<br>Una taula té <b>files</b> (en horitzontal) i <b>columnes</b> (en vertical).`},
-  {t:'Imatges: mida i deformació',h:`Per fer una imatge més gran o més petita, <b>arrosseguem una cantonada</b>.<br>Si arrosseguem un <b>costat</b> en lloc d’una cantonada, la imatge es <b>deforma</b> (queda aplanada o estirada).<br>Per això sempre usem les <b>cantonades</b>.`},
+  {t:'Quan una taula és millor',h:`Una <b>taula</b> és millor que un text quan hem de <b>comparar dades</b>.<br>Per exemple: quant mengen tres animals. En una taula es veu d’un cop d’ull.<br>Una taula té <b>files</b> (en horitzontal) i <b>columnes</b> (en vertical).`,fig:()=>figTaula()},
+  {t:'Imatges: mida i deformació',h:`Per fer una imatge més gran o més petita, <b>arrosseguem una cantonada</b>.<br>Si arrosseguem un <b>costat</b> en lloc d’una cantonada, la imatge es <b>deforma</b> (queda aplanada o estirada).<br>Per això sempre usem les <b>cantonades</b>.`,fig:()=>figDeformar()},
   {t:'Vídeos',h:`També podem inserir un <b>vídeo</b> a un document. Quan ho fem, hem de pensar si <b>cal</b> o si només <b>distreu</b>.<br>Si l’aprofitem, convé que expliqui el tema i sigui curt.`}],
  items:[
   clic('I1','inserir','Clica l’opció per <b>inserir una taula</b>.',INSMENU,'taula','Té una quadrícula.','L’opció ▦ Taula insereix una taula.'),
@@ -1055,10 +1283,10 @@ Object.assign(CONTENT, {
  puc:['Sé posar un bon nom als fitxers i desar-los','Sé organitzar fitxers en carpetes','Sé explicar la diferència entre treballar al núvol i en local','Sé que hi ha programari lliure i programari de pagament']
  ,
  lessons:[
-  {t:'Noms que s’entenen',h:`Un bon nom de fitxer diu <b>què és</b>, <b>de què va</b> i <b>de quan és</b>: <b>Llops_Resum_2026-11</b>.<br>Un nom com <b>Document1</b> no explica res: d’aquí a un mes no sabrem què és.`},
+  {t:'Noms que s’entenen',h:`Un bon nom de fitxer diu <b>què és</b>, <b>de què va</b> i <b>de quan és</b>: <b>Llops_Resum_2026-11</b>.<br>Un nom com <b>Document1</b> no explica res: d’aquí a un mes no sabrem què és.`,fig:()=>figNomsFitxer()},
   {t:'Carpetes i subcarpetes',h:`Una <b>carpeta</b> és com un calaix: guarda fitxers que van junts.<br>Dins d’una carpeta en podem posar d’altres: les <b>subcarpetes</b>. Per exemple: <b>Escola → Llops → fotos</b>.<br>Així ho trobem tot més de pressa.`,fig:()=>figCarpetes()},
   {t:'Núvol o ordinador local',h:`Al <b>núvol</b> ☁️ (Documents de Google) el document es desa <b>sol</b> i el podem obrir des de <b>qualsevol ordinador</b> amb Internet.<br>En <b>local</b> 💻 (Word, LibreOffice) el fitxer es guarda a <b>aquest ordinador</b>: cal prémer <b>Desa</b> i funciona sense Internet.<br>Els fitxers de Word acaben en <b>.docx</b> i els de LibreOffice en <b>.odt</b>.`,fig:()=>figNuvolLocal()},
-  {t:'Programari lliure o de pagament',h:`Els programes poden ser:<br>🆓 <b>Lliures i gratuïts</b>, com <b>LibreOffice</b>: els pots instal·lar a casa i copiar sense pagar.<br>💶 <b>De pagament</b>, com <b>Microsoft Office</b> (Word): cal tenir una <b>llicència</b> per usar-lo.<br>☁️ <b>Documents de Google</b> és gratuït, però cal tenir un <b>compte</b> i connexió a Internet.<br>Cap és «millor»: l’important és saber que n’hi ha de diferents i que sovint <b>es poden obrir els fitxers d’un a l’altre</b>.`},
+  {t:'Programari lliure o de pagament',h:`Els programes poden ser:<br>🆓 <b>Lliures i gratuïts</b>, com <b>LibreOffice</b>: els pots instal·lar a casa i copiar sense pagar.<br>💶 <b>De pagament</b>, com <b>Microsoft Office</b> (Word): cal tenir una <b>llicència</b> per usar-lo.<br>☁️ <b>Documents de Google</b> és gratuït, però cal tenir un <b>compte</b> i connexió a Internet.<br>Cap és «millor»: l’important és saber que n’hi ha de diferents i que sovint <b>es poden obrir els fitxers d’un a l’altre</b>.`,fig:()=>figProgramari()},
   {t:'Reobrir un fitxer',h:`Per <b>reobrir</b> un fitxer el busquem a la carpeta pel seu <b>nom</b> i l’obrim. Si el nom és clar, el trobem de seguida.`}],
  items:[
   ch('G1','guardar','Quin és el <b>millor nom</b> per a un resum sobre els llops?',['Llops_Resum_2026-11','Document1','Resum','Cosa nova'],0,'Diu què és, de què va i de quan és.','Un bon nom explica el contingut i la data.'),
@@ -1084,8 +1312,8 @@ Object.assign(CONTENT, {
  lessons:[
   {t:'Una idea per diapositiva',h:`Una bona diapositiva té <b>una sola idea</b>, <b>poc text</b> i alguna <b>imatge</b>.<br>Si hi ha molt text, el públic llegeix i no escolta. Mireu la figura: un <b>títol</b> i dues frases curtes.`,fig:()=>figDiapos()},
   {t:'Duplicar i amagar',h:`Per <b>duplicar</b> una diapositiva (fer-ne una còpia) fem clic amb el <b>botó dret</b> sobre la diapositiva i triem «Duplica».<br>Per <b>amagar-la</b> sense esborrar-la, triem «Oculta»: no es veu a la presentació, però continua guardada.`},
-  {t:'Canviar el fons',h:`Podem canviar el <b>fons</b> d’una diapositiva: un color o una imatge.<br>Cal que el text es <b>llegeixi bé</b> sobre el fons: fons clar amb text fosc, o al revés.`},
-  {t:'Hipervincles que creem',h:`A CD1 vam aprendre què és un <b>hipervincle</b>. Ara en <b>creem</b> un:<br>1. Seleccionem el <b>text</b> o la <b>imatge</b>.<br>2. Premem [[key:Ctrl]] i [[key:K]] (o el botó d’enllaç).<br>3. Enganxem l’<b>adreça</b> de la pàgina.<br>Ara el text o la imatge ens porta a aquella pàgina.`}],
+  {t:'Canviar el fons',h:`Podem canviar el <b>fons</b> d’una diapositiva: un color o una imatge.<br>Cal que el text es <b>llegeixi bé</b> sobre el fons: fons clar amb text fosc, o al revés.`,fig:()=>figContrast()},
+  {t:'Hipervincles que creem',h:`A CD1 vam aprendre què és un <b>hipervincle</b>. Ara en <b>creem</b> un:<br>1. Seleccionem el <b>text</b> o la <b>imatge</b>.<br>2. Premem [[key:Ctrl]] i [[key:K]] (o el botó d’enllaç).<br>3. Enganxem l’<b>adreça</b> de la pàgina.<br>Ara el text o la imatge ens porta a aquella pàgina.`,fig:()=>figHipervincle()}],
  items:[
   ch('P1','present','Una <b>bona diapositiva</b> té…',['una idea i poc text','cinc idees i molt text','només text petit'],0,'Pensa en què es veu de lluny.','Una idea per diapositiva i poc text.'),
   ch('P2','present','Volem <b>fer una còpia</b> d’una diapositiva. Què fem?',['La dupliquem','L’amaguem','La tanquem'],0,'Una còpia igual.','Duplicar fa una còpia de la diapositiva.'),
@@ -1107,10 +1335,10 @@ Object.assign(CONTENT, {
  fig:()=>figDispositius(),
  puc:['Sé quines edicions senzilles es poden fer amb una imatge, un vídeo i un àudio','Sé gravar millor (llum, soroll i micròfon)','Sé indicar la font d’un text i d’una imatge que no són meus'],
  lessons:[
-  {t:'Editar una imatge',h:`Amb un programa d’imatges podem:<br>✂️ <b>Retallar</b>: ens quedem només amb la part que interessa.<br>↔️ <b>Redimensionar</b>: fer-la més gran o més petita.<br>🔄 <b>Girar</b>: posar-la bé si està girada.`},
-  {t:'Editar un vídeo i un àudio',h:`En un <b>vídeo</b> podem <b>retallar el clip</b> (treure el principi o el final), <b>afegir text</b> i <b>afegir àudio</b>.<br>En un <b>àudio</b> podem <b>retallar</b> la pista i quedar-nos amb la part bona.<br>Amb un editor senzill és molt fàcil.`},
-  {t:'Gravar bé',h:`Per gravar bé:<br>💡 <b>Llum</b>: davant d’una finestra, no d’esquena a ella.<br>🔇 <b>Silenci</b>: tanquem portes i fem callar el soroll.<br>🎤 <b>Micròfon</b>: a prop de qui parla, però sense tocar.`},
-  {t:'Indicar la font',h:`Quan fem servir un <b>text</b> o una <b>imatge</b> que <b>no és nostre</b>, hem de dir <b>d’on l’hem tret</b>: és la <b>font</b>.<br>Posem l’<b>autoria</b> (qui l’ha fet) i d’on l’hem agafat.<br>Exemple: <i>Imatge: Pep Soler, Wikimedia Commons, 2024.</i> Així respectem el treball dels altres.`}],
+  {t:'Editar una imatge',h:`Amb un programa d’imatges podem:<br>✂️ <b>Retallar</b>: ens quedem només amb la part que interessa.<br>↔️ <b>Redimensionar</b>: fer-la més gran o més petita.<br>🔄 <b>Girar</b>: posar-la bé si està girada.`,fig:()=>figEditImatge()},
+  {t:'Editar un vídeo i un àudio',h:`En un <b>vídeo</b> podem <b>retallar el clip</b> (treure el principi o el final), <b>afegir text</b> i <b>afegir àudio</b>.<br>En un <b>àudio</b> podem <b>retallar</b> la pista i quedar-nos amb la part bona.<br>Amb un editor senzill és molt fàcil.`,fig:()=>figEditVideo()},
+  {t:'Gravar bé',h:`Per gravar bé:<br>💡 <b>Llum</b>: davant d’una finestra, no d’esquena a ella.<br>🔇 <b>Silenci</b>: tanquem portes i fem callar el soroll.<br>🎤 <b>Micròfon</b>: a prop de qui parla, però sense tocar.`,fig:()=>figGravarBe()},
+  {t:'Indicar la font',h:`Quan fem servir un <b>text</b> o una <b>imatge</b> que <b>no és nostre</b>, hem de dir <b>d’on l’hem tret</b>: és la <b>font</b>.<br>Posem l’<b>autoria</b> (qui l’ha fet) i d’on l’hem agafat.<br>Exemple: <i>Imatge: Pep Soler, Wikimedia Commons, 2024.</i> Així respectem el treball dels altres.`,fig:()=>figCita()}],
  items:[
   ch('E1','editar','Una imatge té massa espai buit al voltant. Què fem?',['La retallem','La girem','La imprimim'],0,'Ens quedem amb la part que interessa.','Retallar deixa només la part que ens interessa.'),
   ch('E2','editar','Una foto està <b>girada</b> de costat. Què fem?',['La girem','La retallem','L’esborrem'],0,'La posem dreta.','Girar posa la imatge dreta.'),
@@ -1138,8 +1366,8 @@ Object.assign(CONTENT, {
 'cd2-superior-1':{
  puc:['Sé què fa cada drecera (Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+F) i quan l’uso','Sé copiar i enganxar amb format i només el text','Sé copiar el format d’un títol a un altre'],
  lessons:[
-  {t:'Copiar, enganxar i retallar',h:`Amb el teclat és més ràpid:<br>[[key:Ctrl]] + [[key:C]] <b>copia</b> el que has seleccionat.<br>[[key:Ctrl]] + [[key:V]] <b>enganxa</b> el que has copiat.<br>[[key:Ctrl]] + [[key:X]] <b>retalla</b>: ho treu d’aquí i ho pots enganxar en un altre lloc.<br>Sempre prems <b>Ctrl</b> i, sense deixar-la, la lletra.`},
-  {t:'Enganxar amb o sense format',h:`Quan copies un text d’una pàgina web, també copies el seu <b>format</b> (lletra, color, mida). Si l’enganxes tal qual, el teu document queda <b>barrejat</b>.<br>Per enganxar només el text i que agafi el format del teu document, fes servir <b>«Enganxa sense format»</b> ([[key:Ctrl]] + [[key:Maj]] + [[key:V]]).`},
+  {t:'Copiar, enganxar i retallar',h:`Amb el teclat és més ràpid:<br>[[key:Ctrl]] + [[key:C]] <b>copia</b> el que has seleccionat.<br>[[key:Ctrl]] + [[key:V]] <b>enganxa</b> el que has copiat.<br>[[key:Ctrl]] + [[key:X]] <b>retalla</b>: ho treu d’aquí i ho pots enganxar en un altre lloc.<br>Sempre prems <b>Ctrl</b> i, sense deixar-la, la lletra.`,fig:()=>figDreceres()},
+  {t:'Enganxar amb o sense format',h:`Quan copies un text d’una pàgina web, també copies el seu <b>format</b> (lletra, color, mida). Si l’enganxes tal qual, el teu document queda <b>barrejat</b>.<br>Per enganxar només el text i que agafi el format del teu document, fes servir <b>«Enganxa sense format»</b> ([[key:Ctrl]] + [[key:Maj]] + [[key:V]]).`,fig:()=>figEnganxar()},
   {t:'Copiar el format',h:`Si has fet un títol amb un format (mida, color, negreta) i vols el mateix en un altre títol, no cal repetir-ho: fes servir <b>«Copia el format»</b> (el pinzell 🖌️): selecciona el títol, prem el pinzell i passa’l pel text nou.`},
   {t:'Cercar dins d’un document',h:`Amb [[key:Ctrl]] + [[key:F]] <b>cerques una paraula</b> dins del document. Va molt bé en documents llargs, i a CD1 ja l’has fet servir per trobar una paraula dins d’una pàgina web.`}],
  items:[
@@ -1163,10 +1391,10 @@ Object.assign(CONTENT, {
 'cd2-superior-2':{
  puc:['Sé estructurar un treball amb títol, apartats i pàgines numerades','Sé fer llistes numerades i amb vinyetes i inserir un salt de pàgina','Sé fer servir la correcció ortogràfica i canviar l’idioma','Sé configurar la impressió'],
  lessons:[
-  {t:'Estructura d’un treball',h:`Un treball ben fet té <b>títol</b>, <b>apartats</b> amb subtítols i <b>pàgines numerades</b>.<br>Per posar la <b>numeració de pàgines</b> fes servir el menú <b>Insereix → Números de pàgina</b>.<br>L’<b>orientació</b> (vertical o horitzontal) es canvia a la configuració de la pàgina; l’horitzontal va bé per a taules amples.`},
+  {t:'Estructura d’un treball',h:`Un treball ben fet té <b>títol</b>, <b>apartats</b> amb subtítols i <b>pàgines numerades</b>.<br>Per posar la <b>numeració de pàgines</b> fes servir el menú <b>Insereix → Números de pàgina</b>.<br>L’<b>orientació</b> (vertical o horitzontal) es canvia a la configuració de la pàgina; l’horitzontal va bé per a taules amples.`,fig:()=>figEstructuraDoc()},
   {t:'Llistes i salt de pàgina',h:`Una <b>llista amb vinyetes</b> (•) s’usa quan l’ordre <b>no importa</b>.<br>Una <b>llista numerada</b> s’usa quan l’<b>ordre importa</b> (passos d’una recepta).<br>Un <b>salt de pàgina</b> fa que el contingut següent comenci a la pàgina nova, sense haver de prémer Intro moltes vegades.`},
   {t:'Símbols, formes i correcció',h:`Pots inserir <b>símbols</b> (€, ©, Ω, ≈) i <b>formes</b> (fletxes, cercles) des del menú Insereix.<br>La <b>correcció ortogràfica</b> subratlla en vermell les faltes. Si el document té una part en un altre idioma, <b>canvia l’idioma</b> d’aquesta part perquè no la marqui com a falta.`},
-  {t:'Imprimir bé',h:`Abans d’imprimir revisa la <b>vista prèvia</b>: la mida del paper, l’orientació, els marges i quantes pàgines serà.<br>Així estalvies paper i tinta. Imprimir és l’últim pas, no el primer.`}],
+  {t:'Imprimir bé',h:`Abans d’imprimir revisa la <b>vista prèvia</b>: la mida del paper, l’orientació, els marges i quantes pàgines serà.<br>Així estalvies paper i tinta. Imprimir és l’últim pas, no el primer.`,fig:()=>figOrientacio()}],
  items:[
   ch('G1','doc','Per a una <b>recepta</b> amb passos, quina llista és millor?',['Numerada','Amb vinyetes','Cap'],0,'L’ordre importa.','Una llista numerada serveix quan l’ordre importa.'),
   ch('G2','doc','Per a una llista de <b>ingredients</b>, quina llista és millor?',['Amb vinyetes','Numerada','Un paràgraf sense separar'],0,'L’ordre no importa.','Amb vinyetes quan l’ordre no importa.'),
@@ -1187,8 +1415,8 @@ Object.assign(CONTENT, {
 'cd2-superior-3':{
  puc:['Sé triar entre taula, gràfica i esquema segons la informació','Sé combinar cel·les i ajustar files i columnes','Sé inserir una gràfica a partir d’una taula'],
  lessons:[
-  {t:'Taula, gràfica o esquema?',h:`<b>Taula</b>: per comparar o consultar <b>dades exactes</b> (quantitat per animal).<br><b>Gràfica</b>: per veure <b>com canvien</b> les dades o <b>quina és més gran</b> d’un cop d’ull (per exemple, l’augment de la temperatura al llarg dels anys).<br><b>Esquema</b>: per mostrar <b>relacions</b> entre idees.<br>Decideix què vols que l’altra persona entengui <b>primer</b>.`},
-  {t:'Combinar cel·les i ajustar la taula',h:`Pots <b>combinar cel·les</b> perquè una gran ocupi diverses columnes, per exemple per a un títol que abraça tota la taula.<br>Pots <b>ajustar la mida</b> de files i columnes arrossegant les vores: fes-les del mida del contingut, ni massa grans ni massa petites.<table class="lic"><tr><th colspan="2">Animals del bosc</th></tr><tr><th>Animal</th><th>Què menja</th></tr><tr><td>Llop</td><td>Carn</td></tr></table>`},
+  {t:'Taula, gràfica o esquema?',h:`<b>Taula</b>: per comparar o consultar <b>dades exactes</b> (quantitat per animal).<br><b>Gràfica</b>: per veure <b>com canvien</b> les dades o <b>quina és més gran</b> d’un cop d’ull (per exemple, l’augment de la temperatura al llarg dels anys).<br><b>Esquema</b>: per mostrar <b>relacions</b> entre idees.<br>Decideix què vols que l’altra persona entengui <b>primer</b>.`,fig:()=>figGrafiques()},
+  {t:'Combinar cel·les i ajustar la taula',h:`Pots <b>combinar cel·les</b> perquè una gran ocupi diverses columnes, per exemple per a un títol que abraça tota la taula.<br>Pots <b>ajustar la mida</b> de files i columnes arrossegant les vores: fes-les de la mida del contingut, ni massa grans ni massa petites.<table class="lic"><tr><th colspan="2">Animals del bosc</th></tr><tr><th>Animal</th><th>Què menja</th></tr><tr><td>Llop</td><td>Carn</td></tr></table>`},
   {t:'De taula a gràfica',h:`Per fer una <b>gràfica</b>: 1) escriu les dades en una <b>taula</b>; 2) selecciona-les; 3) a <b>Insereix → Gràfica</b> tria el tipus (barres, línies, sectors); 4) posa-li un <b>títol</b> i indica què representa cada eix.<br>Una gràfica sense títol no s’entén.`},
   {t:'Quin tipus de gràfica?',h:`<b>Barres</b>: compara quantitats entre grups.<br><b>Línies</b>: mostra l’evolució amb el temps.<br><b>Sectors</b> (com un formatge 🧀): mostra les parts d’un total (sumen el 100 %).`}],
  items:[
@@ -1211,9 +1439,9 @@ Object.assign(CONTENT, {
 'cd2-superior-4':{
  puc:['Sé quan ajuda una animació o una transició i quan distreu','Sé triar colors, lletra i quantitat de text perquè es vegi bé','Sé afegir animacions i transicions i justificar-ne l’ús'],
  lessons:[
-  {t:'Animacions i transicions',h:`Una <b>transició</b> és l’efecte que es veu <b>quan canvies de diapositiva</b>.<br>Una <b>animació</b> fa que un element (títol, imatge) <b>aparegui o es mogui</b> dins la diapositiva.<br>Es poden afegir des del menú <b>Insereix</b> o <b>Diapositiva</b>.`},
+  {t:'Animacions i transicions',h:`Una <b>transició</b> és l’efecte que es veu <b>quan canvies de diapositiva</b>.<br>Una <b>animació</b> fa que un element (títol, imatge) <b>aparegui o es mogui</b> dins la diapositiva.<br>Es poden afegir des del menú <b>Insereix</b> o <b>Diapositiva</b>.`,fig:()=>figTransicio()},
   {t:'Menys és més',h:`Ajuden quan <b>revelen un punt a poc a poc</b> i així el públic segueix el que expliques.<br>Distreuen quan són <b>massa</b>, <b>massa llargues</b> o no tenen relació amb el contingut.<br>Una bona regla: <b>com a màxim</b> un tipus de transició a tota la presentació.`},
-  {t:'Que es vegi bé',h:`<b>Contrast</b>: text clar sobre fons fosc o text fosc sobre fons clar.<br><b>Mida de lletra</b>: es llegeix des de l’última fila de la classe, si no és massa gran.<br><b>Poques paraules</b> per diapositiva: idees, no paràgrafs.`},
+  {t:'Que es vegi bé',h:`<b>Contrast</b>: text clar sobre fons fosc o text fosc sobre fons clar.<br><b>Mida de lletra</b>: es llegeix des de l’última fila de la classe, si no és massa gran.<br><b>Poques paraules</b> per diapositiva: idees, no paràgrafs.`,fig:()=>figContrast()},
   {t:'Presentar',h:`Una presentació és un <b>suport</b>: tu expliques i les diapositives <b>ajuden</b>. No llegeixis la diapositiva tal qual; afegeix el que no hi ha escrit.`}],
  items:[
   ch('V1','presav','Una <b>transició</b> és…',['l’efecte en canviar de diapositiva','una imatge','un tipus de lletra'],0,'Passes d’una a una altra.','La transició és l’efecte en passar d’una diapositiva a una altra.'),
@@ -1236,7 +1464,7 @@ Object.assign(CONTENT, {
  fig:()=>figDispositius(),
  puc:['Sé importar un fitxer a un editor multimèdia','Sé fer una edició senzilla d’imatge, vídeo i àudio','Sé on guardar el producte final (núvol, local o memòria externa) i triar el programa'],
  lessons:[
-  {t:'Importar a un editor',h:`<b>Importar</b> vol dir <b>portar</b> una foto, un vídeo o un àudio a l’editor des d’una carpeta, de la càmera o del núvol.<br>Fes servir el menú <b>Fitxer → Importa/Obre</b> o arrossega el fitxer a l’editor.`},
+  {t:'Importar a un editor',h:`<b>Importar</b> vol dir <b>portar</b> una foto, un vídeo o un àudio a l’editor des d’una carpeta, de la càmera o del núvol.<br>Fes servir el menú <b>Fitxer → Importa/Obre</b> o arrossega el fitxer a l’editor.`,fig:()=>figFluxEdicio()},
   {t:'Edició senzilla',h:`<b>Imatge</b>: retallar, redimensionar, girar, ajustar la llum.<br><b>Vídeo</b>: retallar clips, ordenar-los, afegir text, música o una veu.<br><b>Àudio</b>: retallar la pista, baixar o pujar el volum.<br>Edita només el que és <b>necessari</b>.`},
   {t:'Exportar i guardar el producte final',h:`<b>Exportar</b> és <b>crear el fitxer final</b> a partir de l’editor.<br>Pots guardar-lo:<br>☁️ al <b>núvol</b> (el pots obrir des de qualsevol lloc);<br>💻 en <b>local</b>, a l’ordinador;<br>💾 en una <b>memòria externa</b> (llapis de memòria, disc dur).<br>Un consell: té <b>dues còpies</b> del que és important.`,fig:()=>figNuvolLocal()},
   {t:'Triar el programa',h:`Per editar pots fer servir programes <b>lliures i gratuïts</b> (com <b>Audacity</b> o <b>GIMP</b>) o <b>de pagament</b> (que cal comprar). Abans de triar, pensa en:<br>💶 el <b>cost</b> i la <b>llicència</b>;<br>🏠 si el pots <b>instal·lar a casa</b>;<br>🔁 si el <b>fitxer s’obre</b> en altres programes.`}],
@@ -1263,8 +1491,8 @@ Object.assign(CONTENT, {
  puc:['Sé decidir primer què vull transmetre i a qui','Sé triar el format més adient: text, taula, imatge, àudio, vídeo, esquema o mapa conceptual','Sé valorar la qualitat estètica d’una producció'],
  lessons:[
   {t:'Primer pensa què vols transmetre',h:`Abans de triar el format, pregunta’t:<br>❓ <b>Què</b> vull que s’entengui?<br>👥 <b>A qui</b> ho explico (companys, famílies, nens petits)?<br>Segons la resposta, el format és un altre: un nen petit entén millor una imatge; una persona gran potser prefereix un text més gran.`},
-  {t:'Triar el format',h:`📝 <b>Text</b>: explicacions i raonaments.<br>▦ <b>Taula</b>: comparar dades.<br>🖼️ <b>Imatge</b>: mostrar com és una cosa.<br>🔊 <b>Àudio</b>: entrevistes, música, relats.<br>🎞️ <b>Vídeo</b>: processos i accions.<br>🧩 <b>Esquema o mapa conceptual</b>: relacions entre idees.<br>Cap no és «millor» sempre: <b>depèn</b> del que vols explicar.`},
-  {t:'Mapes conceptuals',h:`Un <b>mapa conceptual</b> posa les idees en <b>caixes</b> unides per <b>fletxes amb paraules</b> que expliquen la relació («es menja», «viu a»).<br>Hi ha aplicacions per fer-los fàcilment. Ajuden a estudiar i a veure l’estructura d’un tema.`},
+  {t:'Triar el format',h:`📝 <b>Text</b>: explicacions i raonaments.<br>▦ <b>Taula</b>: comparar dades.<br>🖼️ <b>Imatge</b>: mostrar com és una cosa.<br>🔊 <b>Àudio</b>: entrevistes, música, relats.<br>🎞️ <b>Vídeo</b>: processos i accions.<br>🧩 <b>Esquema o mapa conceptual</b>: relacions entre idees.<br>Cap no és «millor» sempre: <b>depèn</b> del que vols explicar.`,fig:()=>figFormats()},
+  {t:'Mapes conceptuals',h:`Un <b>mapa conceptual</b> posa les idees en <b>caixes</b> unides per <b>fletxes amb paraules</b> que expliquen la relació («es menja», «viu a»).<br>Hi ha aplicacions per fer-los fàcilment. Ajuden a estudiar i a veure l’estructura d’un tema.`,fig:()=>figMapa()},
   {t:'Cura estètica',h:`Una bona producció té:<br>🎨 <b>colors</b> que combinen i es llegeixen;<br>📐 una <b>composició</b> ordenada (res amuntegat);<br>📸 <b>imatges</b> nítides i <b>àudios</b> sense soroll.<br>Una producció cuidada demostra respecte per qui la mira.`}],
  items:[
   ch('E1','format','Abans de triar el format, el més important és pensar…',['què vols transmetre i a qui','quin color triar','quant dura el vídeo'],0,'El format ve després.','Primer el missatge i el públic; després, el format.'),
@@ -1287,7 +1515,7 @@ Object.assign(CONTENT, {
  puc:['Sé qui és l’autor o l’autora d’un contingut','Sé citar un text i una imatge amb autoria, adreça i data de consulta','Sé posar el meu nom a la meva producció i citar les fonts que he fet servir'],
  lessons:[
   {t:'Qui és l’autor o l’autora?',h:`Tot contingut (text, foto, vídeo, so) té <b>una autoria</b>: algú l’ha fet.<br>Quan el fem servir en el nostre treball hem de <b>reconèixer-ho</b>: dir qui l’ha fet i d’on l’hem tret. A CD1 ho vas veure en mirar les fonts consultades.`},
-  {t:'Citar un text i una imatge',h:`Una <b>cita</b> bona té:<br>👤 l’<b>autoria</b> (persona o entitat);<br>📄 el <b>títol</b> de la pàgina;<br>🔗 l’<b>adreça</b> web;<br>📅 la <b>data de consulta</b> (el dia que l’has mirada).<br>Exemple: <i>Pep Soler. «Els llops». Viquipèdia. https://… (consulta: 24/11/2026).</i><br>Per a una imatge, el mateix: autoria, lloc d’on l’has agafada i data.`},
+  {t:'Citar un text i una imatge',h:`Una <b>cita</b> bona té:<br>👤 l’<b>autoria</b> (persona o entitat);<br>📄 el <b>títol</b> de la pàgina;<br>🔗 l’<b>adreça</b> web;<br>📅 la <b>data de consulta</b> (el dia que l’has mirada).<br>Exemple: <i>Pep Soler. «Els llops». Viquipèdia. https://… (consulta: 24/11/2026).</i><br>Per a una imatge, el mateix: autoria, lloc d’on l’has agafada i data.`,fig:()=>figCita()},
   {t:'La nostra autoria',h:`També has d’<b>escriure el teu nom</b> a la teva producció: ets autor o autora del que has creat.<br>A més, dona les <b>gràcies</b> a les fonts que has fet servir amb una llista al final: les <b>fonts consultades</b>.`},
   {t:'Per què citem?',h:`Citem perquè:<br>1. Respectem el <b>treball dels altres</b>.<br>2. Qui ens llegeix pot <b>comprovar</b> el que diem i veure si és fiable.<br>3. Mostrem què és <b>nostre</b> i què hem pres d’altres persones.`}],
  items:[
@@ -1585,9 +1813,10 @@ function vSessio(){
   const ini=isIni();
   const blk=true;
   const figH=cs.fig?`<div class="fig">${cs.fig()}</div>`:'';
+  const figCtx=cs.fig?`<div class="fig">${cs.fig().replace(/<ol class="leg">[\s\S]*?<\/ol>/g,'').replace(/<circle[^>]*r="12" fill="#e8830c"[^>]*\/><text[^>]*>\d<\/text>/g,'')}</div>`:''; /* a «Què sabem?» la imatge només dona context: sense text explicatiu (la teoria és a «Aprenem») */
   if(S.step===0){
     if(ini){
-      h+=profNota('Formuleu les preguntes en veu alta i deixeu que l’alumnat respongui lliurement, sense corregir: l’objectiu és detectar els coneixements previs del grup. En acabar, marqueu el semàfor segons la impressió general. Aquest punt de partida quedarà reflectit a l’estat final.')+figH+`<div class="card hl"><h3>🗣️ ${docentMode()?'Preguntes per al grup':'Pensem una mica'}</h3><ol class="qs">${cs.sabem.map(q=>`<li>${fx(q)} ${spBtn(q)}</li>`).join('')}</ol></div>
+      h+=profNota('Formuleu les preguntes en veu alta i deixeu que l’alumnat respongui lliurement, sense corregir: l’objectiu és detectar els coneixements previs del grup. En acabar, marqueu el semàfor segons la impressió general. Aquest punt de partida quedarà reflectit a l’estat final.')+`<div class="card hl"><h3>🗣️ ${docentMode()?'Preguntes per al grup':'Pensem una mica'}</h3><ol class="qs">${cs.sabem.map(q=>`<li>${fx(q)} ${spBtn(q)}</li>`).join('')}</ol></div>${figCtx}
       <h3>Punt de partida ${docentMode()?'del grup':''}</h3><p>${docentMode()?'Després de les preguntes, marqueu com es veu el grup en cada cosa:':'Marca com et veus ara en cada cosa:'}</p>`+emo('pre');
       h+=`<p><button class="btn big" data-act="next">Aprenem →</button></p>`;
     }else{

@@ -61,6 +61,20 @@ A 1r i 2n és el professorat qui guia la sessió, amb cinc pestanyes: **Què sab
 
 Està pensat per a ordinadors d'aula (sobretaula o portàtil) i es recomana un navegador actual. La lectura en veu alta fa servir la veu del sistema.
 
+## Estructura del codi
+
+L'app que es publica és **un únic `index.html`**, però es genera a partir de fitxers separats a `src/`:
+
+| Fitxer | Què conté |
+|---|---|
+| `src/index.template.html` | Estructura de la pàgina i peu |
+| `src/estils.css` | Estils |
+| `src/js/01-config.js` … `05-motor.js` | Configuració, logos, helpers i motor de l'app |
+| `src/contingut/cd1-sessions.js`, `cd1-contingut.js` | Sessions i contingut de CD1 (un parell de fitxers per competència) |
+| `build.mjs` | Script (Node, sense dependències) que uneix tot en `index.html` |
+
+Per regenerar l'app: `node build.mjs` (o `npm run build`). Per afegir una competència, vegeu `src/contingut/PLANTILLA-competencia.txt`. El fitxer `index.html` generat es manté al repositori perquè GitHub Pages el serveixi directament.
+
 ## Autoria i llicència
 
 **Mentories 4.0** · Paula Pacho · [GitHub: Paula-Pacho](https://github.com/Paula-Pacho)

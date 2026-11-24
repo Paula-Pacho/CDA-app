@@ -87,3 +87,231 @@ const INSMENU=`<div class="toy"><div class="bar"><b>Insereix</b></div><div class
 
 /* Document d’exemple amb una font citada */
 const DOCFONT=`<div class="toy"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">📝 Els llops · document d’exemple</span></div><div class="body"><h3>Els llops</h3><p>Els llops viuen en grup que es diu <b>ramat</b>.</p><p style="color:var(--mut);font-size:15px"><span data-act="clic" data-id="fonttext" style="cursor:pointer;border-bottom:2px dotted #e8830c">Font del text: Viquipèdia, «Llop», 2026.</span></p><p>🖼️ <small style="color:var(--mut)">[imatge d’un llop]</small></p><p style="color:var(--mut);font-size:15px"><span data-act="clic" data-id="fontimg" style="cursor:pointer;border-bottom:2px dotted #e8830c">Imatge: Pep Soler, Wikimedia Commons, 2024.</span></p></div></div>`;
+
+/* ================= FIGURES AMPLIADES (cicles mitjà i superior) ================= */
+const FS=(h,aria,inner)=>`<svg viewBox="0 0 640 ${h}" role="img" aria-label="${aria}"><rect x="2" y="2" width="636" height="${h-4}" rx="14" fill="#fff" stroke="#b8c2cf" stroke-width="2"/>${inner}</svg>`;
+const FT=(x,y,t,sz,w,f,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'middle'}" font-size="${sz||18}" font-weight="${w||400}" fill="${f||'#1f2a37'}">${t}</text>`;
+const FR=(x,y,w,h,f,s,sw,rx)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx===undefined?10:rx}" fill="${f||'#fff'}" stroke="${s||'#b8c2cf'}" stroke-width="${sw||2}"/>`;
+const FKEY=(x,y,w,t,sz)=>`${FR(x,y,w,46,'#fff','#8a96a6',2,8)}${FT(x+w/2,y+30,t,sz||20,700)}`;
+const FOK=(x,y)=>`<circle cx="${x}" cy="${y}" r="13" fill="#2e9e5b"/>${FT(x,y+6,'✓',18,800,'#fff')}`;
+const FKO=(x,y)=>`<circle cx="${x}" cy="${y}" r="13" fill="#d33"/>${FT(x,y+6,'✕',16,800,'#fff')}`;
+/* petit paisatge reutilitzable (sol i muntanya) dins d’un requadre x,y,w,h */
+const FPAIS=(x,y,w,h)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#cfe8f7"/><circle cx="${x+w*0.78}" cy="${y+h*0.25}" r="${Math.min(w,h)*0.12}" fill="#f6c343"/><polygon points="${x},${y+h} ${x+w*0.38},${y+h*0.32} ${x+w*0.72},${y+h}" fill="#5b8c5a"/><polygon points="${x+w*0.45},${y+h} ${x+w*0.72},${y+h*0.5} ${x+w},${y+h}" fill="#3f6f4e"/></g>`;
+
+/* CM1 · accents: obert i tancat + altres signes */
+function figAccents(){
+  const cel=(x,y,l,c,tag)=>`${FR(x,y,92,64,c,'#b8c2cf',2,10)}${FT(x+46,y+44,l,34,700)}${tag?FT(x+46,y+82,tag,14,600,'#5b6776'):''}`;
+  return FS(280,'Lletres amb accent obert, accent tancat, dieresi, ce trencada i l punt volat l',
+   FT(24,36,'Accent obert (cap a l’esquerra)',17,700,'#1f2a37','start')+
+   cel(24,46,'à','#fff4e5')+cel(126,46,'è','#fff4e5')+cel(228,46,'ò','#fff4e5')+
+   FT(380,36,'Accent tancat (cap a la dreta)',17,700,'#1f2a37','start')+
+   cel(380,46,'é','#e7f1fb')+cel(482,46,'í','#e7f1fb')+cel(584-24,46,'ó','#e7f1fb')+
+   FT(24,160,'Altres signes',17,700,'#1f2a37','start')+
+   cel(24,170,'ï','#efedff','dieresi')+cel(126,170,'ç','#efedff','ce trencada')+cel(228,170,'l·l','#efedff','punt volat')+cel(330,170,'l’','#efedff','apòstrof')+cel(432,170,'-','#efedff','guionet'));
+}
+
+/* CM1 · tecles que cal conèixer */
+function figTeclesCat(){
+  return FS(210,'Tecles útils per escriure en català: majúscula, majúscula fixa, accent, ce trencada i espai',
+   FKEY(24,28,90,'⇧','24')+FT(69,98,'Majúscula',15,600)+FT(69,118,'(una lletra)',13,400,'#5b6776')+
+   FKEY(140,28,130,'Bloq Maj','18')+FT(205,98,'Majúscula fixa',15,600)+FT(205,118,'(moltes lletres)',13,400,'#5b6776')+
+   FKEY(296,28,70,'´','24')+FT(331,98,'Accent',15,600)+FT(331,118,'+ la lletra',13,400,'#5b6776')+
+   FKEY(392,28,70,'Ç','24')+FT(427,98,'Ce trencada',15,600)+FT(427,118,'tecla pròpia',13,400,'#5b6776')+
+   FKEY(488,28,128,'AltGr','18')+FT(552,98,'Signes especials',15,600)+FT(552,118,'(segons el teclat)',13,400,'#5b6776')+
+   FT(320,172,'La posició i el nom de les tecles pot variar segons el teclat.',15,400,'#5b6776'));
+}
+
+/* CM2 · exemples de format */
+function figFormatExemples(){
+  return FS(250,'Exemples de mida, negreta, cursiva i subratllat',
+   FR(20,20,290,100,'#f9fafc')+FT(165,56,'Mida gran',34,700)+FT(165,102,'mida petita',15)+
+   FR(330,20,290,100,'#f9fafc')+FT(475,64,'<tspan font-weight="800">Negreta</tspan> · <tspan font-style="italic">cursiva</tspan>',26)+FT(475,104,'<tspan text-decoration="underline">subratllat</tspan>',24)+
+   FT(165,148,'Mida',15,600,'#e8830c')+FT(475,148,'Negreta, cursiva i subratllat',15,600,'#e8830c')+
+   FR(20,160,600,70,'#fff4e5','#e8830c')+FT(320,192,'<tspan font-weight="800">Títol:</tspan> mida gran i negreta',20)+FT(320,218,'Per destacar una idea: <tspan font-weight="800">només una part</tspan>',17));
+}
+
+/* CM2 · pocs tipus de lletra: bé o malament */
+function figTipusLletra(){
+  return FS(220,'Dos textos: un amb un tipus de lletra i un amb cinc tipus diferents',
+   FR(20,20,290,180,'#f4faf5','#2e9e5b',3)+FT(165,52,'Un o dos tipus de lletra',16,700,'#2e9e5b')+FT(165,98,'Els llops viuen en grup.',22)+FT(165,132,'Cada grup té un líder.',22)+FT(165,166,'Es llegeix bé.',22)+FOK(290,36)+
+   FR(330,20,290,180,'#fdf4f4','#d33',3)+FT(475,52,'Cinc tipus diferents',16,700,'#d33')+
+   `<text x="475" y="98" text-anchor="middle" font-size="22" font-family="Georgia,serif">Els llops</text><text x="475" y="128" text-anchor="middle" font-size="20" font-family="Courier New,monospace">viuen en grup.</text><text x="475" y="160" text-anchor="middle" font-size="24" font-family="Comic Sans MS,cursive" font-style="italic">Cada grup</text><text x="475" y="188" text-anchor="middle" font-size="18" font-family="Impact,sans-serif">té un líder</text>`+FKO(606,36));
+}
+
+/* CM3 · taula amb files i columnes */
+function figTaula(){
+  const c=(x,y,t,h)=>`${FR(x,y,150,44,h?'#e7f1fb':'#fff','#8a96a6',2,2)}${FT(x+75,y+29,t,17,h?700:400)}`;
+  return FS(250,'Una taula amb tres files i dues columnes',
+   c(180,30,'Animal',true)+c(330,30,'Pes (kg)',true)+c(180,74,'Llop')+c(330,74,'40')+c(180,118,'Guineu')+c(330,118,'6')+c(180,162,'Linx')+c(330,162,'18')+
+   FT(100,60,'Columna ↓',16,700,'#e8830c')+`<path d="M168 150h-48" stroke="#e8830c" stroke-width="3"/>`+FT(88,148,'Fila →',16,700,'#e8830c')+
+   FT(480,214,'Una taula serveix per comparar dades.',16,600,'#5b6776','start'));
+}
+
+/* CM3 · imatge bé i imatge deformada */
+function figDeformar(){
+  const h=(x,y)=>`<rect x="${x-5}" y="${y-5}" width="10" height="10" fill="#e8830c"/>`;
+  return FS(260,'Imatge original, imatge ampliada des d’una cantonada i imatge deformada',
+   FPAIS(30,50,140,100)+FT(100,36,'Original',17,700)+
+   FPAIS(235,50,180,128)+h(415,178)+FT(325,36,'Cantonada: es manté bé',17,700,'#2e9e5b')+FOK(425,36)+
+   FPAIS(470,50,120,128)+FT(530,36,'Costat: es deforma',17,700,'#d33')+FKO(600,32)+
+   FT(320,224,'Arrossega sempre una <tspan font-weight="800" fill="#e8830c">cantonada</tspan>, no un costat.',17));
+}
+
+/* CM4 · noms de fitxer bons i dolents */
+function figNomsFitxer(){
+  const f=(y,t,ok)=>`${FR(30,y,580,44,ok?'#f4faf5':'#fdf4f4',ok?'#2e9e5b':'#d33',2,10)}${FT(60,y+29,ok?'📄':'📄',22)}${FT(96,y+29,t,19,ok?700:400,'#1f2a37','start')}${ok?FOK(580,y+22):FKO(580,y+22)}`;
+  return FS(260,'Exemples de noms de fitxer bons i dolents',
+   FT(320,30,'Quin nom diu què és?',18,700)+f(46,'Document1',false)+f(98,'aaa',false)+f(150,'Llops_Resum_2026-11',true)+f(202,'Mates_Problemes_2026-11',true));
+}
+
+/* CM4 · programari lliure, de pagament i núvol */
+function figProgramari(){
+  const card=(x,ico,nom,l1,l2,l3,col)=>`${FR(x,20,196,210,'#fff',col,3)}${FT(x+98,76,ico,48)}${FT(x+98,110,nom,18,700)}${FT(x+98,140,l1,15,600,col)}${FT(x+98,166,l2,14,400,'#5b6776')}${FT(x+98,190,l3,14,400,'#5b6776')}`;
+  return FS(250,'LibreOffice és lliure i gratuït, Microsoft Office és de pagament i Documents de Google és gratuït amb compte',
+   card(14,'🆓','LibreOffice','Lliure i gratuït','Fitxers .odt','S’instal·la a casa','#2e9e5b')+
+   card(222,'💶','Microsoft Office','De pagament','Fitxers .docx','Cal llicència','#d9822b')+
+   card(430,'☁️','Documents de Google','Gratuït amb compte','Al núvol','Cal Internet','#3b82c4'));
+}
+
+/* CM5 · contrast de colors */
+function figContrast(){
+  const d=(x,bg,fg,ok,t)=>`${FR(x,40,270,130,bg,'#8a96a6',2)}${FT(x+135,88,'Els llops',32,700,fg)}${FT(x+135,128,t,18,400,fg)}${ok?FOK(x+250,28):FKO(x+250,28)}`;
+  return FS(230,'Text clar sobre fons fosc i text fosc sobre fons clar es llegeixen bé; text del mateix to no',
+   d(30,'#1f3a5f','#fff',true,'Contrast alt: es llegeix')+d(340,'#2b4a73','#3d5c88',false,'Poc contrast: no es llegeix')+
+   FT(320,206,'El text s’ha de llegir bé sobre el fons.',16,600,'#5b6776'));
+}
+
+/* CM5 · hipervincle en una diapositiva */
+function figHipervincle(){
+  return FS(240,'Un text subratllat d’una diapositiva que porta a una pàgina web',
+   FR(30,30,260,170,'#fff')+FT(160,70,'Els llops',26,700)+FT(160,110,'<tspan fill="#1a5fd0" text-decoration="underline">Més informació</tspan>',20)+FT(160,160,'Diapositiva',14,400,'#5b6776')+
+   `<path d="M215 106 C 300 106, 320 106, 360 106" fill="none" stroke="#e8830c" stroke-width="4"/><polygon points="360,96 382,106 360,116" fill="#e8830c"/>`+
+   FT(300,92,'clic',15,700,'#e8830c')+
+   FR(390,30,220,170,'#fff')+`<rect x="392" y="32" width="216" height="30" rx="8" fill="#e9edf2"/>`+FT(500,52,'🔒 pagina-exemple.cat',14,400,'#5b6776')+FT(500,110,'Pàgina web',24,700)+FT(500,150,'(s’obre en fer clic)',14,400,'#5b6776'));
+}
+
+/* CM6 · editar una imatge */
+function figEditImatge(){
+  return FS(230,'Original, retallar, redimensionar i girar una imatge',
+   FT(80,36,'Original',16,700)+FPAIS(30,52,100,72)+
+   FT(235,36,'✂️ Retallar',16,700)+FPAIS(185,52,100,72)+`<rect x="205" y="58" width="60" height="60" fill="none" stroke="#e8830c" stroke-width="3" stroke-dasharray="6 4"/>`+
+   FT(390,36,'↔️ Més petita',16,700)+FPAIS(365,68,50,36)+
+   FT(545,36,'🔄 Girar',16,700)+`<g transform="rotate(-20 545 88)">${FPAIS(495,52,100,72)}</g>`+
+   FT(320,190,'Retallar, redimensionar i girar: edició senzilla d’una imatge',16,600,'#5b6776'));
+}
+
+/* CM6 · editar un vídeo */
+function figEditVideo(){
+  const clip=(x,w,c,t)=>`${FR(x,70,w,56,c,'#8a96a6',2,6)}${FT(x+w/2,104,t,16,700)}`;
+  return FS(230,'Línia de temps d’un vídeo amb clips i una tisora per retallar',
+   FT(24,40,'🎞️ Vídeo (línia de temps)',17,700,'#1f2a37','start')+
+   clip(24,120,'#dbe7f5','Clip 1')+clip(150,140,'#dbe7f5','Clip 2')+FR(296,70,70,56,'#f1f1f1','#c5cdd8',2,6)+FT(331,104,'sobra',15,400,'#8a96a6')+`<path d="M296 60v76" stroke="#d33" stroke-width="3" stroke-dasharray="5 4"/>`+FT(296,56,'✂️',24)+
+   clip(372,120,'#dbe7f5','Clip 3')+
+   FR(24,140,468,28,'#fff4e5','#e8830c',2,6)+FT(258,160,'🎵 Àudio / música',15,600)+
+   FR(120,172,140,28,'#e7f1fb','#3b82c4',2,6)+FT(190,192,'Text: «Els llops»',14,600)+
+   FT(560,100,'✂️ retallar',16,700)+FT(560,128,'➕ text i àudio',16,700));
+}
+
+/* CM6 · gravar bé: llum, silenci, micròfon */
+function figGravarBe(){
+  const c=(x,ico,t1,t2,t3)=>`${FR(x,20,196,170,'#fff','#b8c2cf')}${FT(x+98,76,ico,48)}${FT(x+98,110,t1,18,700)}${FT(x+98,138,t2,14,400,'#5b6776')}${FT(x+98,160,t3,14,400,'#5b6776')}`;
+  return FS(210,'Per gravar bé: llum davant, silenci i micròfon a prop',
+   c(14,'💡','Llum','davant, no d’esquena','a la finestra')+c(222,'🔇','Silenci','portes tancades,','sense soroll')+c(430,'🎤','Micròfon','a prop de qui parla,','sense tocar-lo'));
+}
+
+/* CM6 i CS7 · anatomia d’una cita */
+function figCita(){
+  const p=(x,w,t,c,n)=>`${FR(x,60,w,56,c,'#8a96a6',2,8)}${FT(x+w/2,94,t,17,700)}${badge(x+w/2,50,n)}`;
+  return FS(250,'Una cita amb autoria, títol, lloc web, adreça i data de consulta',
+   p(14,110,'Autoria','#fff4e5',1)+p(134,120,'«Títol»','#e7f1fb',2)+p(264,110,'Web','#efedff',3)+p(384,110,'https://…','#e5f4e4',4)+p(504,122,'consulta: data','#f9eeda',5)+
+   FT(320,160,'Pep Soler. «Els llops». Viquipèdia. https://… (consulta: 24/11/2026).',16,600,'#1f2a37')+
+   FT(320,196,'Per a una imatge: autoria, lloc d’on l’has agafada i data.',15,400,'#5b6776')+
+   FT(320,226,'No és teu? Digues-ho: així respectem el treball dels altres.',15,600,'#e8830c'));
+}
+
+/* CS1 · dreceres */
+function figDreceres(){
+  const d=(x,k,ico,t)=>`${FKEY(x,20,56,'Ctrl','15')}${FT(x+68,52,'+',20,700)}${FKEY(x+80,20,46,k,'22')}${FT(x+68,100,ico,34)}${FT(x+68,130,t,16,700)}`;
+  return FS(170,'Dreceres Ctrl C copia, Ctrl V enganxa, Ctrl X retalla i Ctrl F cerca',
+   d(14,'C','📋','Copia')+d(172,'V','📥','Enganxa')+d(330,'X','✂️','Retalla')+d(488,'F','🔍','Cerca'));
+}
+
+/* CS1 · enganxar amb format i sense format */
+function figEnganxar(){
+  return FS(230,'Enganxar amb format barreja lletres; enganxar sense format manté el format del document',
+   FR(20,20,290,190,'#fdf4f4','#d33',3)+FT(165,50,'Enganxa amb format',17,700,'#d33')+
+   `<text x="165" y="96" text-anchor="middle" font-size="22" font-family="Georgia,serif" fill="#3b82c4">El llop és un</text><text x="165" y="128" text-anchor="middle" font-size="18" font-family="Courier New,monospace" fill="#d33">mamífer que viu</text><text x="165" y="162" text-anchor="middle" font-size="26" font-weight="700" fill="#2e9e5b">en grup.</text>`+FKO(298,36)+
+   FR(330,20,290,190,'#f4faf5','#2e9e5b',3)+FT(475,50,'Enganxa sense format',17,700,'#2e9e5b')+
+   FT(475,100,'El llop és un mamífer',22)+FT(475,134,'que viu en grup.',22)+FT(475,180,'Format coherent',15,600,'#5b6776')+FOK(608,36));
+}
+
+/* CS2 · orientació de la pàgina */
+function figOrientacio(){
+  return FS(240,'Pàgina vertical i pàgina horitzontal',
+   FR(90,26,130,170,'#fff','#8a96a6',3,6)+FT(155,60,'Vertical',16,700)+`<rect x="106" y="76" width="98" height="8" rx="4" fill="#dfe4ea"/><rect x="106" y="94" width="98" height="8" rx="4" fill="#dfe4ea"/><rect x="106" y="112" width="70" height="8" rx="4" fill="#dfe4ea"/>`+FT(155,222,'Per a text',15,600,'#5b6776')+
+   FR(300,56,230,130,'#fff','#8a96a6',3,6)+FT(415,84,'Horitzontal',16,700)+`<rect x="316" y="100" width="198" height="8" rx="4" fill="#dfe4ea"/><rect x="316" y="118" width="198" height="8" rx="4" fill="#dfe4ea"/><rect x="316" y="136" width="130" height="8" rx="4" fill="#dfe4ea"/>`+FT(415,222,'Per a taules amples',15,600,'#5b6776'));
+}
+
+/* CS2 · estructura d’un treball */
+function figEstructuraDoc(){
+  return FS(270,'Pàgina amb títol, apartats, llista amb vinyetes, llista numerada i número de pàgina',
+   FR(120,14,400,242,'#fff','#8a96a6',3,6)+
+   FT(320,54,'Els llops',28,800)+badge(540,44,1)+
+   FT(150,92,'1. Alimentació',19,700,'#1f2a37','start')+badge(540,86,2)+
+   FT(150,120,'• carn   • peixos   • fruita',17,400,'#1f2a37','start')+badge(540,114,3)+
+   FT(150,158,'2. Com cacen',19,700,'#1f2a37','start')+
+   FT(150,186,'1) Es reuneixen   2) Persegueixen',16,400,'#1f2a37','start')+badge(540,180,4)+
+   `<line x1="150" y1="210" x2="490" y2="210" stroke="#dbe1e8" stroke-width="2"/>`+
+   FT(320,244,'– 1 –',17,700)+badge(540,238,5))+
+   legend(['<b>Títol</b>: gran i en negreta.','<b>Apartats</b> amb subtítols.','<b>Llista amb vinyetes</b>: l’ordre no importa.','<b>Llista numerada</b>: l’ordre importa.','<b>Número de pàgina</b>: a baix.']);
+}
+
+/* CS3 · mateixes dades en barres, línies i sectors */
+function figGrafiques(){
+  const bars=[40,70,100,55];const bx=(i)=>40+i*46;
+  return FS(260,'Gràfica de barres, gràfica de línies i gràfica de sectors',
+   FT(106,32,'Barres',17,700)+FT(106,50,'compara quantitats',13,400,'#5b6776')+
+   bars.map((v,i)=>`<rect x="${bx(i)}" y="${210-v}" width="32" height="${v}" fill="#3b82c4"/>`).join('')+`<line x1="30" y1="210" x2="226" y2="210" stroke="#8a96a6" stroke-width="2"/>`+
+   FT(320,32,'Línies',17,700)+FT(320,50,'mostra l’evolució',13,400,'#5b6776')+
+   `<polyline points="240,190 290,160 340,170 390,100" fill="none" stroke="#e8830c" stroke-width="4"/><circle cx="240" cy="190" r="5" fill="#e8830c"/><circle cx="290" cy="160" r="5" fill="#e8830c"/><circle cx="340" cy="170" r="5" fill="#e8830c"/><circle cx="390" cy="100" r="5" fill="#e8830c"/><line x1="230" y1="210" x2="410" y2="210" stroke="#8a96a6" stroke-width="2"/>`+
+   FT(540,32,'Sectors',17,700)+FT(540,50,'parts d’un total',13,400,'#5b6776')+
+   `<circle cx="540" cy="130" r="64" fill="#3b82c4"/><path d="M540 130 L540 66 A64 64 0 0 1 596 98 Z" fill="#e8830c"/><path d="M540 130 L596 98 A64 64 0 0 1 560 192 Z" fill="#2e9e5b"/>`+
+   FT(320,248,'Les mateixes dades poden explicar coses diferents segons el gràfic.',15,600,'#5b6776'));
+}
+
+/* CS4 · animació i transició */
+function figTransicio(){
+  const s=(x,t,sel)=>`${FR(x,40,150,100,'#fff',sel?'#e8830c':'#b8c2cf',sel?4:2,8)}${FT(x+75,96,t,20,700)}`;
+  return FS(270,'Una transició entre dues diapositives i una animació que fa aparèixer els punts un a un',
+   FT(130,28,'Transició',17,700)+s(30,'Diap. 1')+`<path d="M184 90 H 224" stroke="#e8830c" stroke-width="4"/><polygon points="224,80 244,90 224,100" fill="#e8830c"/>`+s(250,'Diap. 2',true)+
+   FT(320,170,'Efecte en canviar de diapositiva',14,400,'#5b6776')+
+   FR(30,184,580,70,'#f9fafc')+FT(60,216,'Animació:',16,700,'#1f2a37','start')+FT(160,216,'1. aparix el títol',15,400,'#1f2a37','start')+FT(330,216,'2. aparix el primer punt',15,400,'#1f2a37','start')+FT(160,242,'Quan ajuda: mostra el que expliques, un punt cada vegada.',14,600,'#2e9e5b','start')+FOK(590,232));
+}
+
+/* CS5 · flux d’edició: importar → editar → exportar → guardar */
+function figFluxEdicio(){
+  const b=(x,ico,t,t2)=>`${FR(x,40,128,140,'#fff','#8a96a6',3)}${FT(x+64,94,ico,40)}${FT(x+64,128,t,17,700)}${FT(x+64,152,t2,13,400,'#5b6776')}`;
+  const a=(x)=>`<path d="M${x} 110 h16" stroke="#e8830c" stroke-width="4"/><polygon points="${x+16},100 ${x+30},110 ${x+16},120" fill="#e8830c"/>`;
+  return FS(220,'Passos: importar, editar, exportar i guardar el producte final',
+   b(14,'📥','Importar','porta el fitxer')+a(144)+b(176,'✂️','Editar','retalla i ajusta')+a(306)+b(338,'📤','Exportar','crea el fitxer')+a(468)+b(500,'💾','Guardar','en dos llocs')+
+   FT(320,206,'Núvol, ordinador o memòria externa: guarda sempre dues còpies.',15,600,'#5b6776'));
+}
+
+/* CS6 · formats: què serveix per a què */
+function figFormats(){
+  const c=(x,y,ico,t,u)=>`${FR(x,y,188,92,'#fff','#b8c2cf')}${FT(x+34,y+54,ico,32)}${FT(x+112,y+42,t,17,700)}${FT(x+112,y+66,u,13,400,'#5b6776')}`;
+  return FS(260,'Format de text, taula, imatge, àudio, vídeo i esquema, cadascun amb la seva utilitat',
+   c(14,14,'📝','Text','explicar i raonar')+c(226,14,'▦','Taula','comparar dades')+c(438,14,'🖼️','Imatge','mostrar com és')+
+   c(14,122,'🔊','Àudio','veu i música')+c(226,122,'🎞️','Vídeo','processos')+c(438,122,'🧩','Esquema','relacions entre idees')+
+   FT(320,246,'No hi ha un format «millor»: depèn del que vols transmetre i a qui.',15,600,'#5b6776'));
+}
+
+/* CS6 · mapa conceptual d’exemple */
+function figMapa(){
+  const n=(x,y,w,t,c)=>`${FR(x,y,w,40,c,'#8a96a6',2,18)}${FT(x+w/2,y+26,t,16,700)}`;
+  const l=(x1,y1,x2,y2,t,tx,ty)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#8a96a6" stroke-width="3"/>${FT(tx,ty,t,13,400,'#e8830c')}`;
+  return FS(290,'Mapa conceptual: els llops viuen en ramats i mengen carn',
+   l(320,76,170,150,'viuen en',226,106)+l(320,76,470,150,'mengen',420,106)+l(170,190,170,232,'dirigit per',232,216)+
+   n(250,36,140,'Els llops','#fff4e5')+n(100,150,140,'Ramats','#e7f1fb')+n(400,150,140,'Carn','#e7f1fb')+n(100,232,140,'Un líder','#e5f4e4')+
+   FT(320,270,'Caixes = idees · Fletxes amb paraules = relacions',14,400,'#5b6776'));
+}

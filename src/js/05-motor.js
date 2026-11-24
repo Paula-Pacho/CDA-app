@@ -261,9 +261,10 @@ function vSessio(){
   const ini=isIni();
   const blk=true;
   const figH=cs.fig?`<div class="fig">${cs.fig()}</div>`:'';
+  const figCtx=cs.fig?`<div class="fig">${cs.fig().replace(/<ol class="leg">[\s\S]*?<\/ol>/g,'').replace(/<circle[^>]*r="12" fill="#e8830c"[^>]*\/><text[^>]*>\d<\/text>/g,'')}</div>`:''; /* a «Què sabem?» la imatge només dona context: sense text explicatiu (la teoria és a «Aprenem») */
   if(S.step===0){
     if(ini){
-      h+=profNota('Formuleu les preguntes en veu alta i deixeu que l’alumnat respongui lliurement, sense corregir: l’objectiu és detectar els coneixements previs del grup. En acabar, marqueu el semàfor segons la impressió general. Aquest punt de partida quedarà reflectit a l’estat final.')+figH+`<div class="card hl"><h3>🗣️ ${docentMode()?'Preguntes per al grup':'Pensem una mica'}</h3><ol class="qs">${cs.sabem.map(q=>`<li>${fx(q)} ${spBtn(q)}</li>`).join('')}</ol></div>
+      h+=profNota('Formuleu les preguntes en veu alta i deixeu que l’alumnat respongui lliurement, sense corregir: l’objectiu és detectar els coneixements previs del grup. En acabar, marqueu el semàfor segons la impressió general. Aquest punt de partida quedarà reflectit a l’estat final.')+`<div class="card hl"><h3>🗣️ ${docentMode()?'Preguntes per al grup':'Pensem una mica'}</h3><ol class="qs">${cs.sabem.map(q=>`<li>${fx(q)} ${spBtn(q)}</li>`).join('')}</ol></div>${figCtx}
       <h3>Punt de partida ${docentMode()?'del grup':''}</h3><p>${docentMode()?'Després de les preguntes, marqueu com es veu el grup en cada cosa:':'Marca com et veus ara en cada cosa:'}</p>`+emo('pre');
       h+=`<p><button class="btn big" data-act="next">Aprenem →</button></p>`;
     }else{
