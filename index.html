@@ -1193,6 +1193,10 @@ function figCartolinaTaula(){
 }
 /* ============ CD2 · CICLE INICIAL (1r i 2n) ============ */
 /* Sense tauleta: cada pràctica combina un pas a la pissarra digital (un alumne o alumna per pas) i una producció manual en paper o cartolina. */
+const RUBRICA_CARTOLINA=`<b>Rúbrica de la cartolina.</b> Marqueu el nivell de cada criteri.<div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;margin:8px 0;font-size:.92em"><tr style="background:#fff4bf"><th style="border:1px solid #c9b46a;padding:6px;text-align:left">Criteri</th><th style="border:1px solid #c9b46a;padding:6px">Molt bé</th><th style="border:1px solid #c9b46a;padding:6px">Bé</th><th style="border:1px solid #c9b46a;padding:6px">Cal millorar</th></tr>
+<tr><td style="border:1px solid #c9b46a;padding:6px"><b>Format coherent</b></td><td style="border:1px solid #c9b46a;padding:6px">Títols, colors i lletra segueixen un mateix criteri i tot es veu ordenat.</td><td style="border:1px solid #c9b46a;padding:6px">Es veu bastant ordenat, però alguns elements canvien sense criteri.</td><td style="border:1px solid #c9b46a;padding:6px">Es veu desordenat, sense un criteri comú.</td></tr>
+<tr><td style="border:1px solid #c9b46a;padding:6px"><b>Originalitat</b></td><td style="border:1px solid #c9b46a;padding:6px">Dibuixos i idees pròpies del grup, diferents de l’exemple.</td><td style="border:1px solid #c9b46a;padding:6px">Alguns elements propis i altres semblants a l’exemple.</td><td style="border:1px solid #c9b46a;padding:6px">Copia l’exemple sense afegir-hi res.</td></tr>
+<tr><td style="border:1px solid #c9b46a;padding:6px"><b>Informació sol·licitada</b></td><td style="border:1px solid #c9b46a;padding:6px">Hi surten tots els elements de la llista.</td><td style="border:1px solid #c9b46a;padding:6px">Falta un element.</td><td style="border:1px solid #c9b46a;padding:6px">Falten dos elements o més.</td></tr></table></div>`;
 Object.assign(CONTENT, {
 
 'cd2-inicial-1':{
@@ -1216,11 +1220,11 @@ Object.assign(CONTENT, {
  real:{blocks:[
    {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre <b>Documents de Google</b> i un altre <b>Presentacions de Google</b>; un altre prova els tres botons de la finestra: minimitzar, maximitzar i tancar.',fields:['a1']},
    {h:'<b>2. Amb una cartolina, per grups.</b> Feu un <b>mapa conceptual</b> de «Escriure i presentar». Hi ha de sortir:<ul><li>els botons de la finestra: <b>minimitzar</b>, <b>maximitzar</b> i <b>tancar</b>, amb el que fa cadascun</li><li>per <b>escriure</b>: el <b>processador de textos</b></li><li>per <b>presentar</b>: les <b>diapositives</b></li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolina(1)+'</details>',fields:[]},
-   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['a2','a3','a4']}],
+   {h:RUBRICA_CARTOLINA,fields:['a2','a3','a4']}],
   fields:[{k:'a1',type:'select',label:'Han provat els programes i els botons a la pissarra?',opts:['Sí, tots','Només alguns','No']},
-   {k:'a2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
-   {k:'a3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
-   {k:'a4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
+   {k:'a2',type:'select',label:'Format coherent',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'a3',type:'select',label:'Originalitat',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'a4',type:'select',label:'Informació sol·licitada',opts:['Molt bé','Bé','Cal millorar']}]}},
 
 'cd2-inicial-2':{
  fig:()=>kbInicial(),
@@ -1243,11 +1247,11 @@ Object.assign(CONTENT, {
  real:{blocks:[
    {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre un document i escriu el seu <b>nom</b> amb majúscula inicial; un altre escriu una <b>frase</b> amb punt i prova d’esborrar una lletra amb ⌫.',fields:['t1']},
    {h:'<b>2. Amb una cartolina, per grups.</b> Feu el mapa de «El teclat»: dibuixeu <b>un teclat</b> i expliqueu <b>què fa cada tecla</b>. Hi ha de sortir:<ul><li>les <b>lletres</b> i els <b>números</b></li><li>l’<b>espai</b>, la <b>majúscula</b> ⇧ i la tecla <b>Intro</b> ↵</li><li>la tecla de <b>retrocedir</b> ⌫ (esborrar)</li><li>el <b>punt</b> i la <b>coma</b></li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolinaTeclat()+'</details>',fields:[]},
-   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['t2','t3','t4']}],
+   {h:RUBRICA_CARTOLINA,fields:['t2','t3','t4']}],
   fields:[{k:'t1',type:'select',label:'Han fet les proves del teclat a la pissarra?',opts:['Sí, tots','Només alguns','No']},
-   {k:'t2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
-   {k:'t3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
-   {k:'t4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
+   {k:'t2',type:'select',label:'Format coherent',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'t3',type:'select',label:'Originalitat',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'t4',type:'select',label:'Informació sol·licitada',opts:['Molt bé','Bé','Cal millorar']}]}},
 
 'cd2-inicial-3':{
  fig:()=>figDosTextos(),
@@ -1271,11 +1275,11 @@ Object.assign(CONTENT, {
  real:{blocks:[
    {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna escriu una paraula, la <b>selecciona</b> i la posa en <b>negreta</b> i d’un altre <b>color</b>; un altre fa un canvi, el <b>desfà</b> i el <b>refà</b>.',fields:['f1']},
    {h:'<b>2. Amb una cartolina, per grups.</b> Feu el mapa de «Donar format». Dibuixeu cada <b>botó</b> i escriviu <b>què significa</b>. Hi han de sortir:<ul><li><b>N</b> negreta, <b>A</b> color i ☰ alineació</li><li>↶ <b>desfer</b> i ↷ <b>refer</b></li><li>🖼️ <b>imatge</b></li><li>per què és important <b>donar format</b> al text</li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolina(3)+'</details>',fields:[]},
-   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['f2','f3','f4']}],
+   {h:RUBRICA_CARTOLINA,fields:['f2','f3','f4']}],
   fields:[{k:'f1',type:'select',label:'Han fet les proves de format a la pissarra?',opts:['Sí, tots','Només alguns','No']},
-   {k:'f2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
-   {k:'f3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
-   {k:'f4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
+   {k:'f2',type:'select',label:'Format coherent',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'f3',type:'select',label:'Originalitat',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'f4',type:'select',label:'Informació sol·licitada',opts:['Molt bé','Bé','Cal millorar']}]}},
 
 'cd2-inicial-4':{
  fig:()=>figNuvolLocal(),
@@ -1297,11 +1301,11 @@ Object.assign(CONTENT, {
  real:{blocks:[
    {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna posa un <b>títol descriptiu</b> al document de classe; un altre el tanca i el <b>reobre</b> buscant-lo pel títol.',fields:['d1']},
    {h:'<b>2. Amb una cartolina, per grups.</b> Feu el mapa de «Desar i recuperar». Hi han de sortir:<ul><li>què vol dir <b>desar</b> un document</li><li>un <b>títol descriptiu</b>: un exemple que va bé i un que no</li><li><b>on</b> es guarda: al núvol ☁️ o a l’ordinador 💻</li><li>com <b>recuperar</b> un document que ja tenim</li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolina(4)+'</details>',fields:[]},
-   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['d2','d3','d4']}],
+   {h:RUBRICA_CARTOLINA,fields:['d2','d3','d4']}],
   fields:[{k:'d1',type:'select',label:'Han desat i reobert el document a la pissarra?',opts:['Sí, tots','Només alguns','No']},
-   {k:'d2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
-   {k:'d3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
-   {k:'d4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
+   {k:'d2',type:'select',label:'Format coherent',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'d3',type:'select',label:'Originalitat',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'d4',type:'select',label:'Informació sol·licitada',opts:['Molt bé','Bé','Cal millorar']}]}},
 
 'cd2-inicial-5':{
  fig:()=>figDispositius(),
@@ -1322,11 +1326,11 @@ Object.assign(CONTENT, {
  real:{blocks:[
    {h:'<b>1. A la pissarra digital o amb l’aparell del professorat.</b> Un alumne o alumna fa una <b>foto</b> de la classe i un altre <b>grava la seva veu</b> dient el seu nom; després ho mirem i ho escoltem entre tots.',fields:['m1']},
    {h:'<b>2. Amb una cartolina, per grups.</b> Feu una <b>taula</b> amb els aparells (càmera de fotos, càmera de vídeo i micròfon) i el que pot fer cadascun (fer fotos, gravar vídeo i gravar veu). Marqueu ✔ si ho pot fer i ✘ si no. Hi ha de sortir:<ul><li>els <b>tres aparells</b>, amb un dibuix</li><li><b>tres columnes</b>: fa fotos, grava vídeo, grava veu</li><li>un <b>✔</b> o una <b>✘</b> a cada casella</li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolinaTaula()+'</details>',fields:[]},
-   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['m2','m3','m4']}],
+   {h:RUBRICA_CARTOLINA,fields:['m2','m3','m4']}],
   fields:[{k:'m1',type:'select',label:'Han fet la foto i l’enregistrament?',opts:['Sí, tots','Només alguns','No']},
-   {k:'m2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
-   {k:'m3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
-   {k:'m4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
+   {k:'m2',type:'select',label:'Format coherent',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'m3',type:'select',label:'Originalitat',opts:['Molt bé','Bé','Cal millorar']},
+   {k:'m4',type:'select',label:'Informació sol·licitada',opts:['Molt bé','Bé','Cal millorar']}]}},
 
 });
 /* ============ CD2 · CICLE MITJÀ (3r i 4t) ============ */
