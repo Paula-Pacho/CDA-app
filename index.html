@@ -1131,15 +1131,15 @@ function figTecladDreceres(){
 }
 
 /* ============ CICLE INICIAL: teclat amb retrocedir, dos textos, cartolines d'exemple ============ */
-function kbInicial(){
-  const key=(x,y,w,h,t,hi)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${hi?'#ffe0b2':'#fff'}" stroke="${hi?'#e8830c':'#b8c2cf'}" stroke-width="${hi?4:2}"/><text x="${x+w/2}" y="${y+h/2+7}" text-anchor="middle" font-size="${t.length>2?18:22}" font-weight="700" fill="#1f2a37">${t}</text></g>`;
+function kbInicial(inter){
+  const key=(x,y,w,h,t,hi,id)=>`<g ${inter?`data-act="clic" data-id="${id}"`:''}><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${hi&&!inter?'#ffe0b2':'#fff'}" stroke="${hi&&!inter?'#e8830c':'#b8c2cf'}" stroke-width="${hi&&!inter?4:2}"/><text x="${x+w/2}" y="${y+h/2+7}" text-anchor="middle" font-size="${t.length>2?18:22}" font-weight="700" fill="#1f2a37">${t}</text></g>`;
   const rows=[['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L','Ñ'],['Z','X','C','V','B','N','M']];
   const x0=[40,52,76],ys=[60,112,164];
-  let k=key(14,8,50,32,'Esc');
-  rows.forEach((r,i)=>r.forEach((c,j)=>{k+=key(x0[i]+j*52,ys[i],46,46,c)}));
-  k+=key(574,8,112,46,'⌫',true)+key(574,60,112,98,'Intro ↵',true)+key(14,164,56,46,'⇧',true)+key(150,216,300,40,'Espai',true);
-  return `<svg class="kb" viewBox="0 0 700 270" role="img" aria-label="Teclat amb les tecles espai, majúscula, Intro i retrocedir destacades"><rect x="2" y="2" width="696" height="266" rx="16" fill="#e9edf2" stroke="#b8c2cf" stroke-width="2"/>${k}${badge(298,70,1)}${badge(446,214,2)}${badge(66,162,3)}${badge(684,58,4)}${badge(684,6,5)}</svg>`
-   +legend(['<b>Lletres</b>: al mig del teclat, per escriure paraules.','<b>Espai</b>: la tecla llarga de baix; separa les paraules.','<b>⇧ Majúscula</b>: a l’esquerra; amb una lletra la fa gran.','<b>Intro</b>: la tecla gran de la dreta; canvia de línia.','<b>⌫ Retrocedir</b>: a dalt a la dreta; esborra la lletra que acabem d’escriure.']);
+  let k=key(14,8,50,32,'Esc',0,'esc');
+  rows.forEach((r,i)=>r.forEach((c,j)=>{k+=key(x0[i]+j*52,ys[i],46,46,c,0,'lletra')}));
+  k+=key(574,8,112,46,'⌫',true,'esborrar')+key(574,60,112,98,'Intro ↵',true,'intro')+key(14,164,56,46,'⇧',true,'maj')+key(150,216,300,40,'Espai',true,'espai');
+  return `<svg class="kb" viewBox="0 0 700 270" role="img" aria-label="Teclat amb les tecles espai, majúscula, Intro i retrocedir destacades"><rect x="2" y="2" width="696" height="266" rx="16" fill="#e9edf2" stroke="#b8c2cf" stroke-width="2"/>${k}${inter?'':badge(298,70,1)+badge(446,214,2)+badge(66,162,3)+badge(684,58,4)+badge(684,6,5)}</svg>`
+   +(inter?'':legend(['<b>Lletres</b>: al mig del teclat, per escriure paraules.','<b>Espai</b>: la tecla llarga de baix; separa les paraules.','<b>⇧ Majúscula</b>: a l’esquerra; amb una lletra la fa gran.','<b>Intro</b>: la tecla gran de la dreta; canvia de línia.','<b>⌫ Retrocedir</b>: a dalt a la dreta; esborra la lletra que acabem d’escriure.']));
 }
 
 function figDosTextos(){
@@ -1166,7 +1166,7 @@ function mapaCartolina(centre,br,peu){
 }
 function figCartolina(n){
   if(n===1)return mapaCartolina('Escriure i presentar',[{t:'La finestra',d:'– minimitza · ▢ maximitza · ✕ tanca'},{t:'Per escriure',d:'processador de textos 📝'},{t:'Per presentar',d:'diapositives 🖼️'}],'Exemple de cartolina · Fem-ho amb colors i dibuixos nostres');
-  if(n===3)return mapaCartolina('Donar format',[{t:'N Negreta',d:'lletres gruixudes'},{t:'A Color',d:'canvia el color del text'},{t:'☰ Alineació',d:'esquerra, centre o dreta'},{t:'↶ ↷ Desfer i refer',d:'tornem enrere o endavant'},{t:'🖼️ Imatge',d:'posa una imatge al document'}],'Exemple de cartolina');
+  if(n===3)return mapaCartolina('Donar format',[{t:'N Negreta',d:'lletres gruixudes'},{t:'A Color',d:'canvia el color del text'},{t:'☰ Alineació',d:'esquerra, centre o dreta'},{t:'↶ ↷ Desfer i refer',d:'tornem enrere o endavant'},{t:'🖼️ Imatge',d:'posa una imatge al document'},{t:'💡 Per què?',d:'el text es llegeix i s’entén millor'}],'Exemple de cartolina');
   if(n===4)return mapaCartolina('Desar i recuperar',[{t:'💾 Desar',d:'guardar perquè no es perdi'},{t:'🏷️ Títol descriptiu',d:'Els llops ✔   Document1 ✘'},{t:'On es guarda',d:'☁️ núvol · 💻 ordinador'},{t:'📂 Recuperar',d:'busquem el títol i l’obrim'}],'Exemple de cartolina · Desar i recuperar');
   return '';
 }
@@ -1175,11 +1175,11 @@ function figCartolinaTeclat(){
   let keys='';['QWERTYUIOP','ASDFGHJKLÑ'].forEach((r,i)=>[...r].forEach((c,j)=>{keys+=k(150+j*36+i*14,86+i*38,32,c)}));
   keys+=k(150,162,40,'⇧',1)+k(258,162,170,'Espai',1)+k(510,86,60,'⌫',1)+k(514,124,56,'↵',1);
   const lab=(x,y,t)=>`<text x="${x}" y="${y}" font-size="13" fill="#1f2a37" font-weight="700">${t}</text>`;
-  return `<svg viewBox="0 0 640 260" role="img" aria-label="Exemple de cartolina amb un teclat dibuixat i la descripció de les tecles"><rect x="4" y="4" width="632" height="252" rx="14" fill="#e3c08a" stroke="#b98a4e" stroke-width="3"/><rect x="14" y="14" width="612" height="232" rx="10" fill="none" stroke="#c9a06a" stroke-width="2" stroke-dasharray="6 6"/>
+  return `<svg viewBox="0 0 640 292" role="img" aria-label="Exemple de cartolina amb un teclat dibuixat i la descripció de les tecles"><rect x="4" y="4" width="632" height="284" rx="14" fill="#e3c08a" stroke="#b98a4e" stroke-width="3"/><rect x="14" y="14" width="612" height="264" rx="10" fill="none" stroke="#c9a06a" stroke-width="2" stroke-dasharray="6 6"/>
   <text x="320" y="46" text-anchor="middle" font-size="22" font-weight="800" fill="#1f2a37">El teclat</text>${keys}
-  <g stroke="#2c7a4b" stroke-width="2" fill="none"><path d="M165 194 L120 212"/><path d="M343 194 L343 214"/><path d="M540 118 L540 100"/><path d="M542 156 L542 194"/></g>
+  <g stroke="#2c7a4b" stroke-width="2" fill="none"><path d="M165 194 L120 212"/><path d="M343 194 L343 214"/><path d="M542 156 L542 194"/></g>
   ${lab(26,226,'⇧ fa la lletra gran')}${lab(250,232,'Espai separa les paraules')}${lab(486,78,'⌫ esborra')}${lab(470,212,'↵ Intro: nova línia')}
-  <text x="300" y="76" text-anchor="middle" font-size="12" fill="#5b4220">lletres per escriure paraules</text></svg>`;
+  <text x="300" y="76" text-anchor="middle" font-size="12" fill="#5b4220">lletres i números per escriure</text><text x="320" y="266" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2a37">1 2 3 números · .  punt: final de la frase · ,  coma: una pausa</text></svg>`;
 }
 function figCartolinaTaula(){
   const rows=[['📷 Càmera de fotos','✔','✘','✘'],['🎥 Càmera de vídeo','✔','✔','✔'],['🎤 Micròfon','✘','✘','✔']];
@@ -1236,9 +1236,10 @@ Object.assign(CONTENT, {
   {t:'Majúscula i Intro',h:`Per fer una <b>majúscula</b>, premem [[key:⇧]] (la fletxa cap amunt) <b>i</b>, alhora, la lletra.<br>Amb [[key:↵ Intro]] <b>canviem de línia</b>.`},
   {t:'Esborrar',h:`Si ens equivoquem, no passa res! Premem la tecla de <b>retrocedir</b> (⌫, a dalt a la dreta de les lletres) i <b>esborra la lletra</b> que acabem d’escriure.`}],
  items:[
-  clic('T1','teclat','Clica la tecla de l’<b>espai</b> (la més llarga).',`<div class="toy"><div class="body">${kbSVG(true)}</div></div>`,'espai','És la tecla llarga de baix.','L’espai és la tecla llarga de baix: separa les paraules.'),
-  clic('T2','teclat','Clica la tecla de les <b>majúscules</b> (⇧).',`<div class="toy"><div class="body">${kbSVG(true)}</div></div>`,'maj','Té una fletxa cap amunt.','La tecla ⇧ serveix per fer majúscules.'),
-  clic('T3','teclat','Clica una <b>lletra</b>.',`<div class="toy"><div class="body">${kbSVG(true)}</div></div>`,'lletra','Les lletres són al mig del teclat.','Les lletres són al mig del teclat.'),
+  clic('T1','teclat','Clica la tecla de l’<b>espai</b> (la més llarga).',`<div class="toy"><div class="body">${kbInicial(true)}</div></div>`,'espai','És la tecla llarga de baix.','L’espai és la tecla llarga de baix: separa les paraules.'),
+  clic('T2','teclat','Clica la tecla de les <b>majúscules</b> (⇧).',`<div class="toy"><div class="body">${kbInicial(true)}</div></div>`,'maj','Té una fletxa cap amunt.','La tecla ⇧ serveix per fer majúscules.'),
+  clic('T3','teclat','Clica una <b>lletra</b>.',`<div class="toy"><div class="body">${kbInicial(true)}</div></div>`,'lletra','Les lletres són al mig del teclat.','Les lletres són al mig del teclat.'),
+  clic('T3b','teclat','Clica la tecla que <b>esborra</b> l’última lletra escrita (retrocedir).',`<div class="toy"><div class="body">${kbInicial(true)}</div></div>`,'esborrar','Està a dalt a la dreta, sobre Intro.','La tecla ⌫ (retrocedir) esborra l’última lletra.'),
   ch('T4','teclat','Per <b>separar dues paraules</b> escrites fem…',['un espai','una coma','un número'],0,'És la tecla llarga.','L’espai separa les paraules.'),
   ch('T5','teclat','Ens hem equivocat d’una lletra. Quina tecla ens ajuda?',['La de retrocedir ⌫','L’espai','El número 0'],0,'Serveix per esborrar.','La tecla de retrocedir esborra la lletra.'),
   ch('T6','teclat','Una frase acaba amb un…',['espai','punt','número'],1,'És com una petita bola.','Al final de la frase posem un punt.'),
