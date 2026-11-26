@@ -1129,6 +1129,68 @@ function figTecladCat(mode){
 function figTecladDreceres(){
   return kbCatSVG({ctrl:1,C:2,V:3,X:4,F:5},true)+legend(['<b>Ctrl</b>: a baix a l’esquerra (i també a la dreta). Es prem <b>primer</b> i no es deixa.','<b>C</b>: copiar','<b>V</b>: enganxar','<b>X</b>: retallar','<b>F</b>: cercar (find)']);
 }
+
+/* ============ CICLE INICIAL: teclat amb retrocedir, dos textos, cartolines d'exemple ============ */
+function kbInicial(){
+  const key=(x,y,w,h,t,hi)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${hi?'#ffe0b2':'#fff'}" stroke="${hi?'#e8830c':'#b8c2cf'}" stroke-width="${hi?4:2}"/><text x="${x+w/2}" y="${y+h/2+7}" text-anchor="middle" font-size="${t.length>2?18:22}" font-weight="700" fill="#1f2a37">${t}</text></g>`;
+  const rows=[['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L','Ñ'],['Z','X','C','V','B','N','M']];
+  const x0=[40,52,76],ys=[60,112,164];
+  let k=key(14,8,50,32,'Esc');
+  rows.forEach((r,i)=>r.forEach((c,j)=>{k+=key(x0[i]+j*52,ys[i],46,46,c)}));
+  k+=key(574,8,112,46,'⌫',true)+key(574,60,112,98,'Intro ↵',true)+key(14,164,56,46,'⇧',true)+key(150,216,300,40,'Espai',true);
+  return `<svg class="kb" viewBox="0 0 700 270" role="img" aria-label="Teclat amb les tecles espai, majúscula, Intro i retrocedir destacades"><rect x="2" y="2" width="696" height="266" rx="16" fill="#e9edf2" stroke="#b8c2cf" stroke-width="2"/>${k}${badge(298,70,1)}${badge(446,214,2)}${badge(66,162,3)}${badge(684,58,4)}${badge(684,6,5)}</svg>`
+   +legend(['<b>Lletres</b>: al mig del teclat, per escriure paraules.','<b>Espai</b>: la tecla llarga de baix; separa les paraules.','<b>⇧ Majúscula</b>: a l’esquerra; amb una lletra la fa gran.','<b>Intro</b>: la tecla gran de la dreta; canvia de línia.','<b>⌫ Retrocedir</b>: a dalt a la dreta; esborra la lletra que acabem d’escriure.']);
+}
+
+function figDosTextos(){
+  const card=(x,lab)=>`<rect x="${x}" y="6" width="300" height="238" rx="12" fill="#fff" stroke="#b8c2cf" stroke-width="2"/><circle cx="${x+22}" cy="28" r="14" fill="#5b6776"/><text x="${x+22}" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">${lab}</text>`;
+  const l=(x,y,t,o)=>`<text x="${x}" y="${y}" font-size="${o&&o.s||14}" ${o&&o.b?'font-weight="800"':''} fill="${o&&o.c||'#1f2a37'}" ${o&&o.m?'text-anchor="middle"':''}>${t}</text>`;
+  const A=['els llops viuen en ramats i tenen','un líder els llops caçen de nit cérvols','i conills el ramat es mou junt i els','llops joves aprenen dels grans quan','caça el ramat menja tots junts'];
+  return `<svg viewBox="0 0 640 250" role="img" aria-label="Dos textos sobre els llops: un sense format i un altre amb títol, negreta, color i imatge">
+  ${card(6,'A')}${A.map((t,i)=>l(22,70+i*24,t)).join('')}
+  ${card(334,'B')}${l(484,70,'Els llops',{s:26,b:1,c:'#1f6fc2',m:1})}<text x="590" y="62" font-size="34">🐺</text>
+  ${l(350,104,'Els llops viuen en <tspan font-weight="800">ramats</tspan> i tenen un líder.',{s:14})}${l(350,130,'Cacen de nit <tspan fill="#d33" font-weight="700">cérvols i conills</tspan>.',{s:14})}${l(350,156,'El ramat es mou junt: els joves',{s:14})}${l(350,180,'aprenen dels grans.',{s:14})}${l(350,214,'Cacen i mengen tots junts.',{s:14})}</svg>`;
+}
+
+/* Cartolina: mapa conceptual (centre + caixes laterals) */
+function mapaCartolina(centre,br,peu){
+  const n=br.length,L=br.filter((_,i)=>i%2===0),R=br.filter((_,i)=>i%2===1);
+  const ys=a=>a.length===1?[130]:a.length===2?[40,220]:[20,130,240];
+  const box=(x,y,b)=>`<line x1="${x<320?x+210:x}" y1="${y+34}" x2="320" y2="170" stroke="#7a5b2e" stroke-width="3" stroke-linecap="round"/><rect x="${x}" y="${y}" width="210" height="68" rx="12" fill="#fffdf6" stroke="#2c7a4b" stroke-width="3"/><text x="${x+105}" y="${y+28}" text-anchor="middle" font-size="16" font-weight="800" fill="#2c7a4b">${b.t}</text><text x="${x+105}" y="${y+52}" text-anchor="middle" font-size="13" fill="#1f2a37">${b.d}</text>`;
+  const yl=ys(L),yr=ys(R);
+  let s=`<svg viewBox="0 0 640 ${peu?372:350}" role="img" aria-label="Exemple de cartolina amb un mapa conceptual"><rect x="4" y="4" width="632" height="${peu?364:342}" rx="14" fill="#e3c08a" stroke="#b98a4e" stroke-width="3"/><rect x="14" y="14" width="612" height="${peu?344:322}" rx="10" fill="none" stroke="#c9a06a" stroke-width="2" stroke-dasharray="6 6"/>`;
+  s+=L.map((b,i)=>box(24,yl[i]+10,b)).join('')+R.map((b,i)=>box(406,yr[i]+10,b)).join('');
+  s+=`<ellipse cx="320" cy="180" rx="92" ry="44" fill="#fff4bf" stroke="#e8830c" stroke-width="4"/><text x="320" y="186" text-anchor="middle" font-size="17" font-weight="800" fill="#1f2a37">${centre}</text>`;
+  if(peu)s+=`<text x="320" y="356" text-anchor="middle" font-size="13" fill="#5b4220" font-style="italic">${peu}</text>`;
+  return s+'</svg>';
+}
+function figCartolina(n){
+  if(n===1)return mapaCartolina('Escriure i presentar',[{t:'La finestra',d:'– minimitza · ▢ maximitza · ✕ tanca'},{t:'Per escriure',d:'processador de textos 📝'},{t:'Per presentar',d:'diapositives 🖼️'}],'Exemple de cartolina · Fem-ho amb colors i dibuixos nostres');
+  if(n===3)return mapaCartolina('Donar format',[{t:'N Negreta',d:'lletres gruixudes'},{t:'A Color',d:'canvia el color del text'},{t:'☰ Alineació',d:'esquerra, centre o dreta'},{t:'↶ ↷ Desfer i refer',d:'tornem enrere o endavant'},{t:'🖼️ Imatge',d:'posa una imatge al document'}],'Exemple de cartolina');
+  if(n===4)return mapaCartolina('Desar i recuperar',[{t:'💾 Desar',d:'guardar perquè no es perdi'},{t:'🏷️ Títol descriptiu',d:'Els llops ✔   Document1 ✘'},{t:'On es guarda',d:'☁️ núvol · 💻 ordinador'},{t:'📂 Recuperar',d:'busquem el títol i l’obrim'}],'Exemple de cartolina · Desar i recuperar');
+  return '';
+}
+function figCartolinaTeclat(){
+  const k=(x,y,w,t,hi)=>`<rect x="${x}" y="${y}" width="${w}" height="30" rx="6" fill="${hi?'#ffe0b2':'#fff'}" stroke="#7a5b2e" stroke-width="2"/><text x="${x+w/2}" y="${y+21}" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2a37">${t}</text>`;
+  let keys='';['QWERTYUIOP','ASDFGHJKLÑ'].forEach((r,i)=>[...r].forEach((c,j)=>{keys+=k(150+j*36+i*14,86+i*38,32,c)}));
+  keys+=k(150,162,40,'⇧',1)+k(258,162,170,'Espai',1)+k(510,86,60,'⌫',1)+k(514,124,56,'↵',1);
+  const lab=(x,y,t)=>`<text x="${x}" y="${y}" font-size="13" fill="#1f2a37" font-weight="700">${t}</text>`;
+  return `<svg viewBox="0 0 640 260" role="img" aria-label="Exemple de cartolina amb un teclat dibuixat i la descripció de les tecles"><rect x="4" y="4" width="632" height="252" rx="14" fill="#e3c08a" stroke="#b98a4e" stroke-width="3"/><rect x="14" y="14" width="612" height="232" rx="10" fill="none" stroke="#c9a06a" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="320" y="46" text-anchor="middle" font-size="22" font-weight="800" fill="#1f2a37">El teclat</text>${keys}
+  <g stroke="#2c7a4b" stroke-width="2" fill="none"><path d="M165 194 L120 212"/><path d="M343 194 L343 214"/><path d="M540 118 L540 100"/><path d="M542 156 L542 194"/></g>
+  ${lab(26,226,'⇧ fa la lletra gran')}${lab(250,232,'Espai separa les paraules')}${lab(486,78,'⌫ esborra')}${lab(470,212,'↵ Intro: nova línia')}
+  <text x="300" y="76" text-anchor="middle" font-size="12" fill="#5b4220">lletres per escriure paraules</text></svg>`;
+}
+function figCartolinaTaula(){
+  const rows=[['📷 Càmera de fotos','✔','✘','✘'],['🎥 Càmera de vídeo','✔','✔','✔'],['🎤 Micròfon','✘','✘','✔']];
+  const cx=[220,340,460,570];
+  let s=`<svg viewBox="0 0 640 240" role="img" aria-label="Exemple de cartolina amb una taula d’aparells amb tics i creuetes"><rect x="4" y="4" width="632" height="232" rx="14" fill="#e3c08a" stroke="#b98a4e" stroke-width="3"/><rect x="14" y="14" width="612" height="212" rx="10" fill="none" stroke="#c9a06a" stroke-width="2" stroke-dasharray="6 6"/>
+  <rect x="28" y="30" width="584" height="40" rx="8" fill="#fffdf6" stroke="#2c7a4b" stroke-width="3"/><text x="40" y="56" font-size="14" font-weight="800" fill="#2c7a4b">Aparell</text>`;
+  ['Fa fotos','Grava vídeo','Grava veu'].forEach((t,i)=>{s+=`<text x="${cx[i+1]-10}" y="56" text-anchor="middle" font-size="14" font-weight="800" fill="#2c7a4b">${t}</text>`});
+  rows.forEach((r,i)=>{const y=82+i*48;s+=`<rect x="28" y="${y}" width="584" height="42" rx="8" fill="#fffdf6" stroke="#7a5b2e" stroke-width="2"/><text x="40" y="${y+27}" font-size="15" font-weight="700" fill="#1f2a37">${r[0]}</text>`;
+   for(let c=1;c<4;c++)s+=`<text x="${cx[c]-10}" y="${y+30}" text-anchor="middle" font-size="26" font-weight="800" fill="${r[c]==='✔'?'#2c7a4b':'#d33'}">${r[c]}</text>`});
+  return s+'</svg>';
+}
 /* ============ CD2 · CICLE INICIAL (1r i 2n) ============ */
 /* Sense tauleta: cada pràctica combina un pas a la pissarra digital (un alumne o alumna per pas) i una producció manual en paper o cartolina. */
 Object.assign(CONTENT, {
@@ -1150,17 +1212,18 @@ Object.assign(CONTENT, {
   clic('A5','apps','Clica el botó que <b>tanca</b> la finestra.',WINBAR,'close','És una creu.','El botó ✕ tanca la finestra.'),
   ch('A6','apps','Volem que la finestra <b>ocupi tota la pantalla</b>. Quin botó fem servir?',['Minimitzar –','Maximitzar ▢','Tancar ✕'],1,'Pensa en «fer-la molt gran».','Maximitzar fa que la finestra ocupi tota la pantalla.'),
   ch('A7','apps','Si <b>minimitzem</b> un document, el document…',['s’esborra','es tanca per sempre','continua obert, amagat a baix'],2,'Només l’amaguem.','Minimitzar només amaga la finestra: el document continua obert.')],
- sabers:{apps:{realDone:req(['a1','a2','a3'])}},
+ sabers:{apps:{realDone:req(['a1','a2','a3','a4'])}},
  real:{blocks:[
-   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre <b>Documents de Google</b> i un altre obre <b>Presentacions de Google</b>. Mireu com són.',fields:['a1']},
-   {h:'<b>2. A la pissarra.</b> Un alumne o alumna prova els tres botons de la finestra: minimitzar, maximitzar i restaurar.',fields:['a2']},
-   {h:'<b>3. Amb paper i colors.</b> Cada alumne o alumna <b>dibuixa en un full</b> l’ordinador amb la finestra i els seus tres botons, i escriu a mà què fa cada botó.',fields:['a3']}],
-  fields:[{k:'a1',type:'select',label:'Quin programa serveix per escriure?',opts:['Documents de Google','Presentacions de Google'],ok:'Documents de Google'},
-   {k:'a2',type:'select',label:'Els alumnes han provat els botons?',opts:['Sí, tots tres','Només alguns','No'],ok:'Sí, tots tres'},
-   {k:'a3',type:'select',label:'Els dibuixos mostren els tres botons?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}},
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre <b>Documents de Google</b> i un altre <b>Presentacions de Google</b>; un altre prova els tres botons de la finestra: minimitzar, maximitzar i tancar.',fields:['a1']},
+   {h:'<b>2. Amb una cartolina, per grups.</b> Feu un <b>mapa conceptual</b> de «Escriure i presentar». Hi ha de sortir:<ul><li>els botons de la finestra: <b>minimitzar</b>, <b>maximitzar</b> i <b>tancar</b>, amb el que fa cadascun</li><li>per <b>escriure</b>: el <b>processador de textos</b></li><li>per <b>presentar</b>: les <b>diapositives</b></li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolina(1)+'</details>',fields:[]},
+   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['a2','a3','a4']}],
+  fields:[{k:'a1',type:'select',label:'Han provat els programes i els botons a la pissarra?',opts:['Sí, tots','Només alguns','No']},
+   {k:'a2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
+   {k:'a3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
+   {k:'a4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
 
 'cd2-inicial-2':{
- fig:()=>kbSVG(false)+legend(['<b>Lletres</b>: al mig del teclat, per escriure paraules.','<b>Intro</b>: la tecla gran de la dreta; canvia de línia.']),
+ fig:()=>kbInicial(),
  sabem:['On són les lletres al teclat? Són totes iguals?','Com escrivim una lletra majúscula?','Com deixem un espai entre dues paraules?','Quina tecla fem servir per esborrar si ens equivoquem?'],
  puc:['Sé trobar les lletres i els números al teclat','Sé fer un espai, un punt i una coma','Sé esborrar una lletra quan m’he equivocat'],
  lessons:[
@@ -1176,23 +1239,24 @@ Object.assign(CONTENT, {
   ch('T5','teclat','Ens hem equivocat d’una lletra. Quina tecla ens ajuda?',['La de retrocedir ⌫','L’espai','El número 0'],0,'Serveix per esborrar.','La tecla de retrocedir esborra la lletra.'),
   ch('T6','teclat','Una frase acaba amb un…',['espai','punt','número'],1,'És com una petita bola.','Al final de la frase posem un punt.'),
   ch('T7','teclat','Volem escriure el nom <b>Maria</b> amb la M gran. Què fem?',['Premem [[key:⇧]] i la M alhora','Premem l’espai i la M','Premem la M molta estona'],0,'La M gran és una majúscula.','Premem ⇧ i la lletra a la vegada.')],
- sabers:{teclat:{realDone:req(['t1','t2','t3'])}},
+ sabers:{teclat:{realDone:req(['t1','t2','t3','t4'])}},
  real:{blocks:[
-   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre un document i escriu el seu <b>nom</b> amb la primera lletra en majúscula.',fields:['t1']},
-   {h:'<b>2. A la pissarra.</b> Un altre alumne o alumna escriu una <b>frase curta</b> amb punt i un espai entre les paraules.',fields:['t2']},
-   {h:'<b>3. Amb cartolina.</b> Cada alumne o alumna fa un <b>cartell amb el seu nom</b> en lletres de colors: la primera, més gran (majúscula).',fields:['t3']}],
-  fields:[{k:'t1',type:'select',label:'Ha escrit el nom amb majúscula inicial?',opts:['Sí, sol o sola','Sí, amb ajuda','No']},
-   {k:'t2',type:'select',label:'La frase té espais i punt?',opts:['Sí, tots dos','Només un','Cap']},
-   {k:'t3',type:'select',label:'Els cartells tenen el nom ben escrit?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}},
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna obre un document i escriu el seu <b>nom</b> amb majúscula inicial; un altre escriu una <b>frase</b> amb punt i prova d’esborrar una lletra amb ⌫.',fields:['t1']},
+   {h:'<b>2. Amb una cartolina, per grups.</b> Feu el mapa de «El teclat»: dibuixeu <b>un teclat</b> i expliqueu <b>què fa cada tecla</b>. Hi ha de sortir:<ul><li>les <b>lletres</b> i els <b>números</b></li><li>l’<b>espai</b>, la <b>majúscula</b> ⇧ i la tecla <b>Intro</b> ↵</li><li>la tecla de <b>retrocedir</b> ⌫ (esborrar)</li><li>el <b>punt</b> i la <b>coma</b></li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolinaTeclat()+'</details>',fields:[]},
+   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['t2','t3','t4']}],
+  fields:[{k:'t1',type:'select',label:'Han fet les proves del teclat a la pissarra?',opts:['Sí, tots','Només alguns','No']},
+   {k:'t2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
+   {k:'t3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
+   {k:'t4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
 
 'cd2-inicial-3':{
- fig:()=>figBarraDoc(),
- sabem:['Com podem fer unes lletres més grosses o d’un altre color?','Si ens equivoquem amb l’ordinador, podem tornar enrere?','Com posem una imatge en un document?','Heu usat mai una barra de botons per canviar un text?'],
+ fig:()=>figDosTextos(),
+ sabem:['Mireu els dos textos: quin es llegeix millor? Per què és important donar format al text?','Com podem fer unes lletres més grosses o d’un altre color?','Si ens equivoquem amb l’ordinador, podem tornar enrere?','Com posem una imatge en un document?','Heu usat mai una barra de botons per canviar un text?'],
  puc:['Sé seleccionar un text i canviar-ne el format: negreta, color i alineació','Sé desfer i refer un canvi','Sé inserir una imatge en un document'],
  defs:[{p:1,t:'Desfer i refer',h:'<b>Desfer ↶</b> torna enrere l’últim canvi. <b>Refer ↷</b> el torna a fer. Si ens equivoquem, <b>no passa res</b>!'}],
  lessons:[
   {t:'Seleccionar el text',h:`Abans de canviar un text, el cal <b>seleccionar</b>: l’arrosseguem amb el ratolí i es pinta d’un color.<br>El canvi només afecta el que <b>hem seleccionat</b>.`},
-  {t:'Negreta, color i alineació',h:`Amb els botons de la <b>barra d’eines</b> canviem com es veu el text:<br><b>N</b> fa les lletres <b>gruixudes</b> (negreta).<br><span style="color:#d33"><b>A</b></span> canvia el <b>color</b> de les lletres.<br>☰ canvia l’<b>alineació</b>: a l’esquerra, al centre o a la dreta.`},
+  {t:'Negreta, color i alineació',h:`Amb els botons de la <b>barra d’eines</b> canviem com es veu el text:<br><b>N</b> fa les lletres <b>gruixudes</b> (negreta).<br><span style="color:#d33"><b>A</b></span> canvia el <b>color</b> de les lletres.<br>☰ canvia l’<b>alineació</b>: a l’esquerra, al centre o a la dreta.`,fig:()=>figBarraDoc()},
   {t:'Desfer i refer',h:`Si ens equivoquem, premem <b>↶ Desfer</b> i tornem enrere.<br>Si ens en penedim, premem <b>↷ Refer</b> i tornem a fer-ho.<br>Un error no és un problema!`},
   {t:'Posar una imatge',h:`Per posar una <b>imatge</b>, cliquem el botó 🖼️ de la barra d’eines i triem una imatge.<br>Així el document queda més bonic i s’entén millor.`}],
  items:[
@@ -1203,14 +1267,15 @@ Object.assign(CONTENT, {
   ch('F5','format','Ens hem equivocat i volem tornar enrere. Què fem?',['Desfer ↶','Refer ↷','Tancar ✕'],0,'Torna a l’estat d’abans.','Desfer torna enrere l’últim canvi.'),
   ch('F6','format','Hem desfet un canvi per error i el volem recuperar. Què fem?',['Desfer ↶','Refer ↷','Esborrar tot'],1,'Torna a fer-ho.','Refer torna a fer el que havíem desfet.'),
   ch('F7','format','Una imatge en un document serveix per…',['fer-lo més clar i més bonic','apagar l’ordinador','que no es pugui llegir'],0,'Ens ajuda a entendre millor.','Una imatge ajuda a entendre i fa el document més bonic.')],
- sabers:{format:{realDone:req(['f1','f2','f3'])}},
+ sabers:{format:{realDone:req(['f1','f2','f3','f4'])}},
  real:{blocks:[
-   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna escriu una paraula, la <b>selecciona</b> i la posa en <b>negreta</b> i d’un altre <b>color</b>.',fields:['f1']},
-   {h:'<b>2. A la pissarra.</b> Un altre alumne o alumna fa un canvi, el <b>desfà</b> i el <b>refà</b>.',fields:['f2']},
-   {h:'<b>3. Amb paper.</b> Cada alumne o alumna <b>dissenya a mà una diapositiva</b>: un títol gran, una imatge dibuixada i una frase. Marca amb colors la negreta.',fields:['f3']}],
-  fields:[{k:'f1',type:'select',label:'Ha posat negreta i color?',opts:['Sí, tots dos','Només un','Cap']},
-   {k:'f2',type:'select',label:'Ha sabut desfer i refer?',opts:['Sí, sol o sola','Sí, amb ajuda','No']},
-   {k:'f3',type:'select',label:'Les diapositives tenen títol, imatge i frase?',opts:['Sí, totes','La majoria','Cal repetir-ho']}]}},
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna escriu una paraula, la <b>selecciona</b> i la posa en <b>negreta</b> i d’un altre <b>color</b>; un altre fa un canvi, el <b>desfà</b> i el <b>refà</b>.',fields:['f1']},
+   {h:'<b>2. Amb una cartolina, per grups.</b> Feu el mapa de «Donar format». Dibuixeu cada <b>botó</b> i escriviu <b>què significa</b>. Hi han de sortir:<ul><li><b>N</b> negreta, <b>A</b> color i ☰ alineació</li><li>↶ <b>desfer</b> i ↷ <b>refer</b></li><li>🖼️ <b>imatge</b></li><li>per què és important <b>donar format</b> al text</li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolina(3)+'</details>',fields:[]},
+   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['f2','f3','f4']}],
+  fields:[{k:'f1',type:'select',label:'Han fet les proves de format a la pissarra?',opts:['Sí, tots','Només alguns','No']},
+   {k:'f2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
+   {k:'f3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
+   {k:'f4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
 
 'cd2-inicial-4':{
  fig:()=>figNuvolLocal(),
@@ -1228,14 +1293,15 @@ Object.assign(CONTENT, {
   ch('D4','desar','Volem continuar un document que vam fer ahir. Què fem?',['El busquem pel nom i l’obrim','Escrivim un document nou','Apaguem l’ordinador'],0,'Ja el tenim guardat.','Obrim el document guardat buscant-lo pel nom.'),
   {id:'D5',saber:'desar',type:'ordre',prompt:'<b>Ordeneu els passos</b> per guardar un document. Toqueu-los en l’ordre correcte.',steps:['Desem el document amb un títol descriptiu','Obrim un document nou','Comprovem que s’ha desat','Escrivim el text'],order:[1,3,0,2],hint:'Primer cal tenir un document obert.',expl:'Obrim un document nou, escrivim el text, el desem amb un títol descriptiu (que explica què conté) i comprovem que s’ha desat.'},
   ch('D6','desar','Volem veure el document des d’un altre ordinador de l’escola. On convé que estigui?',['Al núvol ☁️','Només en aquest ordinador','Només en un full'],0,'Un lloc a què es pot arribar des de qualsevol ordinador.','Al núvol, el podem obrir des de qualsevol ordinador amb Internet.')],
- sabers:{desar:{realDone:req(['d1','d2','d3'])}},
+ sabers:{desar:{realDone:req(['d1','d2','d3','d4'])}},
  real:{blocks:[
-   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna posa un nom al document de classe. Entre tots decidim quin nom explica millor què és.',fields:['d1']},
-   {h:'<b>2. A la pissarra.</b> Un altre alumne o alumna tanca el document i el torna a obrir buscant-lo pel nom.',fields:['d2']},
-   {h:'<b>3. Amb targetes de cartolina.</b> Per grups, ordeneu les targetes dels passos per desar un document (obrir, escriure, posar nom, comprovar).',fields:['d3']}],
-  fields:[{k:'d1',type:'select',label:'El nom diu què és el document?',opts:['Sí','Més o menys','No']},
-   {k:'d2',type:'select',label:'Han trobat el document pel nom?',opts:['Sí, sense ajuda','Sí, amb ajuda','No']},
-   {k:'d3',type:'select',label:'Els grups han ordenat bé les targetes?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}},
+   {h:'<b>1. A la pissarra digital.</b> Un alumne o alumna posa un <b>títol descriptiu</b> al document de classe; un altre el tanca i el <b>reobre</b> buscant-lo pel títol.',fields:['d1']},
+   {h:'<b>2. Amb una cartolina, per grups.</b> Feu el mapa de «Desar i recuperar». Hi han de sortir:<ul><li>què vol dir <b>desar</b> un document</li><li>un <b>títol descriptiu</b>: un exemple que va bé i un que no</li><li><b>on</b> es guarda: al núvol ☁️ o a l’ordinador 💻</li><li>com <b>recuperar</b> un document que ja tenim</li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolina(4)+'</details>',fields:[]},
+   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['d2','d3','d4']}],
+  fields:[{k:'d1',type:'select',label:'Han desat i reobert el document a la pissarra?',opts:['Sí, tots','Només alguns','No']},
+   {k:'d2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
+   {k:'d3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
+   {k:'d4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
 
 'cd2-inicial-5':{
  fig:()=>figDispositius(),
@@ -1244,7 +1310,7 @@ Object.assign(CONTENT, {
  lessons:[
   {t:'Aparells que graven',h:`Per <b>crear</b> imatges i sons fem servir aparells:<br>📷 la <b>càmera de fotos</b> fa fotografies.<br>🎥 la <b>càmera de vídeo</b> grava imatges i so.<br>🎤 el <b>micròfon</b> grava la veu.`},
   {t:'Foto, gravar i aturar',h:`Tots els aparells tenen botons semblants:<br>⚫ <b>Fer una foto</b>.<br>🔴 <b>Gravar</b>: comença a gravar el vídeo o el so.<br>⏹️ <b>Aturar</b>: acaba la gravació.`,fig:()=>figBotonsGravar()},
-  {t:'Dues maneres de crear una imatge',h:`Una <b>foto</b> mostra el que hi ha de veritat, amb una càmera.<br>Un <b>dibuix</b> el fem nosaltres, amb llapis o amb un programa.<br>Són dues maneres de crear una imatge.`}],
+  {t:'Dues maneres de crear una imatge',h:`Una <b>foto</b> mostra el que hi ha de veritat, amb una càmera.<br>Un <b>dibuix</b> el fem nosaltres, amb llapis o amb un programa.`}],
  items:[
   ch('M1','multi','Voleu fer una <b>fotografia</b>. Què feu servir?',['Una càmera 📷','Un micròfon 🎤','Un teclat ⌨️'],0,'Mira el que té la lent.','La càmera de fotos fa fotografies.'),
   ch('M2','multi','Voleu <b>gravar la vostra veu</b>. Què feu servir?',['Un micròfon 🎤','Una càmera de fotos','Un ratolí'],0,'Escolta i grava el so.','El micròfon grava la veu.'),
@@ -1252,14 +1318,15 @@ Object.assign(CONTENT, {
   ch('M4','multi','Per <b>acabar la gravació</b>, quin botó premem?',['Aturar ⏹️','Gravar 🔴','Fer una foto'],0,'Té un quadrat.','El botó quadrat atura la gravació.'),
   ch('M5','multi','Una <b>foto</b> és diferent d’un <b>dibuix</b> perquè…',['la foto es fa amb una càmera i desa la imatge d’una cosa real','tots dos són el mateix','la foto es fa amb un llapis'],0,'Pensa en l’aparell.','La foto es fa amb una càmera i desa la imatge d’una cosa real; el dibuix el fem nosaltres.'),
   ch('M6','multi','Quins aparells serveixen per <b>crear un vídeo</b> amb so?',['Una càmera de vídeo 🎥','Un micròfon sol','Un ratolí'],0,'Grava imatges i so.','La càmera de vídeo grava imatge i so.')],
- sabers:{multi:{realDone:req(['m1','m2','m3'])}},
+ sabers:{multi:{realDone:req(['m1','m2','m3','m4'])}},
  real:{blocks:[
-   {h:'<b>1. A la pissarra digital o amb l’aparell del professorat.</b> Un alumne o alumna fa una <b>foto</b> de la classe i la mirem entre tots.',fields:['m1']},
-   {h:'<b>2. Amb el micròfon o amb l’aparell del professorat.</b> Un altre alumne o alumna <b>grava la seva veu</b> dient el seu nom, i després l’escoltem.',fields:['m2']},
-   {h:'<b>3. Amb cartolina.</b> Cada alumne o alumna <b>dibuixa una càmera</b> amb els seus botons (foto, gravar, aturar) i escriu què fa cada botó.',fields:['m3']}],
-  fields:[{k:'m1',type:'select',label:'S’ha pogut fer la foto?',opts:['Sí','Amb ajuda','No']},
-   {k:'m2',type:'select',label:'S’ha pogut gravar i escoltar la veu?',opts:['Sí','Amb ajuda','No']},
-   {k:'m3',type:'select',label:'Els dibuixos mostren els botons?',opts:['Sí, tots','La majoria','Cal repetir-ho']}]}}
+   {h:'<b>1. A la pissarra digital o amb l’aparell del professorat.</b> Un alumne o alumna fa una <b>foto</b> de la classe i un altre <b>grava la seva veu</b> dient el seu nom; després ho mirem i ho escoltem entre tots.',fields:['m1']},
+   {h:'<b>2. Amb una cartolina, per grups.</b> Feu una <b>taula</b> amb els aparells (càmera de fotos, càmera de vídeo i micròfon) i el que pot fer cadascun (fer fotos, gravar vídeo i gravar veu). Marqueu ✔ si ho pot fer i ✘ si no. Hi ha de sortir:<ul><li>els <b>tres aparells</b>, amb un dibuix</li><li><b>tres columnes</b>: fa fotos, grava vídeo, grava veu</li><li>un <b>✔</b> o una <b>✘</b> a cada casella</li></ul><details><summary>👀 Veure una proposta d’exemple</summary>'+figCartolinaTaula()+'</details>',fields:[]},
+   {h:'<b>3. Avaluem la cartolina.</b> El professorat valora cada criteri.',fields:['m2','m3','m4']}],
+  fields:[{k:'m1',type:'select',label:'Han fet la foto i l’enregistrament?',opts:['Sí, tots','Només alguns','No']},
+   {k:'m2',type:'select',label:'Format coherent (títols, colors i lletra ordenats)',opts:['Sí','En part','No']},
+   {k:'m3',type:'select',label:'Originalitat (dibuixos i idees pròpies)',opts:['Sí','En part','No']},
+   {k:'m4',type:'select',label:'Conté tota la informació sol·licitada',opts:['Sí','En part','No']}]}},
 
 });
 /* ============ CD2 · CICLE MITJÀ (3r i 4t) ============ */
