@@ -1,6 +1,8 @@
-# Competència digital a primària · Cerquem bé! (CD1) i Fes-ho en digital! (CD2)
+# Aprenem en digital!
 
-Aplicatiu web per **ensenyar i avaluar la competència digital a l'alumnat de primària**, de 1r a 6è. Ara inclou dues competències:
+*Eina per treballar la competència digital a primària i secundària.*
+
+Aplicatiu web per **ensenyar i avaluar la competència digital a l'alumnat de primària**, de 1r a 6è (la secundària arribarà aviat). Ara inclou dues competències, cadascuna amb el seu títol:
 
 | Competència | Títol a l'app | Sessions (inicial / mitjà / superior) |
 |---|---|---|
